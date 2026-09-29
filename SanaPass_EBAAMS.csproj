@@ -46,22 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\AddMaintenance.cs">
+    <Compile Include="Forms\Admin\AddMaintenance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin\AddMaintenance.Designer.cs">
+    <Compile Include="Forms\Admin\AddMaintenance.Designer.cs">
       <DependentUpon>AddMaintenance.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin\AdminDashboard.cs">
+    <Compile Include="Forms\Admin\AdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin\AdminDashboard.Designer.cs">
+    <Compile Include="Forms\Admin\AdminDashboard.Designer.cs">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin\BorrowRequests.cs">
+    <Compile Include="Forms\Admin\BorrowRequests.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin\BorrowRequests.Designer.cs">
+    <Compile Include="Forms\Admin\BorrowRequests.Designer.cs">
       <DependentUpon>BorrowRequests.cs</DependentUpon>
     </Compile>
     <Compile Include="LogIn.cs">
@@ -70,21 +70,21 @@
     <Compile Include="LogIn.Designer.cs">
       <DependentUpon>LogIn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Maintenance.cs">
+    <Compile Include="Forms\Admin\Maintenance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin\Maintenance.Designer.cs">
+    <Compile Include="Forms\Admin\Maintenance.Designer.cs">
       <DependentUpon>Maintenance.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Admin\TransactionLogs.cs">
+    <Compile Include="Forms\Admin\TransactionLogs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin\TransactionLogs.Designer.cs">
+    <Compile Include="Forms\Admin\TransactionLogs.Designer.cs">
       <DependentUpon>TransactionLogs.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Admin\AdminDashboard.resx">
+    <EmbeddedResource Include="Forms\Admin\AdminDashboard.resx">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogIn.resx">
@@ -112,8 +112,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
