@@ -84,6 +84,9 @@
     <Compile Include="Forms\Admin\TransactionLogs.Designer.cs">
       <DependentUpon>TransactionLogs.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\Admin\AddMaintenance.resx">
+      <DependentUpon>AddMaintenance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\AdminDashboard.resx">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -92,6 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\Maintenance.resx">
       <DependentUpon>Maintenance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\TransactionLogs.resx">
+      <DependentUpon>TransactionLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>

@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LogIn());
+            Application.Run(new AdminDashboard());
         }
     }
 }

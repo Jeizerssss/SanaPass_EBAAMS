@@ -119,6 +119,7 @@
             this.btnMaintenance.Text = "Maintenance";
             this.btnMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMaintenance.UseVisualStyleBackColor = false;
+            this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
             // 
             // btnTransactionLogs
             // 
@@ -137,6 +138,7 @@
             this.btnTransactionLogs.Text = "Transaction Logs";
             this.btnTransactionLogs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTransactionLogs.UseVisualStyleBackColor = false;
+            this.btnTransactionLogs.Click += new System.EventHandler(this.btnTransactionLogs_Click);
             // 
             // btnBorrowRequests
             // 
@@ -155,6 +157,7 @@
             this.btnBorrowRequests.Text = "Borrow Request";
             this.btnBorrowRequests.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBorrowRequests.UseVisualStyleBackColor = false;
+            this.btnBorrowRequests.Click += new System.EventHandler(this.btnBorrowRequests_Click);
             // 
             // btnDashboard
             // 

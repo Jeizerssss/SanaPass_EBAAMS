@@ -143,6 +143,7 @@
             this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "+ Add Maintenance";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // dgvMaintenance
             // 
