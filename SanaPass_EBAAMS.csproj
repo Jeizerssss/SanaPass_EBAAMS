@@ -179,6 +179,10 @@
 			<DependentUpon>BorrowRequests.cs</DependentUpon>
 		</EmbeddedResource>
 
+		<EmbeddedResource Include="Forms\Admin\Maintenance.resx">
+			<DependentUpon>Maintenance.cs</DependentUpon>
+		</EmbeddedResource>
+
 
 		<!-- Login resource -->
 
