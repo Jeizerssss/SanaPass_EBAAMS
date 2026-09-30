@@ -31,10 +31,11 @@
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
-            this.btwSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.lblSearch = new System.Windows.Forms.Label();
             this.dgvBorrowRequests = new System.Windows.Forms.DataGridView();
             this.colRequestID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStaffName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,7 +46,6 @@
             this.btnView = new System.Windows.Forms.Button();
             this.btnApprove = new System.Windows.Forms.Button();
             this.btnReject = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBorrowRequests)).BeginInit();
@@ -75,7 +75,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btwSearch);
+            this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.cmbStatus);
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.lblSearch);
@@ -86,22 +86,27 @@
             this.panel1.Size = new System.Drawing.Size(1178, 70);
             this.panel1.TabIndex = 1;
             // 
-            // lblSearch
+            // label1
             // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Location = new System.Drawing.Point(29, 6);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(68, 25);
-            this.lblSearch.TabIndex = 0;
-            this.lblSearch.Text = "Search:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(382, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 25);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Status:";
             // 
-            // txtSearch
+            // btnSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(103, 3);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(250, 31);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.Text = "Staff name or equipment...";
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(46)))));
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(500, 38);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(90, 32);
+            this.btnSearch.TabIndex = 3;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
             // 
             // cmbStatus
             // 
@@ -122,18 +127,22 @@
             this.cmbStatus.Size = new System.Drawing.Size(150, 33);
             this.cmbStatus.TabIndex = 2;
             // 
-            // btwSearch
+            // txtSearch
             // 
-            this.btwSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(46)))));
-            this.btwSearch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btwSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btwSearch.ForeColor = System.Drawing.Color.White;
-            this.btwSearch.Location = new System.Drawing.Point(500, 38);
-            this.btwSearch.Name = "btwSearch";
-            this.btwSearch.Size = new System.Drawing.Size(90, 32);
-            this.btwSearch.TabIndex = 3;
-            this.btwSearch.Text = "Search";
-            this.btwSearch.UseVisualStyleBackColor = false;
+            this.txtSearch.Location = new System.Drawing.Point(103, 3);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(250, 31);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.Text = "Staff name or equipment...";
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Location = new System.Drawing.Point(29, 6);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(68, 25);
+            this.lblSearch.TabIndex = 0;
+            this.lblSearch.Text = "Search:";
             // 
             // dgvBorrowRequests
             // 
@@ -249,15 +258,6 @@
             this.btnReject.Text = "Reject";
             this.btnReject.UseVisualStyleBackColor = false;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(382, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 25);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Status:";
-            // 
             // BorrowRequests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -293,7 +293,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.ComboBox cmbStatus;
-        private System.Windows.Forms.Button btwSearch;
+        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridView dgvBorrowRequests;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRequestID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStaffName;
