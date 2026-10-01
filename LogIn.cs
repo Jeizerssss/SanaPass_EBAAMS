@@ -41,7 +41,7 @@ namespace SanaPass_EBAAMS
                     MessageBoxIcon.Information
                 );
 
-                BorrowerDashboard dashboard = new BorrowerDashboard();
+                AdminDashboard dashboard = new AdminDashboard();
                 dashboard.Show();
 
                 this.Hide();

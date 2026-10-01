@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace SanaPass_EBAAMS.Forms
 {
     public partial class CreateCategoryForm : Form
@@ -36,35 +37,22 @@ namespace SanaPass_EBAAMS.Forms
 
             if (string.IsNullOrEmpty(categoryName))
             {
-                MessageBox.Show("Please enter a category name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Please enter a category name.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 cbCategory.Focus();
                 return;
             }
 
-            string query = "INSERT INTO Categories (cName, cDesc) VALUES (@cName, @cDesc)";
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@cName", categoryName);
-                        cmd.Parameters.AddWithValue("@cDesc", string.IsNullOrEmpty(categoryDesc) ? (object)DBNull.Value : categoryDesc);
-
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                MessageBox.Show("Category created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Database Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Database functionality will be connected when the database is implemented.
+            MessageBox.Show(
+                "Category information is valid. Database functionality is not connected yet.",
+                "Category",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
