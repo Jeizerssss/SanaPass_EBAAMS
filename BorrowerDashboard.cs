@@ -24,5 +24,13 @@ namespace SanaPass_EBAAMS
 
             this.Close();
         }
+
+        private void btnBorrow_Click(object sender, EventArgs e)
+        {
+            using (BorrowRequestForm borrowForm = new BorrowRequestForm())
+            {
+                borrowForm.ShowDialog();
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@
             this.btnBorrow.TabIndex = 1;
             this.btnBorrow.Text = "Borrow Equipment";
             this.btnBorrow.UseVisualStyleBackColor = true;
+            this.btnBorrow.Click += new System.EventHandler(this.btnBorrow_Click);
             // 
             // btnLogout
             // 
@@ -65,7 +66,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(447, 282);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnBorrow);
             this.Controls.Add(this.lblWelcome);
