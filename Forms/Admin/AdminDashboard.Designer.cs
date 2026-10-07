@@ -101,6 +101,7 @@
             this.btnLogout.Text = "Logout";
             this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLogout.UseVisualStyleBackColor = false;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // btnMaintenance
             // 
@@ -119,6 +120,7 @@
             this.btnMaintenance.Text = "Maintenance";
             this.btnMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMaintenance.UseVisualStyleBackColor = false;
+            this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
             // 
             // btnTransactionLogs
             // 
@@ -137,6 +139,7 @@
             this.btnTransactionLogs.Text = "Transaction Logs";
             this.btnTransactionLogs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTransactionLogs.UseVisualStyleBackColor = false;
+            this.btnTransactionLogs.Click += new System.EventHandler(this.btnTransactionLogs_Click);
             // 
             // btnBorrowRequests
             // 
@@ -155,6 +158,7 @@
             this.btnBorrowRequests.Text = "Borrow Request";
             this.btnBorrowRequests.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBorrowRequests.UseVisualStyleBackColor = false;
+            this.btnBorrowRequests.Click += new System.EventHandler(this.btnBorrowRequests_Click);
             // 
             // btnDashboard
             // 
@@ -182,7 +186,7 @@
             this.lblSystemName.Location = new System.Drawing.Point(37, 20);
             this.lblSystemName.Margin = new System.Windows.Forms.Padding(0);
             this.lblSystemName.Name = "lblSystemName";
-            this.lblSystemName.Size = new System.Drawing.Size(172, 48);
+            this.lblSystemName.Size = new System.Drawing.Size(117, 32);
             this.lblSystemName.TabIndex = 0;
             this.lblSystemName.Text = "SanaPass";
             // 
@@ -204,7 +208,7 @@
             this.llblAdminName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.llblAdminName.Location = new System.Drawing.Point(971, 20);
             this.llblAdminName.Name = "llblAdminName";
-            this.llblAdminName.Size = new System.Drawing.Size(74, 28);
+            this.llblAdminName.Size = new System.Drawing.Size(53, 19);
             this.llblAdminName.TabIndex = 1;
             this.llblAdminName.Text = "Admin";
             // 
@@ -215,7 +219,7 @@
             this.lblDashboardTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
             this.lblDashboardTitle.Location = new System.Drawing.Point(20, 20);
             this.lblDashboardTitle.Name = "lblDashboardTitle";
-            this.lblDashboardTitle.Size = new System.Drawing.Size(229, 54);
+            this.lblDashboardTitle.Size = new System.Drawing.Size(157, 37);
             this.lblDashboardTitle.TabIndex = 0;
             this.lblDashboardTitle.Text = "Dashboard";
             // 
@@ -252,7 +256,7 @@
             this.lblMaintenanceNumber.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMaintenanceNumber.Location = new System.Drawing.Point(15, 45);
             this.lblMaintenanceNumber.Name = "lblMaintenanceNumber";
-            this.lblMaintenanceNumber.Size = new System.Drawing.Size(54, 65);
+            this.lblMaintenanceNumber.Size = new System.Drawing.Size(37, 45);
             this.lblMaintenanceNumber.TabIndex = 1;
             this.lblMaintenanceNumber.Text = "3";
             // 
@@ -262,7 +266,7 @@
             this.lblMaintenanceTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMaintenanceTitle.Location = new System.Drawing.Point(15, 15);
             this.lblMaintenanceTitle.Name = "lblMaintenanceTitle";
-            this.lblMaintenanceTitle.Size = new System.Drawing.Size(135, 28);
+            this.lblMaintenanceTitle.Size = new System.Drawing.Size(94, 19);
             this.lblMaintenanceTitle.TabIndex = 0;
             this.lblMaintenanceTitle.Text = "Maintenance";
             // 
@@ -283,7 +287,7 @@
             this.lblNumberedBorrowed.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumberedBorrowed.Location = new System.Drawing.Point(15, 45);
             this.lblNumberedBorrowed.Name = "lblNumberedBorrowed";
-            this.lblNumberedBorrowed.Size = new System.Drawing.Size(80, 65);
+            this.lblNumberedBorrowed.Size = new System.Drawing.Size(54, 45);
             this.lblNumberedBorrowed.TabIndex = 1;
             this.lblNumberedBorrowed.Text = "15";
             // 
@@ -293,7 +297,7 @@
             this.lblBorrowedTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBorrowedTitle.Location = new System.Drawing.Point(15, 15);
             this.lblBorrowedTitle.Name = "lblBorrowedTitle";
-            this.lblBorrowedTitle.Size = new System.Drawing.Size(104, 28);
+            this.lblBorrowedTitle.Size = new System.Drawing.Size(76, 19);
             this.lblBorrowedTitle.TabIndex = 0;
             this.lblBorrowedTitle.Text = "Borrowed";
             // 
@@ -314,7 +318,7 @@
             this.lblPendingRequest.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPendingRequest.Location = new System.Drawing.Point(15, 45);
             this.lblPendingRequest.Name = "lblPendingRequest";
-            this.lblPendingRequest.Size = new System.Drawing.Size(54, 65);
+            this.lblPendingRequest.Size = new System.Drawing.Size(37, 45);
             this.lblPendingRequest.TabIndex = 1;
             this.lblPendingRequest.Text = "8";
             // 
@@ -324,7 +328,7 @@
             this.lblPendingTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPendingTitle.Location = new System.Drawing.Point(15, 15);
             this.lblPendingTitle.Name = "lblPendingTitle";
-            this.lblPendingTitle.Size = new System.Drawing.Size(88, 28);
+            this.lblPendingTitle.Size = new System.Drawing.Size(64, 19);
             this.lblPendingTitle.TabIndex = 0;
             this.lblPendingTitle.Text = "Pending";
             // 
@@ -417,7 +421,7 @@
             this.lblTotalEquipment.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalEquipment.Location = new System.Drawing.Point(15, 45);
             this.lblTotalEquipment.Name = "lblTotalEquipment";
-            this.lblTotalEquipment.Size = new System.Drawing.Size(80, 65);
+            this.lblTotalEquipment.Size = new System.Drawing.Size(54, 45);
             this.lblTotalEquipment.TabIndex = 1;
             this.lblTotalEquipment.Text = "50";
             // 
@@ -427,13 +431,13 @@
             this.lblTotalEquipmentTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalEquipmentTitle.Location = new System.Drawing.Point(15, 15);
             this.lblTotalEquipmentTitle.Name = "lblTotalEquipmentTitle";
-            this.lblTotalEquipmentTitle.Size = new System.Drawing.Size(114, 28);
+            this.lblTotalEquipmentTitle.Size = new System.Drawing.Size(80, 19);
             this.lblTotalEquipmentTitle.TabIndex = 0;
             this.lblTotalEquipmentTitle.Text = "Equipment";
             // 
             // AdminDashboard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(246)))), ((int)(((byte)(248)))));

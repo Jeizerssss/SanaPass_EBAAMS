@@ -21,5 +21,33 @@ namespace SanaPass_EBAAMS
         {
 
         }
+
+        private void btnBorrowRequests_Click(object sender, EventArgs e)
+        {
+            BorrowRequests nextForm = new BorrowRequests();
+            nextForm.Show();
+            
+        }
+
+        private void btnTransactionLogs_Click(object sender, EventArgs e)
+        {
+            TransactionLogs nextForm = new TransactionLogs();
+            nextForm.Show();
+            
+        }
+
+        private void btnMaintenance_Click(object sender, EventArgs e)
+        {
+            Maintenance nextForm = new Maintenance();
+            nextForm.Show();
+            
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            LogIn nextForm = new LogIn();
+            nextForm.Show();
+            this.Hide();
+        }
     }
 }
