@@ -56,5 +56,12 @@ namespace SanaPass_EBAAMS
                 );
             }
         }
+
+        private void LblRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            Register registerForm = new Register();
+            registerForm.Show();
+        }
     }
 }

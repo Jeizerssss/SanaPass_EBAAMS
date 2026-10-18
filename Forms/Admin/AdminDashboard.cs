@@ -49,5 +49,10 @@ namespace SanaPass_EBAAMS
             nextForm.Show();
             this.Hide();
         }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
