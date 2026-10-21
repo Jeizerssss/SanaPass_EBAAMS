@@ -66,6 +66,36 @@
     <Compile Include="BorrowRequestForm.Designer.cs">
       <DependentUpon>BorrowRequestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IBorrowService.cs" />
+    <Compile Include="Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Interfaces\ICategoryService.cs" />
+    <Compile Include="Interfaces\ICRUDRepository.cs" />
+    <Compile Include="Interfaces\IEquipmentRepository.cs" />
+    <Compile Include="Interfaces\IEquipmentService.cs" />
+    <Compile Include="Interfaces\IFineRepository.cs" />
+    <Compile Include="Interfaces\IFineService.cs" />
+    <Compile Include="Interfaces\ILocationRepository.cs" />
+    <Compile Include="Interfaces\ILocationService.cs" />
+    <Compile Include="Interfaces\IMaintenanceRepository.cs" />
+    <Compile Include="Interfaces\IPaymentHistoryRepository.cs" />
+    <Compile Include="Interfaces\IReadOnlyRepository.cs" />
+    <Compile Include="Interfaces\IReportService.cs" />
+    <Compile Include="Interfaces\IRequestRepository.cs" />
+    <Compile Include="Interfaces\ITransactionLogRepository.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Models\Admins.cs" />
+    <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\Employees.cs" />
+    <Compile Include="Models\Equipments.cs" />
+    <Compile Include="Models\Fines.cs" />
+    <Compile Include="Models\Locations.cs" />
+    <Compile Include="Models\Maintenances.cs" />
+    <Compile Include="Models\PaymentHistories.cs" />
+    <Compile Include="Models\Requests.cs" />
+    <Compile Include="Models\Staffs.cs" />
+    <Compile Include="Models\TransactionLogs.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Register.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +155,13 @@
     <!-- Other project files -->
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BorrowService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\EquipmentService.cs" />
+    <Compile Include="Services\FineService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <EmbeddedResource Include="Forms\Admin\ADashboard.resx">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </EmbeddedResource>
