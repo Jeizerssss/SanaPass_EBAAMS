@@ -14,7 +14,7 @@ namespace SanaPass_EBAAMS.Services
 
         public EquipmentService(IEquipmentRepository equipmentRepository)
         {
-            _equipmentRepository = equipmentRepository ?? throw new ArgumentNullException(nameof(equipmentRepository));
+            _equipmentRepository = equipmentRepository;
         }
 
         public bool registerEquipment(Equipment equipment)
@@ -22,7 +22,6 @@ namespace SanaPass_EBAAMS.Services
             if (equipment == null || string.IsNullOrWhiteSpace(equipment.eName))
                 return false;
 
-            equipment.eStatus = "Available";
             return _equipmentRepository.add(equipment);
         }
 
@@ -36,27 +35,25 @@ namespace SanaPass_EBAAMS.Services
 
         public bool retireEquipment(int equipmentID)
         {
-            var equipment = _equipmentRepository.getById(equipmentID);
-            if (equipment == null) return false;
+            if (equipmentID <= 0)
+                return false;
 
-            equipment.eStatus = "Retired";
-            equipment.eQuantity = 0;
-            return _equipmentRepository.update(equipment);
+            return _equipmentRepository.delete(equipmentID);
         }
 
         public IEnumerable<Equipment> searchAvailableEquipment(string keyword)
         {
-            var all = _equipmentRepository.getAll();
             if (string.IsNullOrWhiteSpace(keyword))
-                return all.Where(e => e.eStatus == "Available" && e.eQuantity > 0);
+                return _equipmentRepository.getAll();
 
-            return all.Where(e => e.eStatus == "Available"
-                                && e.eQuantity > 0
-                                && e.eName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0);
+            return _equipmentRepository.getByName(keyword);
         }
 
         public IEnumerable<Equipment> getEquipmentByCategory(int categoryID)
         {
+            if (categoryID <= 0)
+                return new List<Equipment>();
+
             return _equipmentRepository.getByCategory(categoryID);
         }
     }
