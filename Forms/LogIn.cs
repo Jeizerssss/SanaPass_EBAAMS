@@ -70,7 +70,7 @@ namespace SanaPass_EBAAMS
                 if (loggedInUser.uRole.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
                     loggedInUser.uRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
                 {
-                    AdminDashboard dashboard = new AdminDashboard(loggedInUser, _equipmentService, _requestService);
+                    ASUI dashboard = new ASUI(_equipmentService, _requestService, loggedInUser);
                     dashboard.Show();
                 }
                 else

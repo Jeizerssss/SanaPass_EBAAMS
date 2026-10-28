@@ -40,7 +40,7 @@ namespace SanaPass_EBAAMS.Services
 
             var request = new Request
             {
-                date = DateTime.Now,
+                rDate = DateTime.Now,
                 userID = userID,
                 equipmentID = equipmentID,
                 rDesc = rDesc,

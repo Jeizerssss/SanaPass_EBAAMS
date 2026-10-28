@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SanaPass_EBAAMS
+namespace SanaPass_EBAAMS.Forms
 {
-    public partial class BorrowRequests : Form
+    public partial class SSUI : Form
     {
-        public BorrowRequests()
+        public SSUI()
         {
             InitializeComponent();
         }

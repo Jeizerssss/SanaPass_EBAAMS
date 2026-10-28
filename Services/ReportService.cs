@@ -30,7 +30,7 @@ namespace SanaPass_EBAAMS.Services
         {
             var requests = _requestRepository.getAll();
             return requests
-                .GroupBy(r => r.date.ToString("MMM"))
+                .GroupBy(r => r.rDate.ToString("MMM"))
                 .ToDictionary(g => g.Key, g => g.Count());
         }
 

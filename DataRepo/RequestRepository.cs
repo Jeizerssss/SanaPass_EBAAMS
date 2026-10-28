@@ -84,11 +84,11 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Requests (date, userID, equipmentID, rDesc, rStatus) 
-                              VALUES (@date, @userID, @equipmentID, @rDesc, @rStatus)";
+                var query = @"INSERT INTO Requests (rDate, userID, equipmentID, rDesc, rStatus) 
+                              VALUES (@rDate, @userID, @equipmentID, @rDesc, @rStatus)";
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@date", request.date);
+                    cmd.Parameters.AddWithValue("@rDate", request.rDate);
                     cmd.Parameters.AddWithValue("@userID", request.userID);
                     cmd.Parameters.AddWithValue("@equipmentID", request.equipmentID);
                     cmd.Parameters.AddWithValue("@rDesc", request.rDesc ?? (object)DBNull.Value);
@@ -103,12 +103,12 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Requests SET date = @date, userID = @userID, equipmentID = @equipmentID, 
+                var query = @"UPDATE Requests SET date = @rDate, userID = @userID, equipmentID = @equipmentID, 
                               rDesc = @rDesc, rStatus = @rStatus WHERE requestID = @requestID";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@requestID", request.requestID);
-                    cmd.Parameters.AddWithValue("@date", request.date);
+                    cmd.Parameters.AddWithValue("@rDate", request.rDate);
                     cmd.Parameters.AddWithValue("@userID", request.userID);
                     cmd.Parameters.AddWithValue("@equipmentID", request.equipmentID);
                     cmd.Parameters.AddWithValue("@rDesc", request.rDesc ?? (object)DBNull.Value);
@@ -150,7 +150,7 @@ namespace SanaPass_EBAAMS.DataRepo
             return new Request
             {
                 requestID = Convert.ToInt32(reader["requestID"]),
-                date = Convert.ToDateTime(reader["date"]),
+                rDate = Convert.ToDateTime(reader["rDate"]),
                 userID = Convert.ToInt32(reader["userID"]),
                 equipmentID = Convert.ToInt32(reader["equipmentID"]),
                 rDesc = reader["rDesc"].ToString(),

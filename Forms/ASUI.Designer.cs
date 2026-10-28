@@ -1,6 +1,7 @@
-﻿namespace SanaPass_EBAAMS
+﻿using SanaPass_EBAAMS.Forms;
+namespace SanaPass_EBAAMS
 {
-    partial class AdminDashboard
+    partial class ASUI
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +29,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboard));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ASUI));
             this.pnlSideBar = new System.Windows.Forms.Panel();
+            this.btnUsers = new System.Windows.Forms.Button();
             this.btnEquipment = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnMaintenance = new System.Windows.Forms.Button();
             this.btnTransactionLogs = new System.Windows.Forms.Button();
-            this.btnBorrowRequests = new System.Windows.Forms.Button();
+            this.btnRequests = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.lblSystemName = new System.Windows.Forms.Label();
-            this.aDashboard1 = new SanaPass_EBAAMS.ADashboard();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pnlSideBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -47,15 +49,15 @@
             // 
             this.pnlSideBar.BackColor = System.Drawing.Color.Maroon;
             this.pnlSideBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnlSideBar.Controls.Add(this.btnUsers);
             this.pnlSideBar.Controls.Add(this.btnEquipment);
             this.pnlSideBar.Controls.Add(this.pictureBox1);
             this.pnlSideBar.Controls.Add(this.btnLogout);
             this.pnlSideBar.Controls.Add(this.btnMaintenance);
             this.pnlSideBar.Controls.Add(this.btnTransactionLogs);
-            this.pnlSideBar.Controls.Add(this.btnBorrowRequests);
+            this.pnlSideBar.Controls.Add(this.btnRequests);
             this.pnlSideBar.Controls.Add(this.btnDashboard);
             this.pnlSideBar.Controls.Add(this.lblSystemName);
-            this.pnlSideBar.Enabled = false;
             this.pnlSideBar.ForeColor = System.Drawing.Color.Transparent;
             this.pnlSideBar.Location = new System.Drawing.Point(12, 13);
             this.pnlSideBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -63,6 +65,25 @@
             this.pnlSideBar.Padding = new System.Windows.Forms.Padding(10);
             this.pnlSideBar.Size = new System.Drawing.Size(248, 714);
             this.pnlSideBar.TabIndex = 0;
+            this.pnlSideBar.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlSideBar_Paint);
+            // 
+            // btnUsers
+            // 
+            this.btnUsers.BackColor = System.Drawing.Color.Maroon;
+            this.btnUsers.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUsers.FlatAppearance.BorderSize = 0;
+            this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUsers.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUsers.ForeColor = System.Drawing.Color.White;
+            this.btnUsers.Location = new System.Drawing.Point(13, 502);
+            this.btnUsers.Margin = new System.Windows.Forms.Padding(10);
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnUsers.Size = new System.Drawing.Size(220, 45);
+            this.btnUsers.TabIndex = 8;
+            this.btnUsers.Text = "Users";
+            this.btnUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUsers.UseVisualStyleBackColor = false;
             // 
             // btnEquipment
             // 
@@ -87,7 +108,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(28, 45);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(55, 48);
+            this.pictureBox1.Size = new System.Drawing.Size(55, 55);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
@@ -149,24 +170,24 @@
             this.btnTransactionLogs.UseVisualStyleBackColor = false;
             this.btnTransactionLogs.Click += new System.EventHandler(this.btnTransactionLogs_Click);
             // 
-            // btnBorrowRequests
+            // btnRequests
             // 
-            this.btnBorrowRequests.BackColor = System.Drawing.Color.Maroon;
-            this.btnBorrowRequests.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBorrowRequests.FlatAppearance.BorderSize = 0;
-            this.btnBorrowRequests.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBorrowRequests.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBorrowRequests.ForeColor = System.Drawing.Color.White;
-            this.btnBorrowRequests.Location = new System.Drawing.Point(13, 242);
-            this.btnBorrowRequests.Margin = new System.Windows.Forms.Padding(10);
-            this.btnBorrowRequests.Name = "btnBorrowRequests";
-            this.btnBorrowRequests.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.btnBorrowRequests.Size = new System.Drawing.Size(220, 45);
-            this.btnBorrowRequests.TabIndex = 2;
-            this.btnBorrowRequests.Text = "Borrow Request";
-            this.btnBorrowRequests.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBorrowRequests.UseVisualStyleBackColor = false;
-            this.btnBorrowRequests.Click += new System.EventHandler(this.btnBorrowRequests_Click);
+            this.btnRequests.BackColor = System.Drawing.Color.Maroon;
+            this.btnRequests.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRequests.FlatAppearance.BorderSize = 0;
+            this.btnRequests.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRequests.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRequests.ForeColor = System.Drawing.Color.White;
+            this.btnRequests.Location = new System.Drawing.Point(13, 242);
+            this.btnRequests.Margin = new System.Windows.Forms.Padding(10);
+            this.btnRequests.Name = "btnRequests";
+            this.btnRequests.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnRequests.Size = new System.Drawing.Size(220, 45);
+            this.btnRequests.TabIndex = 2;
+            this.btnRequests.Text = "Requests";
+            this.btnRequests.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRequests.UseVisualStyleBackColor = false;
+            this.btnRequests.Click += new System.EventHandler(this.btnBorrowRequests_Click);
             // 
             // btnDashboard
             // 
@@ -199,31 +220,29 @@
             this.lblSystemName.TabIndex = 0;
             this.lblSystemName.Text = "EBAAMS";
             // 
-            // aDashboard1
+            // panel1
             // 
-            this.aDashboard1.BackColor = System.Drawing.Color.White;
-            this.aDashboard1.Location = new System.Drawing.Point(259, 13);
-            this.aDashboard1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.aDashboard1.Name = "aDashboard1";
-            this.aDashboard1.Size = new System.Drawing.Size(1049, 714);
-            this.aDashboard1.TabIndex = 1;
+            this.panel1.Location = new System.Drawing.Point(258, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1051, 715);
+            this.panel1.TabIndex = 1;
             // 
-            // AdminDashboard
+            // ASUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Maroon;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1321, 740);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSideBar);
-            this.Controls.Add(this.aDashboard1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.DarkGray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "AdminDashboard";
+            this.Name = "ASUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AdminDashboard";
+            this.Text = "adminDashboard";
             this.Load += new System.EventHandler(this.AdminDashboard_Load);
             this.pnlSideBar.ResumeLayout(false);
             this.pnlSideBar.PerformLayout();
@@ -239,10 +258,11 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnMaintenance;
         private System.Windows.Forms.Button btnTransactionLogs;
-        private System.Windows.Forms.Button btnBorrowRequests;
+        private System.Windows.Forms.Button btnRequests;
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnEquipment;
-        private ADashboard aDashboard1;
+        private System.Windows.Forms.Button btnUsers;
+        private System.Windows.Forms.Panel panel1;
     }
 }

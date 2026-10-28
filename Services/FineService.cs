@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.Services
 
             // Simple business logic: Overdue if return date exceeds request date by more than 3 days
             int allowedDays = 3;
-            TimeSpan duration = returnDate - request.date;
+            TimeSpan duration = returnDate - request.rDate;
             int overdueDays = (int)Math.Ceiling(duration.TotalDays) - allowedDays;
 
             if (overdueDays <= 0)

@@ -1,6 +1,6 @@
 ﻿namespace SanaPass_EBAAMS.Forms
 {
-    partial class CreateUserForm
+    partial class SSUI
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // CreateUserForm
+            // SSUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 450);
-            this.Name = "CreateUserForm";
-            this.Text = "CreateUserForm";
+            this.ClientSize = new System.Drawing.Size(1321, 740);
+            this.Name = "SSUI";
+            this.Text = "SSUI";
             this.ResumeLayout(false);
 
         }

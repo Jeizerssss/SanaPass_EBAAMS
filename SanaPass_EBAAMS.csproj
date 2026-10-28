@@ -59,23 +59,35 @@
     <Compile Include="DataRepo\RequestRepository.cs" />
     <Compile Include="DataRepo\TransactionLogRepository.cs" />
     <Compile Include="DataRepo\UserRepository.cs" />
-    <Compile Include="Forms\Admin\ADashboard.cs">
+    <Compile Include="Forms\ADashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Admin\ADashboard.Designer.cs">
+    <Compile Include="Forms\ADashboard.Designer.cs">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="BorrowerDashboard.cs">
+    <Compile Include="Forms\BorrowerDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BorrowerDashboard.Designer.cs">
+    <Compile Include="Forms\BorrowerDashboard.Designer.cs">
       <DependentUpon>BorrowerDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="BorrowRequestForm.cs">
+    <Compile Include="Forms\Request.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Request.Designer.cs">
+      <DependentUpon>Request.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BorrowRequestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BorrowRequestForm.Designer.cs">
+    <Compile Include="Forms\BorrowRequestForm.Designer.cs">
       <DependentUpon>BorrowRequestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SSUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SSUI.Designer.cs">
+      <DependentUpon>SSUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Interfaces\IBorrowService.cs" />
@@ -94,6 +106,7 @@
     <Compile Include="Interfaces\IReadOnlyRepository.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IRequestRepository.cs" />
+    <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Interfaces\ITransactionLogRepository.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -109,54 +122,36 @@
     <Compile Include="Models\Staffs.cs" />
     <Compile Include="Models\TransactionLogs.cs" />
     <Compile Include="Models\Users.cs" />
-    <Compile Include="Register.cs">
+    <Compile Include="Forms\Register.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Register.Designer.cs">
+    <Compile Include="Forms\Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CreateCategoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CreateCategoryForm.Designer.cs">
-      <DependentUpon>CreateCategoryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CreateUserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CreateUserForm.Designer.cs">
-      <DependentUpon>CreateUserForm.cs</DependentUpon>
-    </Compile>
     <!-- Admin forms -->
-    <Compile Include="Forms\Admin\AddMaintenance.cs">
+    <Compile Include="Forms\AddMaintenance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Admin\AddMaintenance.Designer.cs">
+    <Compile Include="Forms\AddMaintenance.Designer.cs">
       <DependentUpon>AddMaintenance.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Admin\AdminDashboard.cs">
+    <Compile Include="Forms\ASUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Admin\AdminDashboard.Designer.cs">
-      <DependentUpon>AdminDashboard.cs</DependentUpon>
+    <Compile Include="Forms\ASUI.Designer.cs">
+      <DependentUpon>ASUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Admin\BorrowRequests.cs">
+    <Compile Include="Forms\TransactionLogs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Admin\BorrowRequests.Designer.cs">
-      <DependentUpon>BorrowRequests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Admin\TransactionLogs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Admin\TransactionLogs.Designer.cs">
+    <Compile Include="Forms\TransactionLogs.Designer.cs">
       <DependentUpon>TransactionLogs.cs</DependentUpon>
     </Compile>
     <!-- Login -->
-    <Compile Include="LogIn.cs">
+    <Compile Include="Forms\LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogIn.Designer.cs">
+    <Compile Include="Forms\LogIn.Designer.cs">
       <DependentUpon>LogIn.cs</DependentUpon>
     </Compile>
     <!-- Other project files -->
@@ -169,36 +164,34 @@
     <Compile Include="Services\FineService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <EmbeddedResource Include="Forms\Admin\ADashboard.resx">
+    <EmbeddedResource Include="Forms\ADashboard.resx">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </EmbeddedResource>
     <!-- Existing resources -->
-    <EmbeddedResource Include="BorrowerDashboard.resx">
+    <EmbeddedResource Include="Forms\BorrowerDashboard.resx">
       <DependentUpon>BorrowerDashboard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BorrowRequestForm.resx">
+    <EmbeddedResource Include="Forms\Request.resx">
+      <DependentUpon>Request.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BorrowRequestForm.resx">
       <DependentUpon>BorrowRequestForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Register.resx">
+    <EmbeddedResource Include="Forms\Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreateCategoryForm.resx">
-      <DependentUpon>CreateCategoryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreateUserForm.resx">
-      <DependentUpon>CreateUserForm.cs</DependentUpon>
-    </EmbeddedResource>
     <!-- Admin resources -->
-    <EmbeddedResource Include="Forms\Admin\AdminDashboard.resx">
-      <DependentUpon>AdminDashboard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Admin\BorrowRequests.resx">
-      <DependentUpon>BorrowRequests.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ASUI.resx">
+      <DependentUpon>ASUI.cs</DependentUpon>
     </EmbeddedResource>
     <!-- Login resource -->
-    <EmbeddedResource Include="LogIn.resx">
+    <EmbeddedResource Include="Forms\LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SSUI.resx">
+      <DependentUpon>SSUI.cs</DependentUpon>
     </EmbeddedResource>
     <!-- Project resources -->
     <EmbeddedResource Include="Properties\Resources.resx">

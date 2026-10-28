@@ -8,13 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SanaPass_EBAAMS
+namespace SanaPass_EBAAMS.Forms
 {
     public partial class ADashboard : UserControl
     {
         public ADashboard()
         {
             InitializeComponent();
+        }
+
+        private void ADashboard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
