@@ -102,10 +102,5 @@ namespace SanaPass_EBAAMS
             loginForm.Show();
             this.Close();
         }
-
-        private void pnlSideBar_Paint(object sender, PaintEventArgs e)
-        {
-            // Paint event handler
-        }
     }
 }

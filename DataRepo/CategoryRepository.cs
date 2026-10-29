@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Categories WHERE categoryID = @categoryID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Categories WHERE categoryID = @categoryID", conn))
                 {
                     cmd.Parameters.AddWithValue("@categoryID", categoryID);
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Categories WHERE cName = @cName", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Categories WHERE cName = @cName", conn))
                 {
                     cmd.Parameters.AddWithValue("@cName", cName);
                     using (var reader = cmd.ExecuteReader())
@@ -53,7 +53,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Categories", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Categories", conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -68,7 +68,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("INSERT INTO Categories (cName, cDesc) VALUES (@cName, @cDesc)", conn))
+                using (var cmd = new MySqlCommand("INSERT INTO Categories (cName, cDesc) VALUES (@cName, @cDesc)", conn))
                 {
                     cmd.Parameters.AddWithValue("@cName", category.cName ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@cDesc", category.cDesc ?? (object)DBNull.Value);
@@ -82,7 +82,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("UPDATE Categories SET cName = @cName, cDesc = @cDesc WHERE categoryID = @categoryID", conn))
+                using (var cmd = new MySqlCommand("UPDATE Categories SET cName = @cName, cDesc = @cDesc WHERE categoryID = @categoryID", conn))
                 {
                     cmd.Parameters.AddWithValue("@categoryID", category.categoryID);
                     cmd.Parameters.AddWithValue("@cName", category.cName ?? (object)DBNull.Value);
@@ -97,7 +97,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("DELETE FROM Categories WHERE categoryID = @categoryID", conn))
+                using (var cmd = new MySqlCommand("DELETE FROM Categories WHERE categoryID = @categoryID", conn))
                 {
                     cmd.Parameters.AddWithValue("@categoryID", categoryID);
                     return cmd.ExecuteNonQuery() > 0;

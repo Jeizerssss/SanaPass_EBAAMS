@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace SanaPass_EBAAMS.DataRepo
                               FROM Employees e 
                               INNER JOIN Users u ON e.userID = u.userID 
                               WHERE e.employeeID = @employeeID";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@employeeID", employeeID);
                     using (var reader = cmd.ExecuteReader())
@@ -41,7 +41,7 @@ namespace SanaPass_EBAAMS.DataRepo
                               FROM Employees e 
                               INNER JOIN Users u ON e.userID = u.userID 
                               WHERE e.userID = @userID";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@userID", userID);
                     using (var reader = cmd.ExecuteReader())
@@ -62,7 +62,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 var query = @"SELECT e.*, u.username, u.password, u.uLName, u.uFName, u.uMName, u.uEmail, u.uContactNumber, u.uRole 
                               FROM Employees e 
                               INNER JOIN Users u ON e.userID = u.userID";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read()) list.Add(MapToEmployee(reader));
@@ -77,7 +77,7 @@ namespace SanaPass_EBAAMS.DataRepo
             {
                 conn.Open();
                 var query = "INSERT INTO Employees (userID, position) VALUES (@userID, @position)";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@userID", employee.userID);
                     cmd.Parameters.AddWithValue("@position", employee.position ?? (object)DBNull.Value);
@@ -92,7 +92,7 @@ namespace SanaPass_EBAAMS.DataRepo
             {
                 conn.Open();
                 var query = "UPDATE Employees SET userID = @userID, position = @position WHERE employeeID = @employeeID";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@employeeID", employee.employeeID);
                     cmd.Parameters.AddWithValue("@userID", employee.userID);
@@ -107,7 +107,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("DELETE FROM Employees WHERE employeeID = @employeeID", conn))
+                using (var cmd = new MySqlCommand("DELETE FROM Employees WHERE employeeID = @employeeID", conn))
                 {
                     cmd.Parameters.AddWithValue("@employeeID", employeeID);
                     return cmd.ExecuteNonQuery() > 0;
@@ -115,7 +115,7 @@ namespace SanaPass_EBAAMS.DataRepo
             }
         }
 
-        private Employee MapToEmployee(SqlDataReader reader)
+        private Employee MapToEmployee(MySqlDataReader reader)
         {
             var emp = new Employee
             {

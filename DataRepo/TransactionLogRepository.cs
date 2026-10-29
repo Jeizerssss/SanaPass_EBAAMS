@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM TransactionLogs WHERE transactionLogID = @transactionLogID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM TransactionLogs WHERE transactionLogID = @transactionLogID", conn))
                 {
                     cmd.Parameters.AddWithValue("@transactionLogID", transactionLogID);
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM TransactionLogs WHERE requestID = @requestID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM TransactionLogs WHERE requestID = @requestID", conn))
                 {
                     cmd.Parameters.AddWithValue("@requestID", requestID);
                     using (var reader = cmd.ExecuteReader())
@@ -52,7 +52,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM TransactionLogs WHERE handledBy = @handledBy", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM TransactionLogs WHERE handledBy = @handledBy", conn))
                 {
                     cmd.Parameters.AddWithValue("@handledBy", handledBy);
                     using (var reader = cmd.ExecuteReader())
@@ -70,7 +70,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM TransactionLogs", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM TransactionLogs", conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read()) list.Add(MapToTransactionLog(reader));
@@ -86,7 +86,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
                 var query = @"INSERT INTO TransactionLogs (date, requestID, handledBy, tlType) 
                               VALUES (@date, @requestID, @handledBy, @tlType)";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@date", log.date);
                     cmd.Parameters.AddWithValue("@requestID", log.requestID);
@@ -97,7 +97,7 @@ namespace SanaPass_EBAAMS.DataRepo
             }
         }
 
-        private TransactionLog MapToTransactionLog(SqlDataReader reader)
+        private TransactionLog MapToTransactionLog(MySqlDataReader reader)
         {
             return new TransactionLog
             {

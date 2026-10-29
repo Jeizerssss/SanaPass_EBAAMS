@@ -11,5 +11,6 @@ namespace SanaPass_EBAAMS.Interfaces
     {
         User getByUsername(string username);
         User validateLogin(string username, string password);
+
     }
 }

@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM PaymentHistories WHERE pHID = @pHID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM PaymentHistories WHERE pHID = @pHID", conn))
                 {
                     cmd.Parameters.AddWithValue("@pHID", pHID);
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM PaymentHistories WHERE requestID = @requestID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM PaymentHistories WHERE requestID = @requestID", conn))
                 {
                     cmd.Parameters.AddWithValue("@requestID", requestID);
                     using (var reader = cmd.ExecuteReader())
@@ -52,7 +52,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM PaymentHistories", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM PaymentHistories", conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read()) list.Add(MapToPaymentHistory(reader));
@@ -68,7 +68,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
                 var query = @"INSERT INTO PaymentHistories (requestID, pType, amountReceived, remainingBalance) 
                               VALUES (@requestID, @pType, @amountReceived, @remainingBalance)";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@requestID", paymentHistory.requestID);
                     cmd.Parameters.AddWithValue("@pType", paymentHistory.pType ?? (object)DBNull.Value);
@@ -79,7 +79,7 @@ namespace SanaPass_EBAAMS.DataRepo
             }
         }
 
-        private PaymentHistory MapToPaymentHistory(SqlDataReader reader)
+        private PaymentHistory MapToPaymentHistory(MySqlDataReader reader)
         {
             return new PaymentHistory
             {

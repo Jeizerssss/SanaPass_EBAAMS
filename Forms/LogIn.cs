@@ -1,7 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using SanaPass_EBAAMS.DataRepo;
+using SanaPass_EBAAMS.Services;
+using SanaPass_EBAAMS.Forms;
 using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
+using System;
+using System.Windows.Forms;
 
 namespace SanaPass_EBAAMS
 {
@@ -66,12 +69,28 @@ namespace SanaPass_EBAAMS
 
                 this.Hide();
 
-                // Direct user based on database role
-                if (loggedInUser.uRole.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
-                    loggedInUser.uRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
+                string role = loggedInUser.uRole?.Trim() ?? string.Empty;
+
+                if (loggedInUser.uRole.Equals("Employee", StringComparison.OrdinalIgnoreCase))
                 {
-                    ASUI dashboard = new ASUI(_equipmentService, _requestService, loggedInUser);
-                    dashboard.Show();
+                    UserRepository userRepo = new UserRepository();
+                    string employeeRole = userRepo.GetEmployeeRole(loggedInUser.userID);
+
+                    if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ASUI dashboard = new ASUI(_equipmentService, _requestService, loggedInUser);
+                        dashboard.Show();
+                    }
+                    else if (employeeRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SSUI staffDashboard = new SSUI(); // Pass required parameters if needed
+                        staffDashboard.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Employee record found, but no specific staff or admin role was assigned.",
+                                        "Access Notice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {

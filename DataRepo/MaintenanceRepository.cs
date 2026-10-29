@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Maintenances WHERE mID = @mID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Maintenances WHERE mID = @mID", conn))
                 {
                     cmd.Parameters.AddWithValue("@mID", mID);
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Maintenances WHERE equipmentID = @equipmentID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Maintenances WHERE equipmentID = @equipmentID", conn))
                 {
                     cmd.Parameters.AddWithValue("@equipmentID", equipmentID);
                     using (var reader = cmd.ExecuteReader())
@@ -52,7 +52,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Maintenances WHERE mStatus = @mStatus", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Maintenances WHERE mStatus = @mStatus", conn))
                 {
                     cmd.Parameters.AddWithValue("@mStatus", mStatus);
                     using (var reader = cmd.ExecuteReader())
@@ -70,7 +70,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Maintenances", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Maintenances", conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read()) list.Add(MapToMaintenance(reader));
@@ -86,7 +86,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
                 var query = @"INSERT INTO Maintenances (date, equipmentID, mStatus, mDesc) 
                               VALUES (@date, @equipmentID, @mStatus, @mDesc)";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@date", maintenance.date);
                     cmd.Parameters.AddWithValue("@equipmentID", maintenance.equipmentID);
@@ -104,7 +104,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
                 var query = @"UPDATE Maintenances SET date = @date, equipmentID = @equipmentID, 
                               mStatus = @mStatus, mDesc = @mDesc WHERE mID = @mID";
-                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@mID", maintenance.mID);
                     cmd.Parameters.AddWithValue("@date", maintenance.date);
@@ -121,7 +121,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("UPDATE Maintenances SET mStatus = @mStatus WHERE mID = @mID", conn))
+                using (var cmd = new MySqlCommand("UPDATE Maintenances SET mStatus = @mStatus WHERE mID = @mID", conn))
                 {
                     cmd.Parameters.AddWithValue("@mID", mID);
                     cmd.Parameters.AddWithValue("@mStatus", mStatus);
@@ -135,7 +135,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("DELETE FROM Maintenances WHERE mID = @mID", conn))
+                using (var cmd = new MySqlCommand("DELETE FROM Maintenances WHERE mID = @mID", conn))
                 {
                     cmd.Parameters.AddWithValue("@mID", mID);
                     return cmd.ExecuteNonQuery() > 0;
@@ -143,7 +143,7 @@ namespace SanaPass_EBAAMS.DataRepo
             }
         }
 
-        private Maintenance MapToMaintenance(SqlDataReader reader)
+        private Maintenance MapToMaintenance(MySqlDataReader reader)
         {
             return new Maintenance
             {

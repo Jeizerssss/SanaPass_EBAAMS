@@ -2,7 +2,7 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Locations WHERE locationID = @locationID", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Locations WHERE locationID = @locationID", conn))
                 {
                     cmd.Parameters.AddWithValue("@locationID", locationID);
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Locations WHERE lName = @lName", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Locations WHERE lName = @lName", conn))
                 {
                     cmd.Parameters.AddWithValue("@lName", lName);
                     using (var reader = cmd.ExecuteReader())
@@ -53,7 +53,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("SELECT * FROM Locations", conn))
+                using (var cmd = new MySqlCommand("SELECT * FROM Locations", conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -68,7 +68,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("INSERT INTO Locations (lName, lDesc, lFloorNo) VALUES (@lName, @lDesc, @lFloorNo)", conn))
+                using (var cmd = new MySqlCommand("INSERT INTO Locations (lName, lDesc, lFloorNo) VALUES (@lName, @lDesc, @lFloorNo)", conn))
                 {
                     cmd.Parameters.AddWithValue("@lName", location.lName ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@lDesc", location.lDesc ?? (object)DBNull.Value);
@@ -83,7 +83,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("UPDATE Locations SET lName = @lName, lDesc = @lDesc, lFloorNo = @lFloorNo WHERE locationID = @locationID", conn))
+                using (var cmd = new MySqlCommand("UPDATE Locations SET lName = @lName, lDesc = @lDesc, lFloorNo = @lFloorNo WHERE locationID = @locationID", conn))
                 {
                     cmd.Parameters.AddWithValue("@locationID", location.locationID);
                     cmd.Parameters.AddWithValue("@lName", location.lName ?? (object)DBNull.Value);
@@ -99,7 +99,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new SqlCommand("DELETE FROM Locations WHERE locationID = @locationID", conn))
+                using (var cmd = new MySqlCommand("DELETE FROM Locations WHERE locationID = @locationID", conn))
                 {
                     cmd.Parameters.AddWithValue("@locationID", locationID);
                     return cmd.ExecuteNonQuery() > 0;

@@ -1,8 +1,9 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
+using SanaPass_EBAAMS.Helpers; 
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT * FROM Users WHERE userID = @userID", conn);
+                var cmd = new MySqlCommand("SELECT * FROM Users WHERE userID = @userID", conn);
                 cmd.Parameters.AddWithValue("@userID", userID);
 
                 using (var reader = cmd.ExecuteReader())
@@ -35,7 +36,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT * FROM Users WHERE username = @username", conn);
+                var cmd = new MySqlCommand("SELECT * FROM Users WHERE username = @username", conn);
                 cmd.Parameters.AddWithValue("@username", username);
 
                 using (var reader = cmd.ExecuteReader())
@@ -49,24 +50,20 @@ namespace SanaPass_EBAAMS.DataRepo
             return null;
         }
 
-        public User validateLogin(string username, string password)
+        public User validateLogin(string username, string plainPassword)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            // 1. Fetch user by username first
+            var user = getByUsername(username);
+            if (user != null)
             {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT * FROM Users WHERE username = @username AND password = @password", conn);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
-
-                using (var reader = cmd.ExecuteReader())
+                // 2. Verify the plain-text password against the stored BCrypt hash
+                bool isPasswordValid = PasswordHelper.VerifyPassword(plainPassword, user.password);
+                if (isPasswordValid)
                 {
-                    if (reader.Read())
-                    {
-                        return MapToUser(reader);
-                    }
+                    return user; // Login successful!
                 }
             }
-            return null;
+            return null; // Login failed
         }
 
         public IEnumerable<User> getAll()
@@ -75,7 +72,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT * FROM Users", conn);
+                var cmd = new MySqlCommand("SELECT * FROM Users", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -87,14 +84,34 @@ namespace SanaPass_EBAAMS.DataRepo
             return users;
         }
 
-        public bool add(User user)
+        public string GetEmployeeRole(int userID)
         {
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Users (username, password, uLName, uFName, uMName, uEmail, uContactNumber, uRole) 
+                string query = "SELECT ePosition FROM employees WHERE userID = @userID";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userID", userID);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? result.ToString() : string.Empty;
+                }
+            }
+        }
+        public bool add(User user)
+        {
+            if (!string.IsNullOrEmpty(user.password))
+            {
+                user.password = PasswordHelper.HashPassword(user.password);
+            }
+
+            using (var conn = DbConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                // Match exact column names from your database schema
+                var query = @"INSERT INTO Users (username, uPassword, uLName, uFName, uMName, email, contactNo, uRole) 
                               VALUES (@username, @password, @uLName, @uFName, @uMName, @uEmail, @uContactNumber, @uRole)";
-                var cmd = new SqlCommand(query, conn);
+                var cmd = new MySqlCommand(query, conn);
                 BindParameters(cmd, user);
                 return cmd.ExecuteNonQuery() > 0;
             }
@@ -105,10 +122,10 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Users SET username = @username, password = @password, uLName = @uLName, 
-                              uFName = @uFName, uMName = @uMName, uEmail = @uEmail, uContactNumber = @uContactNumber, 
+                var query = @"UPDATE Users SET username = @username, uPassword = @password, uLName = @uLName, 
+                              uFName = @uFName, uMName = @uMName, email = @uEmail, contactNo = @uContactNumber, 
                               uRole = @uRole WHERE userID = @userID";
-                var cmd = new SqlCommand(query, conn);
+                var cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@userID", user.userID);
                 BindParameters(cmd, user);
                 return cmd.ExecuteNonQuery() > 0;
@@ -120,37 +137,68 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = DbConnectionFactory.CreateConnection())
             {
                 conn.Open();
-                var cmd = new SqlCommand("DELETE FROM Users WHERE userID = @userID", conn);
+                var cmd = new MySqlCommand("DELETE FROM Users WHERE userID = @userID", conn);
                 cmd.Parameters.AddWithValue("@userID", userID);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
 
-        private User MapToUser(SqlDataReader reader)
+        private User MapToUser(MySqlDataReader reader)
         {
             return new User
             {
                 userID = Convert.ToInt32(reader["userID"]),
                 username = reader["username"].ToString(),
-                password = reader["password"].ToString(),
+                password = reader["uPassword"].ToString(),      
                 uLName = reader["uLName"].ToString(),
                 uFName = reader["uFName"].ToString(),
                 uMName = reader["uMName"].ToString(),
-                uEmail = reader["uEmail"].ToString(),
-                uContactNumber = reader["uContactNumber"].ToString(),
+                uEmail = reader["email"].ToString(),            
+                uContactNumber = reader["contactNo"].ToString(),
                 uRole = reader["uRole"].ToString()
             };
         }
+        public bool LinkOrCreateEmployeeForUser(int userID, string position, string department, DateTime hireDate)
+        {
+            using (var conn = DbConnectionFactory.CreateConnection())
+            {
+                conn.Open();
 
-        private void BindParameters(SqlCommand cmd, User user)
+                
+                string checkQuery = "SELECT COUNT(*) FROM Employees WHERE userID = @userID";
+                using (var checkCmd = new MySqlCommand(checkQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@userID", userID);
+                    long count = (long)checkCmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        return true; 
+                    }
+                }
+
+                
+                string insertQuery = @"INSERT INTO Employees (userID, position) 
+                              VALUES (@userID, @position)";
+
+                using (var insertCmd = new MySqlCommand(insertQuery, conn))
+                {
+                    insertCmd.Parameters.AddWithValue("@userID", userID);
+                    insertCmd.Parameters.AddWithValue("@position", position ?? (object)DBNull.Value);
+
+                    return insertCmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        private void BindParameters(MySqlCommand cmd, User user)
         {
             cmd.Parameters.AddWithValue("@username", user.username ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@password", user.password ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@uPassword", user.password ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@uLName", user.uLName ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@uFName", user.uFName ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@uMName", user.uMName ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@uEmail", user.uEmail ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@uContactNumber", user.uContactNumber ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@email", user.uEmail ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@contactNo", user.uContactNumber ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@uRole", user.uRole ?? (object)DBNull.Value);
         }
     }
