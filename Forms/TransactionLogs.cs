@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SanaPass_EBAAMS
+namespace SanaPass_EBAAMS.Forms
 {
-    public partial class TransactionLogs : Form
+    public partial class TransactionLogs: UserControl
     {
         public TransactionLogs()
         {

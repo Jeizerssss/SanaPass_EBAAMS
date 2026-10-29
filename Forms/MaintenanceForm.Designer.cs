@@ -1,6 +1,6 @@
 ﻿namespace SanaPass_EBAAMS
 {
-    partial class AddMaintenance
+    partial class MaintenanceForm
     {
         /// <summary>
         /// Required designer variable.

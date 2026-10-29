@@ -35,12 +35,12 @@ namespace SanaPass_EBAAMS
             this.btnEquipment = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnMaintenance = new System.Windows.Forms.Button();
             this.btnTransactionLogs = new System.Windows.Forms.Button();
             this.btnRequests = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.lblSystemName = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnPaymentHistories = new System.Windows.Forms.Button();
+            this.btnProfile = new System.Windows.Forms.Button();
             this.pnlSideBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -49,11 +49,12 @@ namespace SanaPass_EBAAMS
             // 
             this.pnlSideBar.BackColor = System.Drawing.Color.Maroon;
             this.pnlSideBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnlSideBar.Controls.Add(this.btnProfile);
+            this.pnlSideBar.Controls.Add(this.btnPaymentHistories);
             this.pnlSideBar.Controls.Add(this.btnUsers);
             this.pnlSideBar.Controls.Add(this.btnEquipment);
             this.pnlSideBar.Controls.Add(this.pictureBox1);
             this.pnlSideBar.Controls.Add(this.btnLogout);
-            this.pnlSideBar.Controls.Add(this.btnMaintenance);
             this.pnlSideBar.Controls.Add(this.btnTransactionLogs);
             this.pnlSideBar.Controls.Add(this.btnRequests);
             this.pnlSideBar.Controls.Add(this.btnDashboard);
@@ -75,7 +76,7 @@ namespace SanaPass_EBAAMS
             this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsers.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUsers.ForeColor = System.Drawing.Color.White;
-            this.btnUsers.Location = new System.Drawing.Point(13, 502);
+            this.btnUsers.Location = new System.Drawing.Point(13, 345);
             this.btnUsers.Margin = new System.Windows.Forms.Padding(10);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
@@ -93,7 +94,7 @@ namespace SanaPass_EBAAMS
             this.btnEquipment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEquipment.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEquipment.ForeColor = System.Drawing.Color.White;
-            this.btnEquipment.Location = new System.Drawing.Point(13, 307);
+            this.btnEquipment.Location = new System.Drawing.Point(13, 280);
             this.btnEquipment.Margin = new System.Windows.Forms.Padding(10);
             this.btnEquipment.Name = "btnEquipment";
             this.btnEquipment.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
@@ -132,25 +133,6 @@ namespace SanaPass_EBAAMS
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // btnMaintenance
-            // 
-            this.btnMaintenance.BackColor = System.Drawing.Color.Maroon;
-            this.btnMaintenance.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMaintenance.FlatAppearance.BorderSize = 0;
-            this.btnMaintenance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMaintenance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMaintenance.ForeColor = System.Drawing.Color.White;
-            this.btnMaintenance.Location = new System.Drawing.Point(13, 437);
-            this.btnMaintenance.Margin = new System.Windows.Forms.Padding(10);
-            this.btnMaintenance.Name = "btnMaintenance";
-            this.btnMaintenance.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.btnMaintenance.Size = new System.Drawing.Size(220, 45);
-            this.btnMaintenance.TabIndex = 4;
-            this.btnMaintenance.Text = "Maintenance";
-            this.btnMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMaintenance.UseVisualStyleBackColor = false;
-            this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
-            // 
             // btnTransactionLogs
             // 
             this.btnTransactionLogs.BackColor = System.Drawing.Color.Maroon;
@@ -159,7 +141,7 @@ namespace SanaPass_EBAAMS
             this.btnTransactionLogs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTransactionLogs.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTransactionLogs.ForeColor = System.Drawing.Color.White;
-            this.btnTransactionLogs.Location = new System.Drawing.Point(13, 372);
+            this.btnTransactionLogs.Location = new System.Drawing.Point(13, 475);
             this.btnTransactionLogs.Margin = new System.Windows.Forms.Padding(10);
             this.btnTransactionLogs.Name = "btnTransactionLogs";
             this.btnTransactionLogs.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
@@ -178,7 +160,7 @@ namespace SanaPass_EBAAMS
             this.btnRequests.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRequests.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRequests.ForeColor = System.Drawing.Color.White;
-            this.btnRequests.Location = new System.Drawing.Point(13, 242);
+            this.btnRequests.Location = new System.Drawing.Point(13, 215);
             this.btnRequests.Margin = new System.Windows.Forms.Padding(10);
             this.btnRequests.Name = "btnRequests";
             this.btnRequests.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
@@ -197,7 +179,7 @@ namespace SanaPass_EBAAMS
             this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDashboard.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDashboard.ForeColor = System.Drawing.Color.White;
-            this.btnDashboard.Location = new System.Drawing.Point(13, 177);
+            this.btnDashboard.Location = new System.Drawing.Point(13, 150);
             this.btnDashboard.Margin = new System.Windows.Forms.Padding(10);
             this.btnDashboard.Name = "btnDashboard";
             this.btnDashboard.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
@@ -220,21 +202,49 @@ namespace SanaPass_EBAAMS
             this.lblSystemName.TabIndex = 0;
             this.lblSystemName.Text = "EBAAMS";
             // 
-            // panel1
+            // btnPaymentHistories
             // 
-            this.panel1.Location = new System.Drawing.Point(258, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1051, 715);
-            this.panel1.TabIndex = 1;
+            this.btnPaymentHistories.BackColor = System.Drawing.Color.Maroon;
+            this.btnPaymentHistories.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPaymentHistories.FlatAppearance.BorderSize = 0;
+            this.btnPaymentHistories.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPaymentHistories.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPaymentHistories.ForeColor = System.Drawing.Color.White;
+            this.btnPaymentHistories.Location = new System.Drawing.Point(13, 410);
+            this.btnPaymentHistories.Margin = new System.Windows.Forms.Padding(10);
+            this.btnPaymentHistories.Name = "btnPaymentHistories";
+            this.btnPaymentHistories.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnPaymentHistories.Size = new System.Drawing.Size(220, 45);
+            this.btnPaymentHistories.TabIndex = 9;
+            this.btnPaymentHistories.Text = "Payment Histories";
+            this.btnPaymentHistories.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPaymentHistories.UseVisualStyleBackColor = false;
+            // 
+            // btnProfile
+            // 
+            this.btnProfile.BackColor = System.Drawing.Color.Maroon;
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.Location = new System.Drawing.Point(13, 596);
+            this.btnProfile.Margin = new System.Windows.Forms.Padding(10);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnProfile.Size = new System.Drawing.Size(220, 45);
+            this.btnProfile.TabIndex = 10;
+            this.btnProfile.Text = "Profile";
+            this.btnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.UseVisualStyleBackColor = false;
             // 
             // ASUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.Maroon;
             this.ClientSize = new System.Drawing.Size(1321, 740);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSideBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.DarkGray;
@@ -256,13 +266,13 @@ namespace SanaPass_EBAAMS
         private System.Windows.Forms.Panel pnlSideBar;
         private System.Windows.Forms.Label lblSystemName;
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Button btnMaintenance;
         private System.Windows.Forms.Button btnTransactionLogs;
         private System.Windows.Forms.Button btnRequests;
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnEquipment;
         private System.Windows.Forms.Button btnUsers;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnPaymentHistories;
+        private System.Windows.Forms.Button btnProfile;
     }
 }

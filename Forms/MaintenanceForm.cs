@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace SanaPass_EBAAMS
 {
-    public partial class AddMaintenance : Form
+    public partial class MaintenanceForm : Form
     {
-        public AddMaintenance()
+        public MaintenanceForm()
         {
             InitializeComponent();
         }

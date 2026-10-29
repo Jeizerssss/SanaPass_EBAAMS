@@ -127,5 +127,15 @@ namespace SanaPass_EBAAMS.Forms
                 ReadOnly = true
             });
         }
+
+        private void lblARequest_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblATotalRequest_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

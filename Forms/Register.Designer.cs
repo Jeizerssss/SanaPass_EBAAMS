@@ -29,61 +29,55 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
-            this.lblRegister = new System.Windows.Forms.Label();
-            this.lLblLogin = new System.Windows.Forms.LinkLabel();
-            this.pBoxLogin = new System.Windows.Forms.PictureBox();
+            this.lblAHA = new System.Windows.Forms.Label();
+            this.lblLogin = new System.Windows.Forms.LinkLabel();
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnRegister = new System.Windows.Forms.Button();
-            this.txtMName = new System.Windows.Forms.TextBox();
-            this.lblMName = new System.Windows.Forms.Label();
-            this.txtFName = new System.Windows.Forms.TextBox();
-            this.lblFName = new System.Windows.Forms.Label();
             this.txtBoxLName = new System.Windows.Forms.TextBox();
             this.lblLName = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
+            this.txtBoxFName = new System.Windows.Forms.TextBox();
+            this.lblFName = new System.Windows.Forms.Label();
+            this.txtBoxPassword = new System.Windows.Forms.TextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.txtBoxUsername = new System.Windows.Forms.TextBox();
+            this.lblUsername = new System.Windows.Forms.Label();
+            this.pBoxLogin = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxLogin)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblRegister
+            // lblAHA
             // 
-            this.lblRegister.AutoSize = true;
-            this.lblRegister.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.lblRegister.Location = new System.Drawing.Point(488, 383);
-            this.lblRegister.Name = "lblRegister";
-            this.lblRegister.Size = new System.Drawing.Size(120, 13);
-            this.lblRegister.TabIndex = 19;
-            this.lblRegister.Text = "already have account?";
+            this.lblAHA.AutoSize = true;
+            this.lblAHA.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.lblAHA.Location = new System.Drawing.Point(485, 390);
+            this.lblAHA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAHA.Name = "lblAHA";
+            this.lblAHA.Size = new System.Drawing.Size(120, 13);
+            this.lblAHA.TabIndex = 19;
+            this.lblAHA.Text = "already have account?";
+            this.lblAHA.Click += new System.EventHandler(this.lblRegister_Click);
             // 
-            // lLblLogin
+            // lblLogin
             // 
-            this.lLblLogin.AutoSize = true;
-            this.lLblLogin.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.lLblLogin.Location = new System.Drawing.Point(614, 383);
-            this.lLblLogin.Name = "lLblLogin";
-            this.lLblLogin.Size = new System.Drawing.Size(68, 13);
-            this.lLblLogin.TabIndex = 18;
-            this.lLblLogin.TabStop = true;
-            this.lLblLogin.Text = "Log in here.";
-            this.lLblLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lLblLogin_LinkClicked);
-            // 
-            // pBoxLogin
-            // 
-            this.pBoxLogin.Image = ((System.Drawing.Image)(resources.GetObject("pBoxLogin.Image")));
-            this.pBoxLogin.Location = new System.Drawing.Point(-4, -7);
-            this.pBoxLogin.Name = "pBoxLogin";
-            this.pBoxLogin.Size = new System.Drawing.Size(394, 539);
-            this.pBoxLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pBoxLogin.TabIndex = 17;
-            this.pBoxLogin.TabStop = false;
+            this.lblLogin.AutoSize = true;
+            this.lblLogin.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.lblLogin.Location = new System.Drawing.Point(613, 390);
+            this.lblLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLogin.Name = "lblLogin";
+            this.lblLogin.Size = new System.Drawing.Size(68, 13);
+            this.lblLogin.TabIndex = 18;
+            this.lblLogin.TabStop = true;
+            this.lblLogin.Text = "Log in here.";
+            this.lblLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblLogin_LinkClicked);
             // 
             // lblSubtitle
             // 
             this.lblSubtitle.AutoSize = true;
             this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(493, 83);
+            this.lblSubtitle.Location = new System.Drawing.Point(495, 96);
+            this.lblSubtitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubtitle.Name = "lblSubtitle";
             this.lblSubtitle.Size = new System.Drawing.Size(177, 30);
             this.lblSubtitle.TabIndex = 16;
@@ -95,7 +89,8 @@
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblTitle.Location = new System.Drawing.Point(505, 47);
+            this.lblTitle.Location = new System.Drawing.Point(511, 52);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(153, 45);
             this.lblTitle.TabIndex = 15;
@@ -103,68 +98,29 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRegister.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnRegister.FlatAppearance.BorderSize = 0;
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(546, 411);
+            this.btnRegister.Location = new System.Drawing.Point(532, 417);
+            this.btnRegister.Margin = new System.Windows.Forms.Padding(4);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(87, 39);
+            this.btnRegister.Size = new System.Drawing.Size(116, 48);
             this.btnRegister.TabIndex = 14;
             this.btnRegister.Text = "REGISTER";
             this.btnRegister.UseVisualStyleBackColor = false;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
-            // txtMName
-            // 
-            this.txtMName.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtMName.Location = new System.Drawing.Point(456, 220);
-            this.txtMName.Name = "txtMName";
-            this.txtMName.Size = new System.Drawing.Size(251, 25);
-            this.txtMName.TabIndex = 13;
-            this.txtMName.UseSystemPasswordChar = true;
-            // 
-            // lblMName
-            // 
-            this.lblMName.AutoSize = true;
-            this.lblMName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
-            this.lblMName.Location = new System.Drawing.Point(452, 196);
-            this.lblMName.Name = "lblMName";
-            this.lblMName.Size = new System.Drawing.Size(107, 21);
-            this.lblMName.TabIndex = 12;
-            this.lblMName.Text = "Middle Name:";
-            // 
-            // txtFName
-            // 
-            this.txtFName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFName.Location = new System.Drawing.Point(456, 165);
-            this.txtFName.Name = "txtFName";
-            this.txtFName.Size = new System.Drawing.Size(251, 26);
-            this.txtFName.TabIndex = 11;
-            // 
-            // lblFName
-            // 
-            this.lblFName.AutoSize = true;
-            this.lblFName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
-            this.lblFName.Location = new System.Drawing.Point(452, 141);
-            this.lblFName.Name = "lblFName";
-            this.lblFName.Size = new System.Drawing.Size(89, 21);
-            this.lblFName.TabIndex = 10;
-            this.lblFName.Text = "First Name:";
-            // 
             // txtBoxLName
             // 
             this.txtBoxLName.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtBoxLName.Location = new System.Drawing.Point(456, 276);
+            this.txtBoxLName.Location = new System.Drawing.Point(462, 236);
+            this.txtBoxLName.Margin = new System.Windows.Forms.Padding(4);
             this.txtBoxLName.Name = "txtBoxLName";
-            this.txtBoxLName.Size = new System.Drawing.Size(251, 25);
-            this.txtBoxLName.TabIndex = 21;
+            this.txtBoxLName.Size = new System.Drawing.Size(256, 25);
+            this.txtBoxLName.TabIndex = 13;
             this.txtBoxLName.UseSystemPasswordChar = true;
             // 
             // lblLName
@@ -172,52 +128,109 @@
             this.lblLName.AutoSize = true;
             this.lblLName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
-            this.lblLName.Location = new System.Drawing.Point(452, 252);
+            this.lblLName.Location = new System.Drawing.Point(457, 211);
+            this.lblLName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLName.Name = "lblLName";
             this.lblLName.Size = new System.Drawing.Size(87, 21);
-            this.lblLName.TabIndex = 20;
+            this.lblLName.TabIndex = 12;
             this.lblLName.Text = "Last Name:";
             // 
-            // txtEmail
+            // txtBoxFName
             // 
-            this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtEmail.Location = new System.Drawing.Point(456, 331);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(251, 25);
-            this.txtEmail.TabIndex = 23;
-            this.txtEmail.UseSystemPasswordChar = true;
+            this.txtBoxFName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBoxFName.Location = new System.Drawing.Point(462, 178);
+            this.txtBoxFName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBoxFName.Name = "txtBoxFName";
+            this.txtBoxFName.Size = new System.Drawing.Size(256, 26);
+            this.txtBoxFName.TabIndex = 11;
             // 
-            // lblEmail
+            // lblFName
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
-            this.lblEmail.Location = new System.Drawing.Point(452, 307);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(51, 21);
-            this.lblEmail.TabIndex = 22;
-            this.lblEmail.Text = "Email:";
+            this.lblFName.AutoSize = true;
+            this.lblFName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblFName.Location = new System.Drawing.Point(457, 153);
+            this.lblFName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFName.Name = "lblFName";
+            this.lblFName.Size = new System.Drawing.Size(89, 21);
+            this.lblFName.TabIndex = 10;
+            this.lblFName.Text = "First Name:";
+            // 
+            // txtBoxPassword
+            // 
+            this.txtBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtBoxPassword.Location = new System.Drawing.Point(461, 350);
+            this.txtBoxPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBoxPassword.Name = "txtBoxPassword";
+            this.txtBoxPassword.Size = new System.Drawing.Size(256, 25);
+            this.txtBoxPassword.TabIndex = 21;
+            this.txtBoxPassword.UseSystemPasswordChar = true;
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblPassword.Location = new System.Drawing.Point(457, 325);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(79, 21);
+            this.lblPassword.TabIndex = 20;
+            this.lblPassword.Text = "Password:";
+            // 
+            // txtBoxUsername
+            // 
+            this.txtBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtBoxUsername.Location = new System.Drawing.Point(461, 291);
+            this.txtBoxUsername.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBoxUsername.Name = "txtBoxUsername";
+            this.txtBoxUsername.Size = new System.Drawing.Size(256, 25);
+            this.txtBoxUsername.TabIndex = 23;
+            this.txtBoxUsername.UseSystemPasswordChar = true;
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblUsername.Location = new System.Drawing.Point(456, 266);
+            this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(84, 21);
+            this.lblUsername.TabIndex = 22;
+            this.lblUsername.Text = "Username:";
+            // 
+            // pBoxLogin
+            // 
+            this.pBoxLogin.Image = ((System.Drawing.Image)(resources.GetObject("pBoxLogin.Image")));
+            this.pBoxLogin.Location = new System.Drawing.Point(-2, -6);
+            this.pBoxLogin.Name = "pBoxLogin";
+            this.pBoxLogin.Size = new System.Drawing.Size(394, 539);
+            this.pBoxLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pBoxLogin.TabIndex = 24;
+            this.pBoxLogin.TabStop = false;
             // 
             // Register
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(784, 528);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.lblEmail);
-            this.Controls.Add(this.txtBoxLName);
-            this.Controls.Add(this.lblLName);
-            this.Controls.Add(this.lblRegister);
-            this.Controls.Add(this.lLblLogin);
             this.Controls.Add(this.pBoxLogin);
+            this.Controls.Add(this.txtBoxUsername);
+            this.Controls.Add(this.lblUsername);
+            this.Controls.Add(this.txtBoxPassword);
+            this.Controls.Add(this.lblPassword);
+            this.Controls.Add(this.lblAHA);
+            this.Controls.Add(this.lblLogin);
             this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnRegister);
-            this.Controls.Add(this.txtMName);
-            this.Controls.Add(this.lblMName);
-            this.Controls.Add(this.txtFName);
+            this.Controls.Add(this.txtBoxLName);
+            this.Controls.Add(this.lblLName);
+            this.Controls.Add(this.txtBoxFName);
             this.Controls.Add(this.lblFName);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Register";
@@ -230,19 +243,19 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblRegister;
-        private System.Windows.Forms.LinkLabel lLblLogin;
-        private System.Windows.Forms.PictureBox pBoxLogin;
+        private System.Windows.Forms.Label lblAHA;
+        private System.Windows.Forms.LinkLabel lblLogin;
         private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnRegister;
-        private System.Windows.Forms.TextBox txtMName;
-        private System.Windows.Forms.Label lblMName;
-        private System.Windows.Forms.TextBox txtFName;
-        private System.Windows.Forms.Label lblFName;
         private System.Windows.Forms.TextBox txtBoxLName;
         private System.Windows.Forms.Label lblLName;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.TextBox txtBoxFName;
+        private System.Windows.Forms.Label lblFName;
+        private System.Windows.Forms.TextBox txtBoxPassword;
+        private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.TextBox txtBoxUsername;
+        private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.PictureBox pBoxLogin;
     }
 }

@@ -71,6 +71,24 @@
     <Compile Include="Forms\BorrowerDashboard.Designer.cs">
       <DependentUpon>BorrowerDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Equipments.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Equipments.Designer.cs">
+      <DependentUpon>Equipments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Maintenance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Maintenance.Designer.cs">
+      <DependentUpon>Maintenance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PaymentHistories.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\PaymentHistories.Designer.cs">
+      <DependentUpon>PaymentHistories.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Request.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -88,6 +106,12 @@
     </Compile>
     <Compile Include="Forms\SSUI.Designer.cs">
       <DependentUpon>SSUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Users.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Users.Designer.cs">
+      <DependentUpon>Users.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Interfaces\IBorrowService.cs" />
@@ -129,11 +153,11 @@
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
     <!-- Admin forms -->
-    <Compile Include="Forms\AddMaintenance.cs">
+    <Compile Include="Forms\MaintenanceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddMaintenance.Designer.cs">
-      <DependentUpon>AddMaintenance.cs</DependentUpon>
+    <Compile Include="Forms\MaintenanceForm.Designer.cs">
+      <DependentUpon>MaintenanceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ASUI.cs">
       <SubType>Form</SubType>
@@ -142,7 +166,7 @@
       <DependentUpon>ASUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\TransactionLogs.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\TransactionLogs.Designer.cs">
       <DependentUpon>TransactionLogs.cs</DependentUpon>
@@ -173,6 +197,15 @@
     <EmbeddedResource Include="Forms\BorrowerDashboard.resx">
       <DependentUpon>BorrowerDashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Equipments.resx">
+      <DependentUpon>Equipments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Maintenance.resx">
+      <DependentUpon>Maintenance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PaymentHistories.resx">
+      <DependentUpon>PaymentHistories.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Request.resx">
       <DependentUpon>Request.cs</DependentUpon>
     </EmbeddedResource>
@@ -192,6 +225,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SSUI.resx">
       <DependentUpon>SSUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TransactionLogs.resx">
+      <DependentUpon>TransactionLogs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Users.resx">
+      <DependentUpon>Users.cs</DependentUpon>
     </EmbeddedResource>
     <!-- Project resources -->
     <EmbeddedResource Include="Properties\Resources.resx">

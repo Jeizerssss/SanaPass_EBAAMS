@@ -28,20 +28,15 @@ namespace SanaPass_EBAAMS
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            // 1. Gather input from controls
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text;
-            string confirmPassword = txtConfirmPassword.Text;
-            string fName = txtFName.Text.Trim();
-            string lName = txtLName.Text.Trim();
-            string mName = txtMName.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string contact = txtContact.Text.Trim();
-            string role = cboRole?.SelectedItem?.ToString() ?? "Borrower";
+            // 1. Gather input from controls (matching UI fields and designer names)
+            string fName = txtBoxFName.Text.Trim();
+            string lName = txtBoxPassword.Text.Trim(); // Matched to txtBoxLName from outline
+            string username = txtBoxUsername.Text.Trim();
+            string password = txtBoxPassword.Text;
 
-            // 2. Validate required fields
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(fName) || string.IsNullOrEmpty(lName))
+            // 2. Validation
+            if (string.IsNullOrEmpty(fName) || string.IsNullOrEmpty(lName) ||
+                string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show(
                     "Please fill in all required fields.",
@@ -52,28 +47,17 @@ namespace SanaPass_EBAAMS
                 return;
             }
 
-            if (password != confirmPassword)
-            {
-                MessageBox.Show(
-                    "Passwords do not match.",
-                    "Validation Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
-
-            // 3. Instantiate model with property names matching User.cs
+            // 3. Instantiate model with default values for fields not shown in this UI version
             User newUser = new User
             {
                 username = username,
                 password = password,
                 uFName = fName,
                 uLName = lName,
-                uMName = mName,
-                uEmail = email,
-                uContactNumber = contact,
-                uRole = role
+                uMName = string.Empty,
+                uEmail = string.Empty,
+                uContactNumber = string.Empty,
+                uRole = "Borrower" // Default role for self-registration
             };
 
             // 4. Save through AuthService
@@ -83,12 +67,11 @@ namespace SanaPass_EBAAMS
             {
                 MessageBox.Show(
                     "Success! Please go to the PPMGS office for verification.",
-                    "Registration Successful.",
+                    "Registration Successful",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
 
-                // Return to LogIn Form
                 this.Hide();
                 LogIn loginForm = new LogIn();
                 loginForm.Show();
@@ -104,11 +87,17 @@ namespace SanaPass_EBAAMS
             }
         }
 
-        private void lLblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // Matched to lblLogin control name from the designer outline
             this.Hide();
             LogIn loginForm = new LogIn();
             loginForm.Show();
+        }
+
+        private void lblRegister_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
