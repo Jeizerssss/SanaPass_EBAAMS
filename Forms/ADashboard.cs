@@ -13,6 +13,7 @@ namespace SanaPass_EBAAMS.Forms
         public ADashboard()
         {
             InitializeComponent();
+            btnARefreshRequest.Click += btnARefreshRequest_Click;
         }
 
         public ADashboard(IReportService reportService)
@@ -26,6 +27,34 @@ namespace SanaPass_EBAAMS.Forms
             object sender,
             EventArgs e)
         {
+            RefreshDashboard();
+        }
+
+        private void btnARefreshRequest_Click(object sender, EventArgs e)
+        {
+            RefreshDashboard();
+        }
+
+        private void RefreshDashboard()
+        {
+            if (_reportService == null)
+            {
+                return;
+            }
+
+            try
+            {
+                lblEquipmentCard.Text = "AVAILABLE EQUIPMENT (" + _reportService.getAvailableEquipmentCount() + ")";
+                lblRequestsCard.Text = "PENDING REQUESTS (" + _reportService.getPendingRequestsCount() + ")";
+                lblBorrowsCard.Text = "ACTIVE BORROWS (" + _reportService.getBorrowedItemsCount() + ")";
+                lblReturnCard.Text = "OVERDUE RETURN (" + _reportService.getOverdueReturnCount() + ")";
+                lblALastChecked.Text = DateTime.Now.ToString("HH:mm:ss");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to refresh dashboard data: {ex.Message}", "Dashboard Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnGenerateReport_Click(

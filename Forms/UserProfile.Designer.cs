@@ -137,7 +137,7 @@
             this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtName.Location = new System.Drawing.Point(121, 117);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(134, 23);
+            this.txtName.Size = new System.Drawing.Size(193, 23);
             this.txtName.TabIndex = 17;
             this.txtName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 

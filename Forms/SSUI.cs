@@ -1,4 +1,5 @@
-﻿using SanaPass_EBAAMS.Interfaces;
+﻿using SanaPass_EBAAMS.Helpers;
+using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,12 @@ namespace SanaPass_EBAAMS.Forms
     {
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
+        private readonly IUserService _userService;
         private readonly User _currentUser;
+        private readonly Button[] _navigationButtons;
+        private SDashboard dashboardControl = new SDashboard();
         private BorrowRequests requestControl = new BorrowRequests();
-        private Equipments equipmentsControl = new Equipments();
+        private Equipments equipmentsControl;
         private Fines finesControl = new Fines();
         private PaymentHistories paymentHistoriesControl = new PaymentHistories();
         private Maintenance maintenanceControl = new Maintenance();
@@ -26,12 +30,34 @@ namespace SanaPass_EBAAMS.Forms
         public SSUI()
         {
             InitializeComponent();
+
+            _navigationButtons = new[]
+            {
+                btnDashboard,
+                btnRequests,
+                btnEquipment,
+                btnPaymentHistories,
+                btnFines,
+                btnMaintenance,
+                btnProfile
+            };
         }
-        public SSUI(IEquipmentService equipmentService, IRequestService requestService, User currentUser) : this()
+        public SSUI(
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            IUserService userService,
+            User currentUser) : this()
         {
-            _equipmentService = equipmentService;
-            _requestService = requestService;
-            _currentUser = currentUser ?? new User { uRole = "admin" };
+            _equipmentService = equipmentService
+                ?? throw new ArgumentNullException(nameof(equipmentService));
+
+            _requestService = requestService
+                ?? throw new ArgumentNullException(nameof(requestService));
+
+            _currentUser = currentUser
+                ?? new User { uRole = "admin" };
+
+            equipmentsControl = new Equipments(_equipmentService);
         }
         private void SSUI_Load(object sender, EventArgs e)
         {
@@ -45,14 +71,15 @@ namespace SanaPass_EBAAMS.Forms
                 btnProfile.Text = "Profile (Admin)";
             }
 
-            // Safely load default view on startup (e.g., loading the Dashboard first)
+            
             if (panelContainer != null)
             {
                 try
                 {
-                    BorrowRequests requestsControl = new BorrowRequests();
-                    SwitchUserControl(requestsControl);
-                    HighlightButton(btnRequests);
+                    NavigationButtonHelper.HighlightButton(
+                        _navigationButtons,
+                        btnDashboard);
+                    SwitchUserControl(dashboardControl);
                 }
                 catch (Exception ex)
                 {
@@ -63,7 +90,7 @@ namespace SanaPass_EBAAMS.Forms
 
         private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
         {
-            // IMPORTANT: Changed from pnlSideBar to panelContainer so it swaps content, not your sidebar!
+            
             if (panelContainer == null) return;
 
             panelContainer.Controls.Clear();
@@ -74,66 +101,52 @@ namespace SanaPass_EBAAMS.Forms
 
         private void btnEquipment_Click(object sender, EventArgs e)
         {
-            HighlightButton(btnEquipment);
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnEquipment);
+
             SwitchUserControl(equipmentsControl);
         }
 
         private void btnRequests_Click(object sender, EventArgs e)
         {
-            HighlightButton(btnRequests);
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnRequests);
+
             SwitchUserControl(requestControl);
-        }
-
-        private void HighlightButton(Button activeButton)
-        {
-            Color normalColor = Color.Transparent;
-            Font normalFont = new Font(btnRequests.Font, FontStyle.Regular);
-            Color highlightColor = Color.FromArgb(180, 0, 0);
-            Font highlightFont = new Font(btnRequests.Font, FontStyle.Bold);
-
-            btnRequests.BackColor = normalColor;
-            btnRequests.Font = normalFont;
-            btnEquipment.BackColor = normalColor;
-            btnEquipment.Font = normalFont;
-            btnPaymentHistories.BackColor = normalColor;
-            btnPaymentHistories.Font = normalFont;
-            btnFines.BackColor = normalColor;
-            btnFines.Font = normalFont;
-            btnMaintenance.BackColor = normalColor;
-            btnMaintenance.Font = normalFont;
-            btnProfile.BackColor = normalColor;
-            btnProfile.Font = normalFont;
-
-            if (activeButton != null)
-            {
-                activeButton.BackColor = highlightColor;
-                activeButton.Font = highlightFont;
-            }
         }
 
         private void btnPaymentHistories_Click(object sender, EventArgs e)
         {
-            HighlightButton(btnPaymentHistories);
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnPaymentHistories);
+
             SwitchUserControl(paymentHistoriesControl);
         }
 
         private void btnFines_Click(object sender, EventArgs e)
         {
-            HighlightButton(btnFines);
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnFines);
+
             SwitchUserControl(finesControl);
         }
 
         private void btnMaintenance_Click(object sender, EventArgs e)
         {
-            HighlightButton(btnMaintenance);
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnMaintenance);
+
             SwitchUserControl(maintenanceControl);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            LogIn loginForm = new LogIn();
-            loginForm.Show();
+            Close();
         }
     }
 }

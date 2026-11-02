@@ -53,7 +53,7 @@
             this.pnlAEquipmentsTop.Controls.Add(this.lblAEquipments);
             this.pnlAEquipmentsTop.Controls.Add(this.txtBoxAEquipmentSearch);
             this.pnlAEquipmentsTop.Location = new System.Drawing.Point(2, 2);
-            this.pnlAEquipmentsTop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlAEquipmentsTop.Margin = new System.Windows.Forms.Padding(2);
             this.pnlAEquipmentsTop.Name = "pnlAEquipmentsTop";
             this.pnlAEquipmentsTop.Size = new System.Drawing.Size(784, 81);
             this.pnlAEquipmentsTop.TabIndex = 3;
@@ -63,7 +63,7 @@
             this.cmbAEquipmentFilterStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbAEquipmentFilterStatus.FormattingEnabled = true;
             this.cmbAEquipmentFilterStatus.Location = new System.Drawing.Point(570, 28);
-            this.cmbAEquipmentFilterStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbAEquipmentFilterStatus.Margin = new System.Windows.Forms.Padding(2);
             this.cmbAEquipmentFilterStatus.Name = "cmbAEquipmentFilterStatus";
             this.cmbAEquipmentFilterStatus.Size = new System.Drawing.Size(117, 32);
             this.cmbAEquipmentFilterStatus.TabIndex = 3;
@@ -71,9 +71,9 @@
             // 
             // btnARefreshEquipment
             // 
-            this.btnARefreshEquipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnARefreshEquipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnARefreshEquipment.Location = new System.Drawing.Point(691, 27);
-            this.btnARefreshEquipment.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnARefreshEquipment.Margin = new System.Windows.Forms.Padding(2);
             this.btnARefreshEquipment.Name = "btnARefreshEquipment";
             this.btnARefreshEquipment.Size = new System.Drawing.Size(68, 29);
             this.btnARefreshEquipment.TabIndex = 2;
@@ -98,7 +98,7 @@
             this.txtBoxAEquipmentSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoxAEquipmentSearch.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.txtBoxAEquipmentSearch.Location = new System.Drawing.Point(387, 28);
-            this.txtBoxAEquipmentSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtBoxAEquipmentSearch.Margin = new System.Windows.Forms.Padding(2);
             this.txtBoxAEquipmentSearch.Name = "txtBoxAEquipmentSearch";
             this.txtBoxAEquipmentSearch.Size = new System.Drawing.Size(180, 29);
             this.txtBoxAEquipmentSearch.TabIndex = 1;
@@ -113,7 +113,7 @@
             this.pnlAEquipmentsBottom.Controls.Add(this.lblATotalEquipment);
             this.pnlAEquipmentsBottom.Controls.Add(this.label1);
             this.pnlAEquipmentsBottom.Location = new System.Drawing.Point(2, 508);
-            this.pnlAEquipmentsBottom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlAEquipmentsBottom.Margin = new System.Windows.Forms.Padding(2);
             this.pnlAEquipmentsBottom.Name = "pnlAEquipmentsBottom";
             this.pnlAEquipmentsBottom.Size = new System.Drawing.Size(784, 70);
             this.pnlAEquipmentsBottom.TabIndex = 5;
@@ -122,7 +122,7 @@
             // 
             this.btnCatAndLoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCatAndLoc.Location = new System.Drawing.Point(387, 20);
-            this.btnCatAndLoc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCatAndLoc.Margin = new System.Windows.Forms.Padding(2);
             this.btnCatAndLoc.Name = "btnCatAndLoc";
             this.btnCatAndLoc.Size = new System.Drawing.Size(179, 28);
             this.btnCatAndLoc.TabIndex = 6;
@@ -134,7 +134,7 @@
             // 
             this.btnAddEquipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEquipment.Location = new System.Drawing.Point(570, 20);
-            this.btnAddEquipment.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddEquipment.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddEquipment.Name = "btnAddEquipment";
             this.btnAddEquipment.Size = new System.Drawing.Size(99, 28);
             this.btnAddEquipment.TabIndex = 5;
@@ -146,7 +146,7 @@
             // 
             this.btnAEquipmentDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAEquipmentDetails.Location = new System.Drawing.Point(674, 20);
-            this.btnAEquipmentDetails.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAEquipmentDetails.Margin = new System.Windows.Forms.Padding(2);
             this.btnAEquipmentDetails.Name = "btnAEquipmentDetails";
             this.btnAEquipmentDetails.Size = new System.Drawing.Size(85, 28);
             this.btnAEquipmentDetails.TabIndex = 4;
@@ -183,7 +183,7 @@
             this.dgvAEquipments.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvAEquipments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAEquipments.Location = new System.Drawing.Point(2, 89);
-            this.dgvAEquipments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvAEquipments.Margin = new System.Windows.Forms.Padding(2);
             this.dgvAEquipments.Name = "dgvAEquipments";
             this.dgvAEquipments.RowHeadersWidth = 51;
             this.dgvAEquipments.Size = new System.Drawing.Size(784, 414);
@@ -196,7 +196,7 @@
             this.Controls.Add(this.dgvAEquipments);
             this.Controls.Add(this.pnlAEquipmentsBottom);
             this.Controls.Add(this.pnlAEquipmentsTop);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Equipments";
             this.Size = new System.Drawing.Size(788, 580);
             this.pnlAEquipmentsTop.ResumeLayout(false);

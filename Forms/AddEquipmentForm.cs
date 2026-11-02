@@ -1,6 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using SanaPass_EBAAMS.DataRepo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,63 +7,97 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SanaPass_EBAAMS.Interfaces;
+using SanaPass_EBAAMS.Models;
 
 namespace SanaPass_EBAAMS.Forms
 {
     public partial class AddEquipmentForm : Form
     {
+        private readonly IEquipmentService _equipmentService;
+
         public AddEquipmentForm()
         {
             InitializeComponent();
+            LoadLookupData();
         }
+
+        public AddEquipmentForm(IEquipmentService equipmentService)
+            : this()
+        {
+            _equipmentService = equipmentService
+                ?? throw new ArgumentNullException(nameof(equipmentService));
+        }
+
         public bool DataChanged { get; set; } = false;
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // 1. Validate inputs
-            if (string.IsNullOrWhiteSpace(textBoxName.Text))
+            if (_equipmentService == null)
             {
-                MessageBox.Show("Equipment name cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "The equipment service is not available.",
+                    "Application Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(textBoxName.Text))
+            {
+                MessageBox.Show(
+                    "Equipment name cannot be empty.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            Equipment equipment = new Equipment
+            {
+                eName = textBoxName.Text.Trim(),
+                eDesc = textBoxEquipmentDescription.Text.Trim(),
+                categoryID = Convert.ToInt32(comboBoxCategory.SelectedValue ?? 1),
+                locationID = Convert.ToInt32(comboBoxLocation.SelectedValue ?? 1),
+                eStatus = comboBoxStatus.Text.Trim(),
+                eCondition = "Good"
+            };
+
             try
             {
-                using (var conn = DbConnectionFactory.CreateConnection())
+                bool added = _equipmentService.registerEquipment(equipment);
+
+                if (!added)
                 {
-                    conn.Open();
-                    string query = @"INSERT INTO equipments (eName, eDesc, categoryID, locationID, eStatus, eQuantity, ePrice, eCondition) 
-                             VALUES (@eName, @eDesc, @categoryID, @locationID, @eStatus, @eQuantity, @ePrice, @eCondition)";
+                    MessageBox.Show(
+                        "The equipment could not be added.",
+                        "Save Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
 
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@eName", textBoxName.Text.Trim());
-                        cmd.Parameters.AddWithValue("@eDesc", textBoxEquipmentDescription.Text.Trim());
-
-                        // Assuming your combo boxes hold IDs or text values
-                        cmd.Parameters.AddWithValue("@categoryID", comboBoxCategory.SelectedValue ?? 1); // fallback ID if needed
-                        cmd.Parameters.AddWithValue("@locationID", comboBoxLocation.SelectedValue ?? 1);
-                        cmd.Parameters.AddWithValue("@eStatus", comboBoxStatus.Text.Trim());
-
-                        // Default quantity/price/condition values if fields aren't on the form yet
-                        cmd.Parameters.AddWithValue("@eQuantity", 1);
-                        cmd.Parameters.AddWithValue("@ePrice", 0.00);
-                        cmd.Parameters.AddWithValue("@eCondition", "Good"); // or map from your condition combobox/comboBox1
-
-
-                        cmd.ExecuteNonQuery();
-                    }
+                    return;
                 }
 
-                // 2. Mark data as changed so the grid refreshes when this form closes
                 DataChanged = true;
+                DialogResult = DialogResult.OK;
 
-                MessageBox.Show("Equipment added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                MessageBox.Show(
+                    "Equipment added successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving equipment: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error saving equipment: {ex.Message}",
+                    "Application Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

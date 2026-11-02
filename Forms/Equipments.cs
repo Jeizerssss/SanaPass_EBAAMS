@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using SanaPass_EBAAMS.DataRepo;
 using SanaPass_EBAAMS.Interfaces;
+using SanaPass_EBAAMS.Models;
 
 namespace SanaPass_EBAAMS.Forms
 {
@@ -108,7 +109,8 @@ namespace SanaPass_EBAAMS.Forms
 
             int selectedId = Convert.ToInt32(dgvAEquipments.SelectedRows[0].Cells["equipmentID"].Value);
 
-            using (ViewEquipmentForm detailsForm = new ViewEquipmentForm(selectedId))
+            using (ViewEquipmentForm detailsForm =
+            new ViewEquipmentForm(selectedId, _equipmentService))
             {
                 detailsForm.StartPosition = FormStartPosition.CenterParent;
                 detailsForm.ShowDialog(this);
@@ -122,7 +124,8 @@ namespace SanaPass_EBAAMS.Forms
 
         private void btnAddEquipment_Click(object sender, EventArgs e)
         {
-            using (AddEquipmentForm addForm = new AddEquipmentForm())
+            using (AddEquipmentForm addForm =
+            new AddEquipmentForm(_equipmentService))
             {
                 addForm.StartPosition = FormStartPosition.CenterParent;
                 addForm.ShowDialog(this);
@@ -141,7 +144,32 @@ namespace SanaPass_EBAAMS.Forms
 
         private void btnCatAndLoc_Click(object sender, EventArgs e)
         {
-           
+            try
+            {
+                var categories = new CategoryRepository().getAll()
+                    .OrderBy(category => category.cName)
+                    .Select(category => $"{category.categoryID}: {category.cName}")
+                    .ToList();
+                var locations = new LocationRepository().getAll()
+                    .OrderBy(location => location.lName)
+                    .Select(location => $"{location.locationID}: {location.lName} (Floor {location.lFloorNo})")
+                    .ToList();
+
+                string details = "Categories\n" +
+                    (categories.Count == 0 ? "(none)" : string.Join(Environment.NewLine, categories)) +
+                    "\n\nLocations\n" +
+                    (locations.Count == 0 ? "(none)" : string.Join(Environment.NewLine, locations));
+
+                MessageBox.Show(details, "Equipment Categories and Locations",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to load categories and locations: {ex.Message}", "Lookup Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+        
     }
 }

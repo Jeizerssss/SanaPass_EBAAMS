@@ -9,6 +9,8 @@ namespace SanaPass_EBAAMS.Interfaces
         int getPendingRequestsCount();
         int getBorrowedItemsCount();
         int getMaintenanceItemsCount();
+        int getAvailableEquipmentCount();
+        int getOverdueReturnCount();
         string buildBusinessSummary();
     }
 }

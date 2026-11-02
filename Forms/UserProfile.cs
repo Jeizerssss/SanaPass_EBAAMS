@@ -42,7 +42,7 @@ namespace SanaPass_EBAAMS.Forms
             txtUserEmail.Text = _currentUser.uEmail;
             txtUserContactNo.Text = _currentUser.uContactNumber;
             txtUserRole.Text = _currentUser.uRole;
-            txtUserStatus.Text = "Active";
+            txtUserStatus.Text = _currentUser.uStatus;
         }
 
         private void btnEditProfile_Click(

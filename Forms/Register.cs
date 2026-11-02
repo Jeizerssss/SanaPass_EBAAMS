@@ -1,103 +1,110 @@
-﻿using System;
-using System.Windows.Forms;
-using SanaPass_EBAAMS.Interfaces;
+﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
+using System;
+using System.Windows.Forms;
 
 namespace SanaPass_EBAAMS
 {
     public partial class Register : Form
     {
         private readonly IAuthService _authService;
+        private readonly bool _dialogMode;
 
-        // Default constructor for WinForms Designer
         public Register()
         {
             InitializeComponent();
         }
 
-        // Dependency injection constructor
-        public Register(IAuthService authService) : this()
+        public Register(IAuthService authService)
+            : this()
         {
-            _authService = authService;
+            _authService = authService
+                ?? throw new ArgumentNullException(nameof(authService));
         }
 
         private void Register_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            // 1. Gather input from controls (matching UI fields and designer names)
-            string fName = txtBoxFName.Text.Trim();
-            string lName = txtBoxPassword.Text.Trim(); // Matched to txtBoxLName from outline
+            string firstName = txtBoxFName.Text.Trim();
+            string lastName = txtBoxLName.Text.Trim();
             string username = txtBoxUsername.Text.Trim();
             string password = txtBoxPassword.Text;
 
-            // 2. Validation
-            if (string.IsNullOrEmpty(fName) || string.IsNullOrEmpty(lName) ||
-                string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(firstName) ||
+                string.IsNullOrWhiteSpace(lastName) ||
+                string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show(
                     "Please fill in all required fields.",
                     "Validation Error",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
-            // 3. Instantiate model with default values for fields not shown in this UI version
+            if (password.Length < 8)
+            {
+                MessageBox.Show(
+                    "The password must contain at least 8 characters.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             User newUser = new User
             {
                 username = username,
                 password = password,
-                uFName = fName,
-                uLName = lName,
+                uFName = firstName,
+                uLName = lastName,
                 uMName = string.Empty,
                 uEmail = string.Empty,
                 uContactNumber = string.Empty,
-                uRole = "Borrower" // Default role for self-registration
+                uRole = "Borrower"
             };
 
-            // 4. Save through AuthService
-            bool isSuccess = _authService != null && _authService.register(newUser);
+            bool registered = _authService.register(newUser);
 
-            if (isSuccess)
+            if (!registered)
             {
                 MessageBox.Show(
-                    "Success! Please go to the PPMGS office for verification.",
-                    "Registration Successful",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-
-                this.Hide();
-                LogIn loginForm = new LogIn();
-                loginForm.Show();
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Registration failed. The username may already exist or system services are unavailable.",
+                    "Registration failed. The username may already exist.",
                     "Registration Error",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    MessageBoxIcon.Error);
+
+                return;
             }
+
+            MessageBox.Show(
+                "Registration successful. Wait for the administrator to approve your account.",
+                "Registration Successful",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
-        private void lblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lblLogin_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-            // Matched to lblLogin control name from the designer outline
-            this.Hide();
-            LogIn loginForm = new LogIn();
-            loginForm.Show();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void lblRegister_Click(object sender, EventArgs e)
         {
-
         }
+
+        
     }
 }

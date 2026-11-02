@@ -1,10 +1,6 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SanaPass_EBAAMS.Services
 {
@@ -14,34 +10,38 @@ namespace SanaPass_EBAAMS.Services
 
         public AuthService(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository
+                ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public User login(string username, string password)
         {
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                return null;
-
-            User user = _userRepository.getByUsername(username);
-
-            // Plaintext comparison or hash verification
-            if (user != null && user.password == password)
+            if (string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password))
             {
-                return user;
+                return null;
             }
 
-            return null;
+            return _userRepository.validateLogin(
+                username.Trim(),
+                password);
         }
 
         public bool register(User newUser)
         {
-            if (newUser == null || string.IsNullOrWhiteSpace(newUser.username))
+            if (newUser == null ||
+                string.IsNullOrWhiteSpace(newUser.username) ||
+                string.IsNullOrWhiteSpace(newUser.password))
+            {
                 return false;
+            }
 
-            // Check if username already exists
             User existingUser = _userRepository.getByUsername(newUser.username);
+
             if (existingUser != null)
+            {
                 return false;
+            }
 
             return _userRepository.add(newUser);
         }

@@ -4,6 +4,7 @@ using System;
 using SanaPass_EBAAMS.Forms;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
 
 namespace SanaPass_EBAAMS
 {
@@ -12,6 +13,7 @@ namespace SanaPass_EBAAMS
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
         private readonly IReportService _reportService;
+        private readonly IUserService _userService;
         private readonly User _currentUser;
 
         public ASUI()
@@ -22,11 +24,13 @@ namespace SanaPass_EBAAMS
             IEquipmentService equipmentService,
             IRequestService requestService,
             IReportService reportService,
+            IUserService userService,
             User currentUser) : this()
         {
             _equipmentService = equipmentService;
             _requestService = requestService;
             _reportService = reportService;
+            _userService = userService;
             _currentUser = currentUser
                 ?? new User { uRole = "admin" };
         }
@@ -94,7 +98,7 @@ namespace SanaPass_EBAAMS
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             HighlightButton(btnDashboard);
-            ADashboard dashboardControl = new ADashboard();
+            ADashboard dashboardControl = new ADashboard(_reportService);
             SwitchUserControl(dashboardControl);
         }
 
@@ -155,15 +159,16 @@ namespace SanaPass_EBAAMS
         private void btnProfile_Click(object sender, EventArgs e)
         {
             HighlightButton(btnProfile);
-            UserProfile userProfileControl = new UserProfile();
-            userProfileControl.Show();
+            using (UserProfile userProfile = new UserProfile(_currentUser, _userService))
+            {
+                userProfile.StartPosition = FormStartPosition.CenterParent;
+                userProfile.ShowDialog(this);
+            }
         }
 
         private void btnLogOut_Click_1(object sender, EventArgs e)
         {
-            this.Close();
-            LogIn loginForm = new LogIn();
-            loginForm.Show();
+            Close();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using SanaPass_EBAAMS.Interfaces;
+﻿using MySql.Data.MySqlClient;
+using SanaPass_EBAAMS.DataRepo;
+using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,16 @@ namespace SanaPass_EBAAMS.Services
         public IEnumerable<Equipment> getAllEquipment()
         {
             return _equipmentRepository.getAll();
+        }
+
+        public Equipment getEquipmentById(int equipmentID)
+        {
+            if (equipmentID <= 0)
+            {
+                return null;
+            }
+
+            return _equipmentRepository.getById(equipmentID);
         }
     }
 }

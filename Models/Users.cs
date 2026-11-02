@@ -17,6 +17,7 @@ namespace SanaPass_EBAAMS.Models
         public string uEmail { get; set; }
         public string uContactNumber { get; set; }
         public string uRole { get; set; }
+        public string uStatus { get; set; }
 
         public User()
         {

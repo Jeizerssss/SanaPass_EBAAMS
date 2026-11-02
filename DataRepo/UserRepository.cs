@@ -13,6 +13,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class UserRepository : IUserRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+        public UserRepository(IDbConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory
+                ?? throw new ArgumentNullException(nameof(connectionFactory));
+        }
+
         public User getById(int userID)
         {
             using (var conn = _connectionFactory.CreateConnection())
@@ -37,7 +43,10 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM Users WHERE username = @username", conn);
+                var cmd = new MySqlCommand(@"SELECT userID, username, uPassword, uLName, uFName, uMName,
+                                                   email, contactNo, uRole, uStatus
+                                            FROM users
+                                            WHERE username = @username", conn);
                 cmd.Parameters.AddWithValue("@username", username);
 
                 using (var reader = cmd.ExecuteReader())
@@ -99,6 +108,11 @@ namespace SanaPass_EBAAMS.DataRepo
         }
         public bool add(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
             if (!string.IsNullOrEmpty(user.password))
             {
                 user.password = PasswordHelper.HashPassword(user.password);
@@ -107,12 +121,18 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                // Match exact column names from your database schema
-                var query = @"INSERT INTO Users (username, uPassword, uLName, uFName, uMName, email, contactNo, uRole) 
-                              VALUES (@username, @password, @uLName, @uFName, @uMName, @uEmail, @uContactNumber, @uRole)";
-                var cmd = new MySqlCommand(query, conn);
-                BindParameters(cmd, user);
-                return cmd.ExecuteNonQuery() > 0;
+
+                const string query = @"
+                    INSERT INTO Users
+                        (username, uPassword, uLName, uFName, uMName, email, contactNo, uRole)
+                    VALUES
+                        (@username, @uPassword, @uLName, @uFName, @uMName, @email, @contactNo, @uRole)";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    BindParameters(cmd, user);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
         }
 
@@ -121,13 +141,44 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Users SET username = @username, uPassword = @password, uLName = @uLName, 
-                              uFName = @uFName, uMName = @uMName, email = @uEmail, contactNo = @uContactNumber, 
+                var query = @"UPDATE Users SET username = @username, uPassword = @uPassword, uLName = @uLName, 
+                              uFName = @uFName, uMName = @uMName, email = @email, contactNo = @contactNo, 
                               uRole = @uRole WHERE userID = @userID";
                 var cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@userID", user.userID);
                 BindParameters(cmd, user);
                 return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+        public bool register(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (!string.IsNullOrEmpty(user.password))
+            {
+                user.password = PasswordHelper.HashPassword(user.password);
+            }
+
+            using (var conn = _connectionFactory.CreateConnection())
+            {
+                conn.Open();
+
+                const string query = @"
+                    INSERT INTO Users (username, uPassword, uLName, uFName)
+                    VALUES (@username, @uPassword, @uLName, @uFName)";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@username", user.username ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@uPassword", user.password ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@uLName", user.uLName ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@uFName", user.uFName ?? (object)DBNull.Value);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
         }
 
@@ -154,7 +205,8 @@ namespace SanaPass_EBAAMS.DataRepo
                 uMName = reader["uMName"].ToString(),
                 uEmail = reader["email"].ToString(),            
                 uContactNumber = reader["contactNo"].ToString(),
-                uRole = reader["uRole"].ToString()
+                uRole = reader["uRole"].ToString(),
+                uStatus = reader["uStatus"].ToString()
             };
         }
         public bool LinkOrCreateEmployeeForUser(int userID, string position, string department, DateTime hireDate)

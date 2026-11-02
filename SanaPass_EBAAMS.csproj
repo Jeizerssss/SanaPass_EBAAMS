@@ -150,6 +150,24 @@
     <Compile Include="Forms\EditUserProfile.Designer.cs">
       <DependentUpon>EditUserProfile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FinesAndPenalties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FinesAndPenalties.Designer.cs">
+      <DependentUpon>FinesAndPenalties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MyRequests.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MyRequests.Designer.cs">
+      <DependentUpon>MyRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\SDashboard.Designer.cs">
+      <DependentUpon>SDashboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +228,7 @@
     <Compile Include="Forms\Users.Designer.cs">
       <DependentUpon>Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\NavigationButtonHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Interfaces\IBorrowService.cs" />
@@ -310,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditUserProfile.resx">
       <DependentUpon>EditUserProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SDashboard.resx">
+      <DependentUpon>SDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserProfile.resx">
       <DependentUpon>UserProfile.cs</DependentUpon>

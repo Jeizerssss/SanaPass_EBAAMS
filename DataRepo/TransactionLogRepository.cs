@@ -12,6 +12,11 @@ namespace SanaPass_EBAAMS.DataRepo
     public class TransactionLogRepository : ITransactionLogRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+        public TransactionLogRepository(IDbConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory
+                ?? throw new ArgumentNullException(nameof(connectionFactory));
+        }
         public TransactionLog getById(int transactionLogID)
         {
             using (var conn = _connectionFactory.CreateConnection())

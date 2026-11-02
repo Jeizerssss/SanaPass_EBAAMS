@@ -49,17 +49,52 @@ namespace SanaPass_EBAAMS.Services
 
         public int getPendingRequestsCount()
         {
-            return _requestRepository.getByStatus("Pending").Count();
+            return _requestRepository.getAll().Count(request =>
+                request.rStatus == "Pending" ||
+                request.rStatus == "Pending Approval" ||
+                request.rStatus == "Pending Release");
         }
 
         public int getBorrowedItemsCount()
         {
-            return _requestRepository.getByStatus("Issued").Count();
+            return _requestRepository.getAll().Count(request =>
+                request.rStatus == "Issued" || request.rStatus == "Pending Return");
+        }
+
+        public int getOverdueReturnCount()
+        {
+            DateTime overdueThreshold = DateTime.Now.AddDays(-3);
+            return _requestRepository.getAll().Count(request =>
+                (request.rStatus == "Issued" || request.rStatus == "Pending Return") &&
+                request.rDate < overdueThreshold);
         }
 
         public int getMaintenanceItemsCount()
         {
             return _equipmentRepository.getAll().Count(e => e.eStatus == "Under Maintenance");
+        }
+        public string buildBusinessSummary()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Business Summary Report");
+            sb.AppendLine($"Generated on: {DateTime.Now}");
+            sb.AppendLine();
+            sb.AppendLine($"Total Pending Requests: {getPendingRequestsCount()}");
+            sb.AppendLine($"Total Borrowed Items: {getBorrowedItemsCount()}");
+            sb.AppendLine($"Total Maintenance Items: {getMaintenanceItemsCount()}");
+            sb.AppendLine();
+            sb.AppendLine("Monthly Borrow Trends:");
+            foreach (var trend in getMonthlyBorrowTrends())
+            {
+                sb.AppendLine($"{trend.Key}: {trend.Value}");
+            }
+            sb.AppendLine();
+            sb.AppendLine("Equipment Count by Category:");
+            foreach (var category in getEquipmentCountByCategory())
+            {
+                sb.AppendLine($"{category.Key}: {category.Value}");
+            }
+            return sb.ToString();
         }
     }
 }

@@ -58,16 +58,38 @@ namespace SanaPass_EBAAMS
             // Authenticate against database via AuthService
             User loggedInUser = _authService != null ? _authService.login(username, password) : null;
 
-            if (loggedInUser != null)
+            if (loggedInUser == null)
             {
                 MessageBox.Show(
-                    $"Login successful! Welcome, {loggedInUser.uFName}.",
-                    "Welcome",
+                    "Invalid username or password.",
+                    "Login Failed",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
+                    MessageBoxIcon.Error
                 );
+                return;
+            }
 
-                this.Hide();
+            if (loggedInUser.uStatus.Equals(
+                "Pending",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show(
+                    "Your account is pending approval. Please wait for an administrator to approve your account.",
+                    "Account Pending",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            MessageBox.Show(
+                $"Login successful! Welcome, {loggedInUser.uFName}.",
+                "Welcome",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+            this.Hide();
+            string userRole = loggedInUser.uRole ?? string.Empty;
 
                 string role = loggedInUser.uRole?.Trim() ?? string.Empty;
 
@@ -107,13 +129,41 @@ namespace SanaPass_EBAAMS
                     MessageBoxIcon.Error
                 );
             }
+
+            BSUI userDashboard =
+            new BSUI(
+                loggedInUser,
+                _equipmentService,
+                _requestService,
+                _userService);
+
+                    userDashboard.FormClosed += delegate
+                    {
+                        txtUsername.Clear();
+                        txtPassword.Clear();
+                        this.Show();
+                    };
+
+                    userDashboard.Show();
+            
         }
 
-        private void LblRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LblRegister_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
-            Register registerForm = new Register(_authService);
-            registerForm.Show();
+            using (Register registerForm =
+                new Register(_authService))
+            {
+                Hide();
+
+                registerForm.StartPosition =
+                    FormStartPosition.CenterParent;
+
+                registerForm.ShowDialog(this);
+            }
+
+            Show();
         }
     }
 }
