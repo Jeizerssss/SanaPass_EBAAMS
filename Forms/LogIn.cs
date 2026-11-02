@@ -13,6 +13,8 @@ namespace SanaPass_EBAAMS
         private readonly IAuthService _authService;
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
+        private readonly IReportService _reportService;
+        private readonly IUserService _userService;
 
         // Default constructor for WinForms designer support
         public LogIn()
@@ -21,12 +23,19 @@ namespace SanaPass_EBAAMS
         }
 
         // Dependency injection constructor
-        public LogIn(IAuthService authService, IEquipmentService equipmentService, IRequestService requestService)
+        public LogIn(
+            IAuthService authService,
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            IReportService reportService,
+            IUserService userService)
             : this()
         {
             _authService = authService;
             _equipmentService = equipmentService;
             _requestService = requestService;
+            _reportService = reportService;
+            _userService = userService;
         }
 
         private void LogIn_Load(object sender, EventArgs e)
@@ -71,19 +80,28 @@ namespace SanaPass_EBAAMS
 
                 string role = loggedInUser.uRole?.Trim() ?? string.Empty;
 
-                if (loggedInUser.uRole.Equals("Employee", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(role, "Employee", StringComparison.OrdinalIgnoreCase))
                 {
                     UserRepository userRepo = new UserRepository();
                     string employeeRole = userRepo.GetEmployeeRole(loggedInUser.userID);
 
                     if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                     {
-                        ASUI dashboard = new ASUI(_equipmentService, _requestService, loggedInUser);
+                        ASUI dashboard = new ASUI(
+                            _equipmentService,
+                            _requestService,
+                            _reportService,
+                            _userService,
+                            loggedInUser);
                         dashboard.Show();
                     }
                     else if (employeeRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
                     {
-                        SSUI staffDashboard = new SSUI(); // Pass required parameters if needed
+                        SSUI staffDashboard = new SSUI(
+                            _equipmentService,
+                            _requestService,
+                            _userService,
+                            loggedInUser);
                         staffDashboard.Show();
                     }
                     else
@@ -94,7 +112,11 @@ namespace SanaPass_EBAAMS
                 }
                 else
                 {
-                    BSUI dashboard = new BSUI(loggedInUser, _equipmentService, _requestService);
+                    BSUI dashboard = new BSUI(
+                        loggedInUser,
+                        _equipmentService,
+                        _requestService,
+                        _userService);
                     dashboard.Show();
                 }
             }

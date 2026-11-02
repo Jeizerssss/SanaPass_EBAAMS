@@ -12,6 +12,11 @@ namespace SanaPass_EBAAMS.DataRepo
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public EmployeeRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
         public Employee getById(int employeeID)
         {
             using (var conn = _connectionFactory.CreateConnection())

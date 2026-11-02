@@ -1,5 +1,6 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
+using SanaPass_EBAAMS.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,10 +12,14 @@ namespace SanaPass_EBAAMS.Forms
     public partial class BrowseCatalog : UserControl
     {
         private readonly IEquipmentService _equipmentService;
+        private IRequestService _requestService;
+        private User _currentUser;
 
         private TextBox txtSearch;
+        private TextBox txtPurpose;
         private Button btnSearch;
         private Button btnRefresh;
+        private Button btnRequest;
         private DataGridView dgvCatalog;
         private Label lblTitle;
 
@@ -30,6 +35,18 @@ namespace SanaPass_EBAAMS.Forms
                 ?? throw new ArgumentNullException(nameof(equipmentService));
 
             LoadCatalog();
+        }
+
+        public BrowseCatalog(
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            User currentUser)
+            : this(equipmentService)
+        {
+            _requestService = requestService
+                ?? throw new ArgumentNullException(nameof(requestService));
+            _currentUser = currentUser
+                ?? throw new ArgumentNullException(nameof(currentUser));
         }
 
         private void InitializeInterface()
@@ -107,7 +124,33 @@ namespace SanaPass_EBAAMS.Forms
 
             ConfigureGrid();
 
+            Panel requestPanel = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 50,
+                Padding = new Padding(15, 7, 15, 7)
+            };
+
+            txtPurpose = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                Font = new Font("Microsoft Sans Serif", 10F),
+                Text = "Purpose for borrowing"
+            };
+
+            btnRequest = new Button
+            {
+                Dock = DockStyle.Right,
+                Width = 130,
+                Text = "Request Selected"
+            };
+            btnRequest.Click += btnRequest_Click;
+
+            requestPanel.Controls.Add(txtPurpose);
+            requestPanel.Controls.Add(btnRequest);
+
             Controls.Add(dgvCatalog);
+            Controls.Add(requestPanel);
             Controls.Add(searchPanel);
             Controls.Add(lblTitle);
         }
@@ -174,6 +217,10 @@ namespace SanaPass_EBAAMS.Forms
             try
             {
                 string keyword = txtSearch.Text.Trim();
+                if (keyword == "Search equipment...")
+                {
+                    keyword = string.Empty;
+                }
 
                 IEnumerable<Equipment> equipment =
                     _equipmentService.searchAvailableEquipment(keyword);
@@ -209,6 +256,78 @@ namespace SanaPass_EBAAMS.Forms
         {
             txtSearch.Clear();
             LoadCatalog();
+        }
+
+        private void btnRequest_Click(object sender, EventArgs e)
+        {
+            if (_currentUser == null || _requestService == null)
+            {
+                MessageBox.Show(
+                    "Borrowing services are unavailable.",
+                    "Request Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            if (dgvCatalog.CurrentRow == null ||
+                !(dgvCatalog.CurrentRow.DataBoundItem is Equipment equipment))
+            {
+                MessageBox.Show(
+                    "Select an equipment item first.",
+                    "No Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPurpose.Text))
+            {
+                MessageBox.Show(
+                    "Enter the purpose for borrowing.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                txtPurpose.Focus();
+                return;
+            }
+
+            try
+            {
+                bool created = _requestService.createRequest(new Request
+                {
+                    userID = _currentUser.userID,
+                    equipmentID = equipment.equipmentID,
+                    rLocation = equipment.locationID.ToString(),
+                    rDesc = txtPurpose.Text.Trim()
+                });
+
+                if (!created)
+                {
+                    MessageBox.Show(
+                        "The request could not be saved.",
+                        "Request Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(
+                    "Borrow request submitted.",
+                    "Request Submitted",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                txtPurpose.Clear();
+                LoadCatalog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Unable to submit the request: {ex.Message}",
+                    "Request Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void txtSearch_KeyDown(

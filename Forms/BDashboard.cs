@@ -12,6 +12,9 @@ namespace SanaPass_EBAAMS.Forms
         private readonly User _currentUser;
         private readonly IRequestService _requestService;
 
+        public event EventHandler BrowseCatalogRequested;
+        public event EventHandler ViewAllRequestsRequested;
+
         public BDashboard()
         {
             InitializeComponent();
@@ -131,24 +134,14 @@ namespace SanaPass_EBAAMS.Forms
             object sender,
             EventArgs e)
         {
-            using (BorrowRequestForm form =
-                new BorrowRequestForm())
-            {
-                form.StartPosition =
-                    FormStartPosition.CenterParent;
-
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadRecentRequests();
-                }
-            }
+            BrowseCatalogRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void btnViewAllRequests_Click(
             object sender,
             EventArgs e)
         {
-            LoadRecentRequests();
+            ViewAllRequestsRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

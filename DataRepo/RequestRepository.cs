@@ -12,6 +12,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class RequestRepository : IRequestRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public RequestRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
+
         public Request getById(int requestID)
         {
             using (var conn = _connectionFactory.CreateConnection())

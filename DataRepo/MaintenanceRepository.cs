@@ -12,6 +12,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class MaintenanceRepository : IMaintenanceRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public MaintenanceRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
+
         public Maintenance getById(int maintenanceID)
         {
             using (var conn = _connectionFactory.CreateConnection())

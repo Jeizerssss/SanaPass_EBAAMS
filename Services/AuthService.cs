@@ -22,15 +22,7 @@ namespace SanaPass_EBAAMS.Services
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 return null;
 
-            User user = _userRepository.getByUsername(username);
-
-            // Plaintext comparison or hash verification
-            if (user != null && user.password == password)
-            {
-                return user;
-            }
-
-            return null;
+            return _userRepository.validateLogin(username, password);
         }
 
         public bool register(User newUser)

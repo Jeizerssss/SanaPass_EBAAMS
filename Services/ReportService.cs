@@ -49,17 +49,55 @@ namespace SanaPass_EBAAMS.Services
 
         public int getPendingRequestsCount()
         {
-            return _requestRepository.getByStatus("Pending").Count();
+            return _requestRepository.getAll().Count(request =>
+                request.rStatus == "Pending" ||
+                request.rStatus == "Pending Approval" ||
+                request.rStatus == "Pending Release");
         }
 
         public int getBorrowedItemsCount()
         {
-            return _requestRepository.getByStatus("Issued").Count();
+            return _requestRepository.getAll().Count(request =>
+                request.rStatus == "Issued" || request.rStatus == "Pending Return");
+        }
+
+        public int getOverdueReturnCount()
+        {
+            DateTime overdueThreshold = DateTime.Now.AddDays(-3);
+            return _requestRepository.getAll().Count(request =>
+                (request.rStatus == "Issued" || request.rStatus == "Pending Return") &&
+                request.rDate < overdueThreshold);
         }
 
         public int getMaintenanceItemsCount()
         {
             return _equipmentRepository.getAll().Count(e => e.eStatus == "Under Maintenance");
+        }
+
+        public int getAvailableEquipmentCount()
+        {
+            return _equipmentRepository.getAll().Count(e =>
+                string.Equals(e.eStatus, "Available", StringComparison.OrdinalIgnoreCase));
+        }
+
+        public string buildBusinessSummary()
+        {
+            var requests = _requestRepository.getAll().ToList();
+            var equipment = _equipmentRepository.getAll().ToList();
+            var maintenanceItems = _maintenanceRepository.getAll().ToList();
+
+            var summary = new StringBuilder();
+            summary.AppendLine("SanaPass EBAAMS Business Summary");
+            summary.AppendLine("Generated: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+            summary.AppendLine();
+            summary.AppendLine("Total equipment: " + equipment.Count);
+            summary.AppendLine("Available equipment: " + equipment.Count(item => item.eStatus == "Available"));
+            summary.AppendLine("Pending requests: " + requests.Count(request =>
+                request.rStatus == "Pending" || request.rStatus == "Pending Approval" || request.rStatus == "Pending Release"));
+            summary.AppendLine("Active borrows: " + requests.Count(request => request.rStatus == "Pending Return"));
+            summary.AppendLine("Maintenance records: " + maintenanceItems.Count);
+
+            return summary.ToString();
         }
     }
 }

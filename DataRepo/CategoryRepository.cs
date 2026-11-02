@@ -12,6 +12,11 @@ namespace SanaPass_EBAAMS.DataRepo
     public class CategoryRepository : ICategoryRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public CategoryRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
         public Category getById(int categoryID)
         {
             using (var conn = _connectionFactory.CreateConnection())

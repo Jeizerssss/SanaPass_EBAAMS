@@ -13,6 +13,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class UserRepository : IUserRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public UserRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
+
         public User getById(int userID)
         {
             using (var conn = _connectionFactory.CreateConnection())
@@ -109,7 +115,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
                 // Match exact column names from your database schema
                 var query = @"INSERT INTO Users (username, uPassword, uLName, uFName, uMName, email, contactNo, uRole) 
-                              VALUES (@username, @password, @uLName, @uFName, @uMName, @uEmail, @uContactNumber, @uRole)";
+                              VALUES (@username, @uPassword, @uLName, @uFName, @uMName, @email, @contactNo, @uRole)";
                 var cmd = new MySqlCommand(query, conn);
                 BindParameters(cmd, user);
                 return cmd.ExecuteNonQuery() > 0;
@@ -121,8 +127,8 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Users SET username = @username, uPassword = @password, uLName = @uLName, 
-                              uFName = @uFName, uMName = @uMName, email = @uEmail, contactNo = @uContactNumber, 
+                var query = @"UPDATE Users SET username = @username, uPassword = @uPassword, uLName = @uLName, 
+                              uFName = @uFName, uMName = @uMName, email = @email, contactNo = @contactNo, 
                               uRole = @uRole WHERE userID = @userID";
                 var cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@userID", user.userID);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
@@ -8,6 +9,7 @@ namespace SanaPass_EBAAMS
     public partial class Register : Form
     {
         private readonly IAuthService _authService;
+        private readonly bool _dialogMode;
 
         // Default constructor for WinForms Designer
         public Register()
@@ -16,9 +18,10 @@ namespace SanaPass_EBAAMS
         }
 
         // Dependency injection constructor
-        public Register(IAuthService authService) : this()
+        public Register(IAuthService authService, bool dialogMode = false) : this()
         {
             _authService = authService;
+            _dialogMode = dialogMode;
         }
 
         private void Register_Load(object sender, EventArgs e)
@@ -30,7 +33,7 @@ namespace SanaPass_EBAAMS
         {
             // 1. Gather input from controls (matching UI fields and designer names)
             string fName = txtBoxFName.Text.Trim();
-            string lName = txtBoxPassword.Text.Trim(); // Matched to txtBoxLName from outline
+            string lName = txtBoxLName.Text.Trim();
             string username = txtBoxUsername.Text.Trim();
             string password = txtBoxPassword.Text;
 
@@ -72,9 +75,14 @@ namespace SanaPass_EBAAMS
                     MessageBoxIcon.Information
                 );
 
-                this.Hide();
-                LogIn loginForm = new LogIn();
-                loginForm.Show();
+                if (_dialogMode)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                    return;
+                }
+
+                ShowLogin();
             }
             else
             {
@@ -89,15 +97,28 @@ namespace SanaPass_EBAAMS
 
         private void lblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Matched to lblLogin control name from the designer outline
-            this.Hide();
-            LogIn loginForm = new LogIn();
-            loginForm.Show();
+            ShowLogin();
         }
 
         private void lblRegister_Click(object sender, EventArgs e)
         {
+            ShowLogin();
+        }
 
+        private void ShowLogin()
+        {
+            Form loginForm = Application.OpenForms
+                .Cast<Form>()
+                .FirstOrDefault(form => form is LogIn);
+
+            if (loginForm == null)
+            {
+                loginForm = new LogIn();
+            }
+
+            loginForm.Show();
+            loginForm.Activate();
+            Close();
         }
     }
 }

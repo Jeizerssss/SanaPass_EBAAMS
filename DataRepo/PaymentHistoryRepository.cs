@@ -9,6 +9,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class PaymentHistoryRepository : IPaymentHistoryRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public PaymentHistoryRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
+
         public PaymentHistory getById(int paymentHistoriesID)
         {
             using (var conn = _connectionFactory.CreateConnection())

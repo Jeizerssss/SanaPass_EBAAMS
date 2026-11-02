@@ -16,21 +16,21 @@ namespace SanaPass_EBAAMS.Forms
     {
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
+        private readonly IUserService _userService;
         private readonly User _currentUser;
-        private BorrowRequests requestControl = new BorrowRequests();
-        private Equipments equipmentsControl = new Equipments();
-        private Fines finesControl = new Fines();
-        private PaymentHistories paymentHistoriesControl = new PaymentHistories();
-        private Maintenance maintenanceControl = new Maintenance();
-
         public SSUI()
         {
             InitializeComponent();
         }
-        public SSUI(IEquipmentService equipmentService, IRequestService requestService, User currentUser) : this()
+        public SSUI(
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            IUserService userService,
+            User currentUser) : this()
         {
             _equipmentService = equipmentService;
             _requestService = requestService;
+            _userService = userService;
             _currentUser = currentUser ?? new User { uRole = "admin" };
         }
         private void SSUI_Load(object sender, EventArgs e)
@@ -50,7 +50,7 @@ namespace SanaPass_EBAAMS.Forms
             {
                 try
                 {
-                    BorrowRequests requestsControl = new BorrowRequests();
+                    BorrowRequests requestsControl = new BorrowRequests(_requestService);
                     SwitchUserControl(requestsControl);
                     HighlightButton(btnRequests);
                 }
@@ -75,13 +75,13 @@ namespace SanaPass_EBAAMS.Forms
         private void btnEquipment_Click(object sender, EventArgs e)
         {
             HighlightButton(btnEquipment);
-            SwitchUserControl(equipmentsControl);
+            SwitchUserControl(new Equipments(_equipmentService));
         }
 
         private void btnRequests_Click(object sender, EventArgs e)
         {
             HighlightButton(btnRequests);
-            SwitchUserControl(requestControl);
+            SwitchUserControl(new BorrowRequests(_requestService));
         }
 
         private void HighlightButton(Button activeButton)
@@ -114,26 +114,49 @@ namespace SanaPass_EBAAMS.Forms
         private void btnPaymentHistories_Click(object sender, EventArgs e)
         {
             HighlightButton(btnPaymentHistories);
-            SwitchUserControl(paymentHistoriesControl);
+            SwitchUserControl(new PaymentHistories());
         }
 
         private void btnFines_Click(object sender, EventArgs e)
         {
             HighlightButton(btnFines);
-            SwitchUserControl(finesControl);
+            SwitchUserControl(new Fines(_currentUser.userID, null));
         }
 
         private void btnMaintenance_Click(object sender, EventArgs e)
         {
             HighlightButton(btnMaintenance);
-            SwitchUserControl(maintenanceControl);
+            SwitchUserControl(new Maintenance());
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            LogIn loginForm = new LogIn();
-            loginForm.Show();
+            ReturnToLogin();
+        }
+
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            HighlightButton(btnProfile);
+            using (UserProfile userProfile = new UserProfile(_currentUser, _userService))
+            {
+                userProfile.StartPosition = FormStartPosition.CenterParent;
+                userProfile.ShowDialog(this);
+            }
+        }
+
+        private void ReturnToLogin()
+        {
+            Form loginForm = Application.OpenForms
+                .Cast<Form>()
+                .FirstOrDefault(form => form is LogIn);
+
+            if (loginForm != null)
+            {
+                loginForm.Show();
+                loginForm.Activate();
+            }
+
+            Close();
         }
     }
 }

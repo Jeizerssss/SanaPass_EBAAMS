@@ -12,6 +12,12 @@ namespace SanaPass_EBAAMS.DataRepo
     public class FineRepository : IFineRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public FineRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
+
         public Fine getById(int fineID)
         {
             using (var conn = _connectionFactory.CreateConnection())

@@ -50,11 +50,21 @@ namespace SanaPass_EBAAMS
             IUserService userService =
                 new UserService(userRepository);
 
+            IAuthService authService =
+                new AuthService(userRepository);
+
             IEquipmentService equipmentService =
                 new EquipmentService(equipmentRepository);
 
             IRequestService requestService =
-                new RequestService(requestRepository);
+                new RequestService(requestRepository, equipmentRepository);
+
+            IReportService reportService =
+                new ReportService(
+                    requestRepository,
+                    equipmentRepository,
+                    maintenanceRepository,
+                    categoryRepository);
 
             IFineService fineService =
                 new FineService(
@@ -73,9 +83,11 @@ namespace SanaPass_EBAAMS
 
             Application.Run(
                 new LogIn(
-                    userService,
+                    authService,
                     equipmentService,
-                    requestService));
+                    requestService,
+                    reportService,
+                    userService));
         }
     }
 }

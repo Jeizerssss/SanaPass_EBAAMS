@@ -17,6 +17,31 @@ namespace SanaPass_EBAAMS.Forms
         public AddEquipmentForm()
         {
             InitializeComponent();
+            LoadLookupData();
+        }
+
+        private void LoadLookupData()
+        {
+            try
+            {
+                comboBoxCategory.DataSource = new CategoryRepository().getAll().ToList();
+                comboBoxCategory.DisplayMember = "cName";
+                comboBoxCategory.ValueMember = "categoryID";
+
+                comboBoxLocation.DataSource = new LocationRepository().getAll().ToList();
+                comboBoxLocation.DisplayMember = "lName";
+                comboBoxLocation.ValueMember = "locationID";
+
+                comboBoxStatus.Items.AddRange(new object[] { "Available", "Under Maintenance", "Retired" });
+                comboBoxStatus.SelectedItem = "Available";
+                comboBox1.Items.AddRange(new object[] { "Good", "Fair", "Damaged" });
+                comboBox1.SelectedItem = "Good";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to load equipment categories and locations: {ex.Message}",
+                    "Lookup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         public bool DataChanged { get; set; } = false;
 
@@ -29,9 +54,19 @@ namespace SanaPass_EBAAMS.Forms
                 return;
             }
 
+            if (comboBoxCategory.SelectedValue == null ||
+                comboBoxLocation.SelectedValue == null ||
+                comboBoxStatus.SelectedItem == null ||
+                comboBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Select a category, location, status, and condition.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                using (var conn = DbConnectionFactory.CreateConnection())
+                using (var conn = new MySqlConnectionFactory().CreateConnection())
                 {
                     conn.Open();
                     string query = @"INSERT INTO equipments (eName, eDesc, categoryID, locationID, eStatus, eQuantity, ePrice, eCondition) 
@@ -42,15 +77,14 @@ namespace SanaPass_EBAAMS.Forms
                         cmd.Parameters.AddWithValue("@eName", textBoxName.Text.Trim());
                         cmd.Parameters.AddWithValue("@eDesc", textBoxEquipmentDescription.Text.Trim());
 
-                        // Assuming your combo boxes hold IDs or text values
-                        cmd.Parameters.AddWithValue("@categoryID", comboBoxCategory.SelectedValue ?? 1); // fallback ID if needed
-                        cmd.Parameters.AddWithValue("@locationID", comboBoxLocation.SelectedValue ?? 1);
+                        cmd.Parameters.AddWithValue("@categoryID", comboBoxCategory.SelectedValue);
+                        cmd.Parameters.AddWithValue("@locationID", comboBoxLocation.SelectedValue);
                         cmd.Parameters.AddWithValue("@eStatus", comboBoxStatus.Text.Trim());
 
                         // Default quantity/price/condition values if fields aren't on the form yet
                         cmd.Parameters.AddWithValue("@eQuantity", 1);
                         cmd.Parameters.AddWithValue("@ePrice", 0.00);
-                        cmd.Parameters.AddWithValue("@eCondition", "Good"); // or map from your condition combobox/comboBox1
+                        cmd.Parameters.AddWithValue("@eCondition", comboBox1.SelectedItem.ToString());
 
 
                         cmd.ExecuteNonQuery();
@@ -59,6 +93,7 @@ namespace SanaPass_EBAAMS.Forms
 
                 // 2. Mark data as changed so the grid refreshes when this form closes
                 DataChanged = true;
+                DialogResult = DialogResult.OK;
 
                 MessageBox.Show("Equipment added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

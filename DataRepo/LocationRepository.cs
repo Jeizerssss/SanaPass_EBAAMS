@@ -12,6 +12,11 @@ namespace SanaPass_EBAAMS.DataRepo
     public class LocationRepository : ILocationRepository
     {
         private readonly IDbConnectionFactory _connectionFactory;
+
+        public LocationRepository(IDbConnectionFactory connectionFactory = null)
+        {
+            _connectionFactory = connectionFactory ?? new MySqlConnectionFactory();
+        }
         public Location getById(int locationID)
         {
             using (var conn = _connectionFactory.CreateConnection())
