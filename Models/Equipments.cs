@@ -14,20 +14,10 @@ namespace SanaPass_EBAAMS.Models
         public int categoryID { get; set; }
         public int locationID { get; set; }
         public string eStatus { get; set; }
-        public int eQuantity { get; set; }
-        public double ePrice { get; set; }
         public string eCondition { get; set; }
 
-        public Equipment() { }
-
-        public bool checkAvailability()
+        public Equipment()
         {
-            return eQuantity > 0 && eStatus == "Available";
-        }
-
-        public void updateStatus(string newStatus)
-        {
-            eStatus = newStatus;
         }
     }
 }

@@ -11,9 +11,10 @@ namespace SanaPass_EBAAMS.DataRepo
 {
     public class FineRepository : IFineRepository
     {
+        private readonly IDbConnectionFactory _connectionFactory;
         public Fine getById(int fineID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Fines WHERE fineID = @fineID", conn))
@@ -30,7 +31,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public Fine getByRequestId(int requestID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Fines WHERE requestID = @requestID", conn))
@@ -48,7 +49,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Fine> getAll()
         {
             var list = new List<Fine>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Fines", conn))
@@ -63,7 +64,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Fine> getByStatus(string fineStatus)
         {
             var list = new List<Fine>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Fines WHERE fineStatus = @fineStatus", conn))
@@ -80,14 +81,14 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool add(Fine fine)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Fines (date, requestID, amount, fineStatus) 
-                              VALUES (@date, @requestID, @amount, @fineStatus)";
+                var query = @"INSERT INTO Fines (fDate, requestID, amount, fineStatus)
+                                VALUES (@fDate, @requestID, @amount, @fineStatus)";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@date", fine.date);
+                    cmd.Parameters.AddWithValue("@fDate", fine.fDate);
                     cmd.Parameters.AddWithValue("@requestID", fine.requestID);
                     cmd.Parameters.AddWithValue("@amount", fine.amount);
                     cmd.Parameters.AddWithValue("@fineStatus", fine.fineStatus ?? (object)DBNull.Value);
@@ -98,15 +99,19 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool update(Fine fine)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Fines SET date = @date, requestID = @requestID, 
-                              amount = @amount, fineStatus = @fineStatus WHERE fineID = @fineID";
+                var query = @"UPDATE Fines
+                    SET fDate = @fDate,
+                        requestID = @requestID,
+                        amount = @amount,
+                        fineStatus = @fineStatus
+                    WHERE fineID = @fineID";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@fineID", fine.fineID);
-                    cmd.Parameters.AddWithValue("@date", fine.date);
+                    cmd.Parameters.AddWithValue("@fDate", fine.fDate);
                     cmd.Parameters.AddWithValue("@requestID", fine.requestID);
                     cmd.Parameters.AddWithValue("@amount", fine.amount);
                     cmd.Parameters.AddWithValue("@fineStatus", fine.fineStatus ?? (object)DBNull.Value);
@@ -117,7 +122,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool updateStatus(int fineID, string fineStatus)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("UPDATE Fines SET fineStatus = @fineStatus WHERE fineID = @fineID", conn))
@@ -131,7 +136,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool delete(int fineID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("DELETE FROM Fines WHERE fineID = @fineID", conn))
@@ -147,7 +152,7 @@ namespace SanaPass_EBAAMS.DataRepo
             return new Fine
             {
                 fineID = Convert.ToInt32(reader["fineID"]),
-                date = Convert.ToDateTime(reader["date"]),
+                fDate = Convert.ToDateTime(reader["fDate"]),
                 requestID = Convert.ToInt32(reader["requestID"]),
                 amount = Convert.ToDouble(reader["amount"]),
                 fineStatus = reader["fineStatus"].ToString()

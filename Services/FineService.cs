@@ -46,7 +46,7 @@ namespace SanaPass_EBAAMS.Services
 
             var fine = new Fine
             {
-                date = DateTime.Now,
+                fDate = DateTime.Now,
                 requestID = requestID,
                 amount = calculatedAmount,
                 fineStatus = "Unpaid"
@@ -58,33 +58,48 @@ namespace SanaPass_EBAAMS.Services
 
         public bool processFinePayment(int requestID, double amountReceived, string pType, int handledBy)
         {
+            var request = _requestRepository.getById(requestID);
+
+            if (request == null)
+            {
+                return false;
+            }
+
             var fine = _fineRepository.getByRequestId(requestID);
+
             if (fine == null || fine.fineStatus == "Paid")
             {
                 return false;
             }
 
             double remainingBalance = fine.amount - amountReceived;
-            if (remainingBalance < 0) remainingBalance = 0;
 
-            // 1. Record Payment Details
+            if (remainingBalance < 0)
+            {
+                remainingBalance = 0;
+            }
+
             var paymentHistory = new PaymentHistory
             {
-                requestID = requestID,
-                pType = pType,
+                pDate = DateTime.Now,
+                userID = request.userID,
+                pHType = pType,
+                accountBalance = fine.amount,
                 amountReceived = amountReceived,
                 remainingBalance = remainingBalance
             };
-            _paymentHistoryRepository.add(paymentHistory);
 
-            // 2. Update Fine Record Status
+            if (!_paymentHistoryRepository.add(paymentHistory))
+            {
+                return false;
+            }
+
             string updatedStatus = remainingBalance == 0 ? "Paid" : "Partial";
             _fineRepository.updateStatus(fine.fineID, updatedStatus);
 
-            // 3. Log Audit Entry
             _transactionLogRepository.add(new TransactionLog
             {
-                date = DateTime.Now,
+                tlDate = DateTime.Now,
                 requestID = requestID,
                 handledBy = handledBy,
                 tlType = "FINE_PAYMENT_RECEIVED"

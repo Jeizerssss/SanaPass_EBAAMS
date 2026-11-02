@@ -11,6 +11,6 @@ namespace SanaPass_EBAAMS.Interfaces
     {
         IEnumerable<Maintenance> getByEquipmentId(int equipmentID);
         IEnumerable<Maintenance> getByStatus(string mStatus);
-        bool updateStatus(int mID, string mStatus);
+        bool updateStatus(int maintenanceID, string mStatus);
     }
 }

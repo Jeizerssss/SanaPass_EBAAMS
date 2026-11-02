@@ -12,9 +12,10 @@ namespace SanaPass_EBAAMS.DataRepo
 {
     public class UserRepository : IUserRepository
     {
+        private readonly IDbConnectionFactory _connectionFactory;
         public User getById(int userID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 var cmd = new MySqlCommand("SELECT * FROM Users WHERE userID = @userID", conn);
@@ -33,7 +34,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public User getByUsername(string username)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 var cmd = new MySqlCommand("SELECT * FROM Users WHERE username = @username", conn);
@@ -51,25 +52,23 @@ namespace SanaPass_EBAAMS.DataRepo
         }
 
         public User validateLogin(string username, string plainPassword)
-        {
-            // 1. Fetch user by username first
+        { 
             var user = getByUsername(username);
             if (user != null)
             {
-                // 2. Verify the plain-text password against the stored BCrypt hash
                 bool isPasswordValid = PasswordHelper.VerifyPassword(plainPassword, user.password);
                 if (isPasswordValid)
                 {
-                    return user; // Login successful!
+                    return user;
                 }
             }
-            return null; // Login failed
+            return null;
         }
 
         public IEnumerable<User> getAll()
         {
             var users = new List<User>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 var cmd = new MySqlCommand("SELECT * FROM Users", conn);
@@ -86,7 +85,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public string GetEmployeeRole(int userID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 string query = "SELECT ePosition FROM employees WHERE userID = @userID";
@@ -105,7 +104,7 @@ namespace SanaPass_EBAAMS.DataRepo
                 user.password = PasswordHelper.HashPassword(user.password);
             }
 
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 // Match exact column names from your database schema
@@ -119,7 +118,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool update(User user)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 var query = @"UPDATE Users SET username = @username, uPassword = @password, uLName = @uLName, 
@@ -134,7 +133,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool delete(int userID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 var cmd = new MySqlCommand("DELETE FROM Users WHERE userID = @userID", conn);
@@ -160,7 +159,7 @@ namespace SanaPass_EBAAMS.DataRepo
         }
         public bool LinkOrCreateEmployeeForUser(int userID, string position, string department, DateTime hireDate)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
 
@@ -175,8 +174,6 @@ namespace SanaPass_EBAAMS.DataRepo
                         return true; 
                     }
                 }
-
-                
                 string insertQuery = @"INSERT INTO Employees (userID, position) 
                               VALUES (@userID, @position)";
 

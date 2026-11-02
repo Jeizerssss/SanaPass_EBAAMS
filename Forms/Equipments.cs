@@ -9,14 +9,24 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using SanaPass_EBAAMS.DataRepo;
+using SanaPass_EBAAMS.Interfaces;
 
 namespace SanaPass_EBAAMS.Forms
 {
     public partial class Equipments : UserControl
     {
+        private readonly IEquipmentService _equipmentService;
+
         public Equipments()
         {
             InitializeComponent();
+        }
+
+        public Equipments(IEquipmentService equipmentService)
+            : this()
+        {
+            _equipmentService = equipmentService
+                ?? throw new ArgumentNullException(nameof(equipmentService));
         }
 
         private void Equipments_Load(object sender, EventArgs e)
@@ -30,50 +40,65 @@ namespace SanaPass_EBAAMS.Forms
             dgvAEquipments.Columns.Clear();
             dgvAEquipments.AutoGenerateColumns = false;
 
-            // Hidden ID column for background lookups and details popup
-            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "equipmentID", DataPropertyName = "equipmentID", HeaderText = "ID", Visible = false });
+            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "equipmentID",
+                DataPropertyName = "equipmentID",
+                HeaderText = "ID",
+                Visible = false
+            });
 
-            // Essential columns visible to the user
-            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "eName", DataPropertyName = "eName", HeaderText = "Equipment Name", Width = 220, ReadOnly = true });
+            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "eName",
+                DataPropertyName = "eName",
+                HeaderText = "Equipment Name",
+                Width = 220,
+                ReadOnly = true
+            });
 
-            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "eStatus", DataPropertyName = "eStatus", HeaderText = "Status", Width = 120, ReadOnly = true });
+            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "eStatus",
+                DataPropertyName = "eStatus",
+                HeaderText = "Status",
+                Width = 120,
+                ReadOnly = true
+            });
 
-            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "eQuantity", DataPropertyName = "eQuantity", HeaderText = "Qty", Width = 70, ReadOnly = true });
-
-            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "eCondition", DataPropertyName = "eCondition", HeaderText = "Condition", Width = 110, ReadOnly = true });
+            dgvAEquipments.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "eCondition",
+                DataPropertyName = "eCondition",
+                HeaderText = "Condition",
+                Width = 110,
+                ReadOnly = true
+            });
         }
 
         public void LoadEquipmentData()
         {
-            string query = @"SELECT equipmentID, eName, eDesc, categoryID, locationID, 
-                                    eStatus, eQuantity, ePrice, eCondition 
-                             FROM equipments";
+            if (_equipmentService == null)
+            {
+                return;
+            }
 
             try
             {
-                using (MySqlConnection conn = DbConnectionFactory.CreateConnection())
-                {
-                    conn.Open();
-                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
-                        dgvAEquipments.DataSource = dt;
-                    }
-                }
+                dgvAEquipments.DataSource =
+                    _equipmentService.getAllEquipment().ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load equipment data: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Failed to load equipment data: {ex.Message}",
+                    "Database Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
-        private void btnDetails_Click(object sender, EventArgs e)
+        private void btnAEquipmentDetails_Click(object sender, EventArgs e)
         {
             if (dgvAEquipments.SelectedRows.Count == 0)
             {
@@ -93,11 +118,6 @@ namespace SanaPass_EBAAMS.Forms
                     LoadEquipmentData();
                 }
             }
-        }
-
-        private void btnAEquipmentDetails_Click(object sender, EventArgs e)
-        {
-            btnDetails_Click(sender, e);
         }
 
         private void btnAddEquipment_Click(object sender, EventArgs e)

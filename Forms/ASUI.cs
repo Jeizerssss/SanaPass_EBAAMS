@@ -3,6 +3,7 @@ using SanaPass_EBAAMS.Models;
 using System;
 using SanaPass_EBAAMS.Forms;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace SanaPass_EBAAMS
 {
@@ -10,33 +11,44 @@ namespace SanaPass_EBAAMS
     {
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
+        private readonly IReportService _reportService;
         private readonly User _currentUser;
 
-        // 1. Safe default constructor (prevents crashes if called without parameters)
         public ASUI()
         {
             InitializeComponent();
         }
-
-        // 2. Primary Dependency Injection constructor
-        public ASUI(IEquipmentService equipmentService, IRequestService requestService, User currentUser) : this()
+        public ASUI(
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            IReportService reportService,
+            User currentUser) : this()
         {
             _equipmentService = equipmentService;
             _requestService = requestService;
-            _currentUser = currentUser ?? new User { uRole = "admin" }; // Fallback user if null
-
-            ApplyRoleBasedAccessControl();
+            _reportService = reportService;
+            _currentUser = currentUser
+                ?? new User { uRole = "admin" };
         }
 
         private void AdminDashboard_Load(object sender, EventArgs e)
         {
-            // Safely load default view on startup (e.g., loading the Dashboard first)
-            if (pnlSideBar != null)
+            if (_currentUser != null)
+            {
+                string displayName = !string.IsNullOrEmpty(_currentUser.username) ? _currentUser.username : "Admin";
+                btnProfile.Text = $"Profile ({displayName})";
+            }
+            else
+            {
+                btnProfile.Text = "Profile (Admin)";
+            }
+            if (panelContainer != null)
             {
                 try
                 {
-                    ADashboard dashboardControl = new ADashboard();
+                    ADashboard dashboardControl = new ADashboard(_reportService);
                     SwitchUserControl(dashboardControl);
+                    HighlightButton(btnDashboard);
                 }
                 catch (Exception ex)
                 {
@@ -45,36 +57,50 @@ namespace SanaPass_EBAAMS
             }
         }
 
-        private void ApplyRoleBasedAccessControl()
+        private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
         {
-            if (_currentUser != null && !string.IsNullOrEmpty(_currentUser.uRole))
+            if (panelContainer == null) return;
+
+            panelContainer.Controls.Clear();
+            userControl.Dock = DockStyle.Fill;
+            panelContainer.Controls.Add(userControl);
+            userControl.BringToFront();
+        }
+
+        private void HighlightButton(Button activeButton)
+        {
+            Color normalColor = Color.Transparent;
+            Color highlightColor = Color.FromArgb(180, 0, 0);
+
+            btnDashboard.BackColor = normalColor;
+            btnRequests.BackColor = normalColor;
+            btnEquipments.BackColor = normalColor;
+            btnUsers.BackColor = normalColor;
+            btnPaymentHistories.BackColor = normalColor;
+            btnTransactionLogs.BackColor = normalColor;
+            btnProfile.BackColor = normalColor;
+
+            if (activeButton != null)
             {
-                string role = _currentUser.uRole.Trim().ToLower();
-                if (role == "staff")
-                {
-                    // Staff-specific UI adjustments here
-                }
+                activeButton.BackColor = highlightColor;
             }
         }
 
-        private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
+        private void pnlSideBar_Paint(object sender, PaintEventArgs e)
         {
-            if (pnlSideBar == null) return; // Silent fail guard to prevent hard crashes
 
-            pnlSideBar.Controls.Clear();
-            userControl.Dock = DockStyle.Fill;
-            pnlSideBar.Controls.Add(userControl);
-            userControl.BringToFront();
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
+            HighlightButton(btnDashboard);
             ADashboard dashboardControl = new ADashboard();
             SwitchUserControl(dashboardControl);
         }
 
-        private void btnBorrowRequests_Click(object sender, EventArgs e)
+        private void btnRequests_Click(object sender, EventArgs e)
         {
+            HighlightButton(btnRequests);
             if (_requestService != null)
             {
                 BorrowRequests borrowRequestsControl = new BorrowRequests(_requestService);
@@ -86,21 +112,58 @@ namespace SanaPass_EBAAMS
             }
         }
 
+        private void btnEquipments_Click(object sender, EventArgs e)
+        {
+            HighlightButton(btnEquipments);
+
+            if (_equipmentService == null)
+            {
+                MessageBox.Show(
+                    "Equipment service is not available.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            Equipments equipmentsControl = new Equipments(_equipmentService);
+            SwitchUserControl(equipmentsControl);
+        }
+
+        private void btnUsers_Click(object sender, EventArgs e)
+        {
+            HighlightButton(btnUsers);
+            Users usersControl = new Users();
+            SwitchUserControl(usersControl);
+        }
+
+        private void btnPaymentHistories_Click(object sender, EventArgs e)
+        {
+            HighlightButton(btnPaymentHistories);
+            PaymentHistories paymentHistoryControl = new PaymentHistories();
+            SwitchUserControl(paymentHistoryControl);
+        }
+
         private void btnTransactionLogs_Click(object sender, EventArgs e)
         {
-            // Transaction logs handler
+            HighlightButton(btnTransactionLogs);
+            TransactionLogs transactionLogsControl = new TransactionLogs();
+            SwitchUserControl(transactionLogsControl);
         }
 
-        private void btnMaintenance_Click(object sender, EventArgs e)
+        private void btnProfile_Click(object sender, EventArgs e)
         {
-            // Maintenance handler
+            HighlightButton(btnProfile);
+            UserProfile userProfileControl = new UserProfile();
+            userProfileControl.Show();
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        private void btnLogOut_Click_1(object sender, EventArgs e)
         {
+            this.Close();
             LogIn loginForm = new LogIn();
             loginForm.Show();
-            this.Close();
         }
     }
 }

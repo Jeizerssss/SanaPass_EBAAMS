@@ -14,5 +14,6 @@ namespace SanaPass_EBAAMS.Interfaces
         bool retireEquipment(int equipmentID);
         IEnumerable<Equipment> searchAvailableEquipment(string keyword);
         IEnumerable<Equipment> getEquipmentByCategory(int categoryID);
+        IEnumerable<Equipment> getAllEquipment();
     }
 }

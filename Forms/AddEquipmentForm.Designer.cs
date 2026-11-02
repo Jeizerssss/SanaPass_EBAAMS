@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblEquipmentID = new System.Windows.Forms.Label();
             this.lblEquipmentName = new System.Windows.Forms.Label();
             this.lblEquipmentDesc = new System.Windows.Forms.Label();
             this.lblCategory = new System.Windows.Forms.Label();
@@ -42,28 +41,17 @@
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
             this.textBoxEquipmentDescription = new System.Windows.Forms.TextBox();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.textBoxEquipmentID = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // lblEquipmentID
-            // 
-            this.lblEquipmentID.AutoSize = true;
-            this.lblEquipmentID.ForeColor = System.Drawing.Color.White;
-            this.lblEquipmentID.Location = new System.Drawing.Point(46, 103);
-            this.lblEquipmentID.Name = "lblEquipmentID";
-            this.lblEquipmentID.Size = new System.Drawing.Size(87, 16);
-            this.lblEquipmentID.TabIndex = 0;
-            this.lblEquipmentID.Text = "EquipmentID:";
-            this.lblEquipmentID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblEquipmentName
             // 
             this.lblEquipmentName.AutoSize = true;
             this.lblEquipmentName.ForeColor = System.Drawing.Color.White;
-            this.lblEquipmentName.Location = new System.Drawing.Point(86, 137);
+            this.lblEquipmentName.Location = new System.Drawing.Point(64, 111);
+            this.lblEquipmentName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEquipmentName.Name = "lblEquipmentName";
-            this.lblEquipmentName.Size = new System.Drawing.Size(47, 16);
+            this.lblEquipmentName.Size = new System.Drawing.Size(38, 13);
             this.lblEquipmentName.TabIndex = 1;
             this.lblEquipmentName.Text = "Name:";
             this.lblEquipmentName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -71,9 +59,10 @@
             // lblEquipmentDesc
             // 
             this.lblEquipmentDesc.ForeColor = System.Drawing.Color.White;
-            this.lblEquipmentDesc.Location = new System.Drawing.Point(18, 168);
+            this.lblEquipmentDesc.Location = new System.Drawing.Point(14, 136);
+            this.lblEquipmentDesc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEquipmentDesc.Name = "lblEquipmentDesc";
-            this.lblEquipmentDesc.Size = new System.Drawing.Size(115, 45);
+            this.lblEquipmentDesc.Size = new System.Drawing.Size(86, 37);
             this.lblEquipmentDesc.TabIndex = 2;
             this.lblEquipmentDesc.Text = "Equipment Description:";
             this.lblEquipmentDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -82,9 +71,10 @@
             // 
             this.lblCategory.AutoSize = true;
             this.lblCategory.ForeColor = System.Drawing.Color.White;
-            this.lblCategory.Location = new System.Drawing.Point(68, 272);
+            this.lblCategory.Location = new System.Drawing.Point(51, 221);
+            this.lblCategory.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(65, 16);
+            this.lblCategory.Size = new System.Drawing.Size(52, 13);
             this.lblCategory.TabIndex = 3;
             this.lblCategory.Text = "Category:";
             this.lblCategory.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -93,9 +83,10 @@
             // 
             this.lblLocation.AutoSize = true;
             this.lblLocation.ForeColor = System.Drawing.Color.White;
-            this.lblLocation.Location = new System.Drawing.Point(72, 311);
+            this.lblLocation.Location = new System.Drawing.Point(54, 253);
+            this.lblLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(61, 16);
+            this.lblLocation.Size = new System.Drawing.Size(51, 13);
             this.lblLocation.TabIndex = 4;
             this.lblLocation.Text = "Location:";
             this.lblLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -104,9 +95,10 @@
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.ForeColor = System.Drawing.Color.White;
-            this.lblStatus.Location = new System.Drawing.Point(86, 351);
+            this.lblStatus.Location = new System.Drawing.Point(64, 285);
+            this.lblStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(47, 16);
+            this.lblStatus.Size = new System.Drawing.Size(40, 13);
             this.lblStatus.TabIndex = 5;
             this.lblStatus.Text = "Status:";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,9 +107,10 @@
             // 
             this.lblCondition.AutoSize = true;
             this.lblCondition.ForeColor = System.Drawing.Color.White;
-            this.lblCondition.Location = new System.Drawing.Point(67, 393);
+            this.lblCondition.Location = new System.Drawing.Point(50, 319);
+            this.lblCondition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCondition.Name = "lblCondition";
-            this.lblCondition.Size = new System.Drawing.Size(66, 16);
+            this.lblCondition.Size = new System.Drawing.Size(54, 13);
             this.lblCondition.TabIndex = 8;
             this.lblCondition.Text = "Condition:";
             this.lblCondition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -126,74 +119,75 @@
             // 
             this.lblEquipmentDetails.AutoSize = true;
             this.lblEquipmentDetails.BackColor = System.Drawing.Color.Maroon;
-            this.lblEquipmentDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEquipmentDetails.ForeColor = System.Drawing.Color.White;
-            this.lblEquipmentDetails.Location = new System.Drawing.Point(45, 30);
+            this.lblEquipmentDetails.Location = new System.Drawing.Point(34, 24);
+            this.lblEquipmentDetails.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEquipmentDetails.Name = "lblEquipmentDetails";
-            this.lblEquipmentDetails.Size = new System.Drawing.Size(348, 37);
+            this.lblEquipmentDetails.Size = new System.Drawing.Size(262, 29);
             this.lblEquipmentDetails.TabIndex = 9;
             this.lblEquipmentDetails.Text = "EQUIPMENT DETAILS";
             // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(152, 391);
+            this.comboBox1.Location = new System.Drawing.Point(114, 318);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(101, 24);
+            this.comboBox1.Size = new System.Drawing.Size(77, 21);
             this.comboBox1.TabIndex = 26;
             // 
             // comboBoxStatus
             // 
             this.comboBoxStatus.FormattingEnabled = true;
-            this.comboBoxStatus.Location = new System.Drawing.Point(152, 348);
+            this.comboBoxStatus.Location = new System.Drawing.Point(114, 283);
+            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxStatus.Name = "comboBoxStatus";
-            this.comboBoxStatus.Size = new System.Drawing.Size(101, 24);
+            this.comboBoxStatus.Size = new System.Drawing.Size(77, 21);
             this.comboBoxStatus.TabIndex = 25;
             // 
             // comboBoxLocation
             // 
             this.comboBoxLocation.FormattingEnabled = true;
-            this.comboBoxLocation.Location = new System.Drawing.Point(152, 308);
+            this.comboBoxLocation.Location = new System.Drawing.Point(114, 250);
+            this.comboBoxLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxLocation.Name = "comboBoxLocation";
-            this.comboBoxLocation.Size = new System.Drawing.Size(228, 24);
+            this.comboBoxLocation.Size = new System.Drawing.Size(172, 21);
             this.comboBoxLocation.TabIndex = 24;
             // 
             // comboBoxCategory
             // 
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Location = new System.Drawing.Point(152, 269);
+            this.comboBoxCategory.Location = new System.Drawing.Point(114, 219);
+            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxCategory.Name = "comboBoxCategory";
-            this.comboBoxCategory.Size = new System.Drawing.Size(228, 24);
+            this.comboBoxCategory.Size = new System.Drawing.Size(172, 21);
             this.comboBoxCategory.TabIndex = 23;
             // 
             // textBoxEquipmentDescription
             // 
-            this.textBoxEquipmentDescription.Location = new System.Drawing.Point(152, 175);
+            this.textBoxEquipmentDescription.Location = new System.Drawing.Point(114, 142);
+            this.textBoxEquipmentDescription.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxEquipmentDescription.Multiline = true;
             this.textBoxEquipmentDescription.Name = "textBoxEquipmentDescription";
-            this.textBoxEquipmentDescription.Size = new System.Drawing.Size(228, 75);
+            this.textBoxEquipmentDescription.Size = new System.Drawing.Size(172, 62);
             this.textBoxEquipmentDescription.TabIndex = 22;
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(152, 137);
+            this.textBoxName.Location = new System.Drawing.Point(114, 111);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(228, 22);
+            this.textBoxName.Size = new System.Drawing.Size(172, 20);
             this.textBoxName.TabIndex = 21;
-            // 
-            // textBoxEquipmentID
-            // 
-            this.textBoxEquipmentID.Location = new System.Drawing.Point(152, 100);
-            this.textBoxEquipmentID.Name = "textBoxEquipmentID";
-            this.textBoxEquipmentID.Size = new System.Drawing.Size(228, 22);
-            this.textBoxEquipmentID.TabIndex = 20;
             // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(168, 480);
+            this.btnSave.Location = new System.Drawing.Point(126, 390);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(105, 50);
+            this.btnSave.Size = new System.Drawing.Size(79, 41);
             this.btnSave.TabIndex = 27;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -201,10 +195,10 @@
             // 
             // AddEquipmentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Maroon;
-            this.ClientSize = new System.Drawing.Size(434, 571);
+            this.ClientSize = new System.Drawing.Size(326, 464);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.comboBoxStatus);
@@ -212,7 +206,6 @@
             this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.textBoxEquipmentDescription);
             this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.textBoxEquipmentID);
             this.Controls.Add(this.lblEquipmentDetails);
             this.Controls.Add(this.lblCondition);
             this.Controls.Add(this.lblStatus);
@@ -220,7 +213,7 @@
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.lblEquipmentDesc);
             this.Controls.Add(this.lblEquipmentName);
-            this.Controls.Add(this.lblEquipmentID);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "AddEquipmentForm";
             this.Text = "EquipmentForm";
             this.ResumeLayout(false);
@@ -229,8 +222,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblEquipmentID;
         private System.Windows.Forms.Label lblEquipmentName;
         private System.Windows.Forms.Label lblEquipmentDesc;
         private System.Windows.Forms.Label lblCategory;
@@ -244,7 +235,6 @@
         private System.Windows.Forms.ComboBox comboBoxCategory;
         private System.Windows.Forms.TextBox textBoxEquipmentDescription;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.TextBox textBoxEquipmentID;
         private System.Windows.Forms.Button btnSave;
     }
 }

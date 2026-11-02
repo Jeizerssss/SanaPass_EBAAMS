@@ -1,10 +1,6 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SanaPass_EBAAMS.Services
 {
@@ -23,17 +19,42 @@ namespace SanaPass_EBAAMS.Services
             IFineService fineService,
             IMaintenanceRepository maintenanceRepository)
         {
-            _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
-            _equipmentRepository = equipmentRepository ?? throw new ArgumentNullException(nameof(equipmentRepository));
-            _transactionLogRepository = transactionLogRepository ?? throw new ArgumentNullException(nameof(transactionLogRepository));
-            _fineService = fineService ?? throw new ArgumentNullException(nameof(fineService));
-            _maintenanceRepository = maintenanceRepository ?? throw new ArgumentNullException(nameof(maintenanceRepository));
+            _requestRepository = requestRepository
+                ?? throw new ArgumentNullException(nameof(requestRepository));
+
+            _equipmentRepository = equipmentRepository
+                ?? throw new ArgumentNullException(nameof(equipmentRepository));
+
+            _transactionLogRepository = transactionLogRepository
+                ?? throw new ArgumentNullException(nameof(transactionLogRepository));
+
+            _fineService = fineService
+                ?? throw new ArgumentNullException(nameof(fineService));
+
+            _maintenanceRepository = maintenanceRepository
+                ?? throw new ArgumentNullException(nameof(maintenanceRepository));
         }
 
-        public bool submitBorrowRequest(int userID, int equipmentID, string rDesc)
+        public bool submitBorrowRequest(
+            int userID,
+            int equipmentID,
+            string rLocation,
+            string rDesc)
         {
+            if (userID <= 0 ||
+                equipmentID <= 0 ||
+                string.IsNullOrWhiteSpace(rLocation))
+            {
+                return false;
+            }
+
             var equipment = _equipmentRepository.getById(equipmentID);
-            if (equipment == null || !equipment.checkAvailability())
+
+            if (equipment == null ||
+                !string.Equals(
+                    equipment.eStatus,
+                    "Available",
+                    StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -43,98 +64,167 @@ namespace SanaPass_EBAAMS.Services
                 rDate = DateTime.Now,
                 userID = userID,
                 equipmentID = equipmentID,
+                rLocation = rLocation.Trim(),
                 rDesc = rDesc,
-                rStatus = "Pending"
+                rStatus = "Pending Approval"
             };
 
             return _requestRepository.add(request);
         }
 
-        public bool approveAndReleaseRequest(int requestID, int handledBy)
+        public bool approveRequest(int requestID, int handledBy)
         {
+            if (requestID <= 0 || handledBy <= 0)
+            {
+                return false;
+            }
+
             var request = _requestRepository.getById(requestID);
-            if (request == null || request.rStatus != "Pending")
+
+            if (request == null ||
+                request.rStatus != "Pending Approval")
+            {
+                return false;
+            }
+
+            if (!_requestRepository.updateStatus(
+                requestID,
+                "Pending Release"))
+            {
+                return false;
+            }
+
+            return _transactionLogRepository.add(new TransactionLog
+            {
+                tlDate = DateTime.Now,
+                requestID = requestID,
+                handledBy = handledBy,
+                tlType = "REQUEST_APPROVED"
+            });
+        }
+
+        public bool releaseEquipment(int requestID, int handledBy)
+        {
+            if (requestID <= 0 || handledBy <= 0)
+            {
+                return false;
+            }
+
+            var request = _requestRepository.getById(requestID);
+
+            if (request == null ||
+                request.rStatus != "Pending Release")
             {
                 return false;
             }
 
             var equipment = _equipmentRepository.getById(request.equipmentID);
-            if (equipment == null || equipment.eQuantity <= 0)
+
+            if (equipment == null ||
+                !string.Equals(
+                    equipment.eStatus,
+                    "Available",
+                    StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
 
-            // Update Request and Equipment status
-            _requestRepository.updateStatus(requestID, "Issued");
-            _equipmentRepository.updateQuantity(equipment.equipmentID, equipment.eQuantity - 1);
-
-            if (equipment.eQuantity - 1 == 0)
+            if (!_equipmentRepository.updateStatus(
+                equipment.equipmentID,
+                "Issued"))
             {
-                _equipmentRepository.updateStatus(equipment.equipmentID, "Unavailable");
+                return false;
             }
 
-            // Log Transaction
-            var log = new TransactionLog
+            if (!_requestRepository.updateStatus(
+                requestID,
+                "Pending Return"))
             {
-                date = DateTime.Now,
+                return false;
+            }
+
+            return _transactionLogRepository.add(new TransactionLog
+            {
+                tlDate = DateTime.Now,
                 requestID = requestID,
                 handledBy = handledBy,
                 tlType = "EQUIPMENT_ISSUED"
-            };
-            _transactionLogRepository.add(log);
-
-            return true;
+            });
         }
 
-        public bool processReturn(int requestID, int handledBy, string eCondition, DateTime returnDate)
+        public bool processReturn(
+            int requestID,
+            int handledBy,
+            string eCondition,
+            DateTime returnDate)
         {
+            if (requestID <= 0 || handledBy <= 0)
+            {
+                return false;
+            }
+
             var request = _requestRepository.getById(requestID);
-            if (request == null || request.rStatus != "Issued")
+
+            if (request == null ||
+                request.rStatus != "Pending Return")
             {
                 return false;
             }
 
             var equipment = _equipmentRepository.getById(request.equipmentID);
+
             if (equipment == null)
             {
                 return false;
             }
 
-            // 1. Calculate Overdue Fine if applicable
-            _fineService.calculateOverdueFine(requestID, returnDate, dailyRate: 50.0);
+            _fineService.calculateOverdueFine(
+                requestID,
+                returnDate,
+                50.0);
 
-            // 2. Increment Equipment Inventory Quantity
-            _equipmentRepository.updateQuantity(equipment.equipmentID, equipment.eQuantity + 1);
-            if (equipment.eStatus == "Unavailable")
+            bool damaged = string.Equals(
+                eCondition,
+                "Damaged",
+                StringComparison.OrdinalIgnoreCase);
+
+            string equipmentStatus = damaged
+                ? "Under Maintenance"
+                : "Available";
+
+            if (!_equipmentRepository.updateStatus(
+                equipment.equipmentID,
+                equipmentStatus))
             {
-                _equipmentRepository.updateStatus(equipment.equipmentID, "Available");
+                return false;
             }
 
-            // 3. Flag Equipment Maintenance if returned damaged
-            if (eCondition.Equals("Damaged", StringComparison.OrdinalIgnoreCase))
-            {
-                _maintenanceRepository.add(new Maintenance
+            if (damaged &&
+                !_maintenanceRepository.add(new Maintenance
                 {
-                    date = DateTime.Now,
+                    mDate = DateTime.Now,
                     equipmentID = equipment.equipmentID,
                     mStatus = "Under Maintenance",
                     mDesc = $"Item returned damaged from Request #{requestID}."
-                });
-                _equipmentRepository.updateStatus(equipment.equipmentID, "Under Maintenance");
+                }))
+            {
+                return false;
             }
 
-            // 4. Update Request Status and Audit Log
-            _requestRepository.updateStatus(requestID, "Returned");
-
-            _transactionLogRepository.add(new TransactionLog
+            if (!_requestRepository.updateStatus(
+                requestID,
+                "Returned"))
             {
-                date = DateTime.Now,
+                return false;
+            }
+
+            return _transactionLogRepository.add(new TransactionLog
+            {
+                tlDate = DateTime.Now,
                 requestID = requestID,
                 handledBy = handledBy,
                 tlType = "EQUIPMENT_RETURNED"
             });
-
-            return true;
         }
     }
 }

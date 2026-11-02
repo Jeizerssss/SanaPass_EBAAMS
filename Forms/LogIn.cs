@@ -94,7 +94,7 @@ namespace SanaPass_EBAAMS
                 }
                 else
                 {
-                    BorrowerDashboard dashboard = new BorrowerDashboard(loggedInUser, _equipmentService, _requestService);
+                    BSUI dashboard = new BSUI(loggedInUser, _equipmentService, _requestService);
                     dashboard.Show();
                 }
             }

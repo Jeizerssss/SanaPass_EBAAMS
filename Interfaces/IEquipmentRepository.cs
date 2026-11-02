@@ -12,7 +12,6 @@ namespace SanaPass_EBAAMS.Interfaces
         IEnumerable<Equipment> getByName(string eName);
         IEnumerable<Equipment> getByCategory(int categoryID);
         IEnumerable<Equipment> getByLocation(int locationID);
-        bool updateQuantity(int equipmentID, int newQuantity);
         bool updateStatus(int equipmentID, string eStatus);
     }
 }

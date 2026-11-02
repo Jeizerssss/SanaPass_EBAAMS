@@ -31,7 +31,6 @@ namespace SanaPass_EBAAMS.Forms
 
         private void BorrowRequests_Load(object sender, EventArgs e)
         {
-            // Safety fallback if loaded via designer/parameterless constructor
             if (_requestService != null)
             {
                 LoadBorrowRequests();
@@ -43,8 +42,8 @@ namespace SanaPass_EBAAMS.Forms
             try
             {
                 // TODO: Fetch your request data and bind it to your DataGridView (e.g., dgvRequests)
-                // var requests = _requestService.GetAllRequests();
-                // dgvRequests.DataSource = requests;
+                var requests = _requestService.getAllRequests();
+                dgvARequests.DataSource = requests.ToList();
             }
             catch (Exception ex)
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SanaPass_EBAAMS.Interfaces
 {
@@ -13,5 +9,6 @@ namespace SanaPass_EBAAMS.Interfaces
         int getPendingRequestsCount();
         int getBorrowedItemsCount();
         int getMaintenanceItemsCount();
+        string buildBusinessSummary();
     }
 }

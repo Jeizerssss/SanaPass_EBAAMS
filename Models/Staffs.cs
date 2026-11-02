@@ -8,10 +8,8 @@ namespace SanaPass_EBAAMS.Models
 {
     public class Staff : Employee
     {
-        public Staff() { }
-
-        public void processPayment() { }
-        public void processReturn() { }
-        public void processRelease() { }
+        public Staff()
+        {
+        }
     }
 }

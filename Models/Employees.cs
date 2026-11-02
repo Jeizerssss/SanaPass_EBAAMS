@@ -9,14 +9,10 @@ namespace SanaPass_EBAAMS.Models
     public class Employee : User
     {
         public int employeeID { get; set; }
-        public string position { get; set; }
+        public string ePosition { get; set; }
 
-        public Employee() { }
-
-        public void viewPendingRequests() { }
-        public void processApprove() { }
-        public void processReject() { }
-        public void updateEquipment() { }
-        public void fetchPaymentHistories() { }
+        public Employee()
+        {
+        }
     }
 }

@@ -18,14 +18,8 @@ namespace SanaPass_EBAAMS.Models
         public string uContactNumber { get; set; }
         public string uRole { get; set; }
 
-        public User() { }
-
-        public bool login()
+        public User()
         {
-            return true;
         }
-
-        public void logout() { }
-        public void updateProfile() { }
     }
 }

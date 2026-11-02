@@ -13,7 +13,6 @@ namespace SanaPass_EBAAMS.Interfaces
         IEnumerable<Request> getRequestsByUserId(int userId);
         bool createRequest(Request request);
         bool approveRequest(int requestId);
-        bool rejectRequest(int requestId);
         bool returnEquipment(int requestId);
     }
 }

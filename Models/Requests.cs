@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SanaPass_EBAAMS.Models
 {
@@ -12,14 +8,12 @@ namespace SanaPass_EBAAMS.Models
         public DateTime rDate { get; set; }
         public int userID { get; set; }
         public int equipmentID { get; set; }
+        public string rLocation { get; set; }
         public string rDesc { get; set; }
         public string rStatus { get; set; }
 
-        public Request() { }
-
-        public void updateStatus(string newStatus)
+        public Request()
         {
-            rStatus = newStatus;
         }
     }
 }

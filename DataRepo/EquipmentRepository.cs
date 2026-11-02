@@ -9,27 +9,43 @@ namespace SanaPass_EBAAMS.DataRepo
 {
     public class EquipmentRepository : IEquipmentRepository
     {
+        private readonly IDbConnectionFactory _connectionFactory;
+
+        public EquipmentRepository(IDbConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory
+                ?? throw new ArgumentNullException(nameof(connectionFactory));
+        }
+
         public Equipment getById(int id)
         {
-            using (var conn = DbConnectionFactory.CreateConnection()) 
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new MySqlCommand("SELECT * FROM Equipments WHERE equipmentID = @id", conn))
+
+                using (var cmd = new MySqlCommand(
+                    "SELECT * FROM Equipments WHERE equipmentID = @id",
+                    conn))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
+
                     using (var reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read()) return MapToEquipment(reader);
+                        if (reader.Read())
+                        {
+                            return MapToEquipment(reader);
+                        }
                     }
                 }
             }
+
             return null;
         }
 
         public IEnumerable<Equipment> getAll()
         {
             var list = new List<Equipment>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Equipments", conn))
@@ -44,7 +60,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Equipment> getByName(string name)
         {
             var list = new List<Equipment>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 // Updated to match your schema columns (eName, eDesc)
@@ -67,7 +83,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Equipment> getByCategory(int categoryID)
         {
             var list = new List<Equipment>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Equipments WHERE categoryID = @categoryID", conn))
@@ -85,7 +101,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Equipment> getByLocation(int locationID)
         {
             var list = new List<Equipment>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Equipments WHERE locationID = @locationID", conn))
@@ -102,11 +118,11 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool add(Equipment entity)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Equipments (eName, eDesc, categoryID, locationID, eStatus, eQuantity, ePrice, eCondition) 
-                              VALUES (@eName, @eDesc, @categoryID, @locationID, @eStatus, @eQuantity, @ePrice, @eCondition)";
+                var query = @"INSERT INTO Equipments (eName, eDesc, categoryID, locationID, eStatus, ePrice, eCondition) 
+                              VALUES (@eName, @eDesc, @categoryID, @locationID, @eStatus, @ePrice, @eCondition)";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     BindParameters(cmd, entity);
@@ -117,12 +133,18 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool update(Equipment entity)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Equipments SET eName = @eName, eDesc = @eDesc, categoryID = @categoryID, 
-                              locationID = @locationID, eStatus = @eStatus, eQuantity = @eQuantity, 
-                              ePrice = @ePrice, eCondition = @eCondition WHERE equipmentID = @equipmentID";
+                var query = @"UPDATE Equipments
+                                SET eName = @eName,
+                                    eDesc = @eDesc,
+                                    categoryID = @categoryID,
+                                    locationID = @locationID,
+                                    eStatus = @eStatus,
+                                    ePrice = @ePrice,
+                                    eCondition = @eCondition
+                              WHERE equipmentID = @equipmentID";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@equipmentID", entity.equipmentID);
@@ -132,23 +154,9 @@ namespace SanaPass_EBAAMS.DataRepo
             }
         }
 
-        public bool updateQuantity(int equipmentID, int newQuantity)
-        {
-            using (var conn = DbConnectionFactory.CreateConnection())
-            {
-                conn.Open();
-                using (var cmd = new MySqlCommand("UPDATE Equipments SET eQuantity = @eQuantity WHERE equipmentID = @equipmentID", conn))
-                {
-                    cmd.Parameters.AddWithValue("@equipmentID", equipmentID);
-                    cmd.Parameters.AddWithValue("@eQuantity", newQuantity);
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-        }
-
         public bool updateStatus(int equipmentID, string eStatus)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("UPDATE Equipments SET eStatus = @eStatus WHERE equipmentID = @equipmentID", conn))
@@ -162,7 +170,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool delete(int id)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("DELETE FROM Equipments WHERE equipmentID = @id", conn))
@@ -183,8 +191,6 @@ namespace SanaPass_EBAAMS.DataRepo
                 categoryID = Convert.ToInt32(reader["categoryID"]),
                 locationID = Convert.ToInt32(reader["locationID"]),
                 eStatus = reader["eStatus"].ToString(),
-                eQuantity = Convert.ToInt32(reader["eQuantity"]),
-                ePrice = Convert.ToDouble(reader["ePrice"]),
                 eCondition = reader["eCondition"].ToString()
             };
         }
@@ -196,8 +202,6 @@ namespace SanaPass_EBAAMS.DataRepo
             cmd.Parameters.AddWithValue("@categoryID", entity.categoryID);
             cmd.Parameters.AddWithValue("@locationID", entity.locationID);
             cmd.Parameters.AddWithValue("@eStatus", entity.eStatus ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@eQuantity", entity.eQuantity);
-            cmd.Parameters.AddWithValue("@ePrice", entity.ePrice);
             cmd.Parameters.AddWithValue("@eCondition", entity.eCondition ?? (object)DBNull.Value);
         }
     }

@@ -98,12 +98,12 @@
   <ItemGroup>
     <!-- Existing borrower/user forms -->
     <Compile Include="DataRepo\CategoryRepository.cs" />
-    <Compile Include="DataRepo\DBConnectionFactory.cs" />
     <Compile Include="DataRepo\EmployeeRepository.cs" />
     <Compile Include="DataRepo\EquipmentRepository.cs" />
     <Compile Include="DataRepo\FineRepository.cs" />
     <Compile Include="DataRepo\LocationRepository.cs" />
     <Compile Include="DataRepo\MaintenanceRepository.cs" />
+    <Compile Include="DataRepo\MySqlConnectionFactory.cs" />
     <Compile Include="DataRepo\PaymentHistoryRepository.cs" />
     <Compile Include="DataRepo\RequestRepository.cs" />
     <Compile Include="DataRepo\TransactionLogRepository.cs" />
@@ -114,17 +114,47 @@
     <Compile Include="Forms\ADashboard.Designer.cs">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BorrowerDashboard.cs">
+    <Compile Include="Forms\BDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\BDashboard.Designer.cs">
+      <DependentUpon>BDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BrowseCatalog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\BrowseCatalog.Designer.cs">
+      <DependentUpon>BrowseCatalog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BSUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\BorrowerDashboard.Designer.cs">
-      <DependentUpon>BorrowerDashboard.cs</DependentUpon>
+    <Compile Include="Forms\BSUI.Designer.cs">
+      <DependentUpon>BSUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddEquipmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AddEquipmentForm.Designer.cs">
       <DependentUpon>AddEquipmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangePassword.Designer.cs">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditUserProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditUserProfile.Designer.cs">
+      <DependentUpon>EditUserProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserProfile.Designer.cs">
+      <DependentUpon>UserProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ViewEquipmentForm.cs">
       <SubType>Form</SubType>
@@ -186,6 +216,7 @@
     <Compile Include="Interfaces\ICategoryRepository.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\ICRUDRepository.cs" />
+    <Compile Include="Interfaces\IDbConnectionFactory.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Interfaces\IEquipmentRepository.cs" />
     <Compile Include="Interfaces\IEquipmentService.cs" />
@@ -261,12 +292,27 @@
     <EmbeddedResource Include="Forms\ADashboard.resx">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BDashboard.resx">
+      <DependentUpon>BDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BrowseCatalog.resx">
+      <DependentUpon>BrowseCatalog.cs</DependentUpon>
+    </EmbeddedResource>
     <!-- Existing resources -->
-    <EmbeddedResource Include="Forms\BorrowerDashboard.resx">
-      <DependentUpon>BorrowerDashboard.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\BSUI.resx">
+      <DependentUpon>BSUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddEquipmentForm.resx">
       <DependentUpon>AddEquipmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChangePassword.resx">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditUserProfile.resx">
+      <DependentUpon>EditUserProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserProfile.resx">
+      <DependentUpon>UserProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ViewEquipmentForm.resx">
       <DependentUpon>ViewEquipmentForm.cs</DependentUpon>

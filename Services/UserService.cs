@@ -1,4 +1,5 @@
-﻿using SanaPass_EBAAMS.Interfaces;
+﻿using SanaPass_EBAAMS.Helpers;
+using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
@@ -44,15 +45,30 @@ namespace SanaPass_EBAAMS.Services
             return _userRepository.update(user);
         }
 
-        public bool changePassword(int userID, string currentPassword, string newPassword)
+        public bool changePassword(
+            int userID,
+            string currentPassword,
+            string newPassword)
         {
-            var user = _userRepository.getById(userID);
-            if (user == null || user.password != currentPassword)
+            if (userID <= 0 ||
+                string.IsNullOrWhiteSpace(currentPassword) ||
+                string.IsNullOrWhiteSpace(newPassword))
             {
-                return false; // Invalid existing credentials
+                return false;
             }
 
-            user.password = newPassword;
+            var user = _userRepository.getById(userID);
+
+            if (user == null ||
+                !PasswordHelper.VerifyPassword(
+                    currentPassword,
+                    user.password))
+            {
+                return false;
+            }
+
+            user.password = PasswordHelper.HashPassword(newPassword);
+
             return _userRepository.update(user);
         }
 

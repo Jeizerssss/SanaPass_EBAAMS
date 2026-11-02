@@ -2,9 +2,6 @@
 using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SanaPass_EBAAMS
@@ -12,20 +9,73 @@ namespace SanaPass_EBAAMS
     internal static class Program
     {
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            IUserRepository userRepo = new UserRepository();
-            IEquipmentRepository equipmentRepo = new EquipmentRepository();
-            IRequestRepository requestRepo = new RequestRepository();
+            IDbConnectionFactory connectionFactory =
+                new MySqlConnectionFactory();
 
-            IAuthService authService = new AuthService(userRepo);
-            IEquipmentService equipmentService = new EquipmentService(equipmentRepo);
-            IRequestService requestService = new RequestService(requestRepo);
+            IUserRepository userRepository =
+                new UserRepository(connectionFactory);
 
-            Application.Run(new LogIn(authService, equipmentService, requestService));
+            IEquipmentRepository equipmentRepository =
+                new EquipmentRepository(connectionFactory);
+
+            IRequestRepository requestRepository =
+                new RequestRepository(connectionFactory);
+
+            IEmployeeRepository employeeRepository =
+                new EmployeeRepository(connectionFactory);
+
+            IFineRepository fineRepository =
+                new FineRepository(connectionFactory);
+
+            IPaymentHistoryRepository paymentHistoryRepository =
+                new PaymentHistoryRepository(connectionFactory);
+
+            ITransactionLogRepository transactionLogRepository =
+                new TransactionLogRepository(connectionFactory);
+
+            IMaintenanceRepository maintenanceRepository =
+                new MaintenanceRepository(connectionFactory);
+
+            ILocationRepository locationRepository =
+                new LocationRepository(connectionFactory);
+
+            ICategoryRepository categoryRepository =
+                new CategoryRepository(connectionFactory);
+
+            IUserService userService =
+                new UserService(userRepository);
+
+            IEquipmentService equipmentService =
+                new EquipmentService(equipmentRepository);
+
+            IRequestService requestService =
+                new RequestService(requestRepository);
+
+            IFineService fineService =
+                new FineService(
+                    fineRepository,
+                    requestRepository,
+                    paymentHistoryRepository,
+                    transactionLogRepository);
+
+            IBorrowService borrowService =
+                new BorrowService(
+                    requestRepository,
+                    equipmentRepository,
+                    transactionLogRepository,
+                    fineService,
+                    maintenanceRepository);
+
+            Application.Run(
+                new LogIn(
+                    userService,
+                    equipmentService,
+                    requestService));
         }
     }
 }

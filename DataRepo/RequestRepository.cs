@@ -11,9 +11,10 @@ namespace SanaPass_EBAAMS.DataRepo
 {
     public class RequestRepository : IRequestRepository
     {
+        private readonly IDbConnectionFactory _connectionFactory;
         public Request getById(int requestID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Requests WHERE requestID = @requestID", conn))
@@ -31,7 +32,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Request> getAll()
         {
             var list = new List<Request>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Requests", conn))
@@ -46,7 +47,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Request> getByUserId(int userID)
         {
             var list = new List<Request>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Requests WHERE userID = @userID", conn))
@@ -64,7 +65,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Request> getByStatus(string rStatus)
         {
             var list = new List<Request>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Requests WHERE rStatus = @rStatus", conn))
@@ -81,18 +82,30 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool add(Request request)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Requests (rDate, userID, equipmentID, rDesc, rStatus) 
-                              VALUES (@rDate, @userID, @equipmentID, @rDesc, @rStatus)";
+                var query = @"
+                    INSERT INTO Requests
+                        (rDate, userID, equipmentID, rLocation, rDesc, rStatus)
+                    VALUES
+                        (@rDate, @userID, @equipmentID, @rLocation, @rDesc, @rStatus)";
+
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@rDate", request.rDate);
                     cmd.Parameters.AddWithValue("@userID", request.userID);
                     cmd.Parameters.AddWithValue("@equipmentID", request.equipmentID);
-                    cmd.Parameters.AddWithValue("@rDesc", request.rDesc ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@rStatus", request.rStatus ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rLocation",
+                        request.rLocation ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rDesc",
+                        request.rDesc ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rStatus",
+                        request.rStatus ?? (object)DBNull.Value);
+
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -100,19 +113,35 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool update(Request request)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Requests SET date = @rDate, userID = @userID, equipmentID = @equipmentID, 
-                              rDesc = @rDesc, rStatus = @rStatus WHERE requestID = @requestID";
+                var query = @"
+                    UPDATE Requests
+                    SET rDate = @rDate,
+                        userID = @userID,
+                        equipmentID = @equipmentID,
+                        rLocation = @rLocation,
+                        rDesc = @rDesc,
+                        rStatus = @rStatus
+                    WHERE requestID = @requestID";
+
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@requestID", request.requestID);
                     cmd.Parameters.AddWithValue("@rDate", request.rDate);
                     cmd.Parameters.AddWithValue("@userID", request.userID);
                     cmd.Parameters.AddWithValue("@equipmentID", request.equipmentID);
-                    cmd.Parameters.AddWithValue("@rDesc", request.rDesc ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@rStatus", request.rStatus ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rLocation",
+                        request.rLocation ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rDesc",
+                        request.rDesc ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue(
+                        "@rStatus",
+                        request.rStatus ?? (object)DBNull.Value);
+
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -120,7 +149,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool updateStatus(int requestID, string rStatus)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("UPDATE Requests SET rStatus = @rStatus WHERE requestID = @requestID", conn))
@@ -134,7 +163,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool delete(int requestID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("DELETE FROM Requests WHERE requestID = @requestID", conn))
@@ -153,8 +182,15 @@ namespace SanaPass_EBAAMS.DataRepo
                 rDate = Convert.ToDateTime(reader["rDate"]),
                 userID = Convert.ToInt32(reader["userID"]),
                 equipmentID = Convert.ToInt32(reader["equipmentID"]),
-                rDesc = reader["rDesc"].ToString(),
-                rStatus = reader["rStatus"].ToString()
+                rLocation = reader["rLocation"] == DBNull.Value
+                    ? null
+                    : reader["rLocation"].ToString(),
+                rDesc = reader["rDesc"] == DBNull.Value
+                    ? null
+                    : reader["rDesc"].ToString(),
+                rStatus = reader["rStatus"] == DBNull.Value
+                    ? null
+                    : reader["rStatus"].ToString()
             };
         }
     }

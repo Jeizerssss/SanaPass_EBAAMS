@@ -11,9 +11,10 @@ namespace SanaPass_EBAAMS.DataRepo
 {
     public class CategoryRepository : ICategoryRepository
     {
+        private readonly IDbConnectionFactory _connectionFactory;
         public Category getById(int categoryID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Categories WHERE categoryID = @categoryID", conn))
@@ -31,7 +32,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public Category getByName(string cName)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Categories WHERE cName = @cName", conn))
@@ -50,7 +51,7 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Category> getAll()
         {
             var list = new List<Category>();
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("SELECT * FROM Categories", conn))
@@ -65,7 +66,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool add(Category category)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("INSERT INTO Categories (cName, cDesc) VALUES (@cName, @cDesc)", conn))
@@ -79,7 +80,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool update(Category category)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("UPDATE Categories SET cName = @cName, cDesc = @cDesc WHERE categoryID = @categoryID", conn))
@@ -94,7 +95,7 @@ namespace SanaPass_EBAAMS.DataRepo
 
         public bool delete(int categoryID)
         {
-            using (var conn = DbConnectionFactory.CreateConnection())
+            using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand("DELETE FROM Categories WHERE categoryID = @categoryID", conn))

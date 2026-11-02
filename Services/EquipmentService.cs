@@ -56,5 +56,10 @@ namespace SanaPass_EBAAMS.Services
 
             return _equipmentRepository.getByCategory(categoryID);
         }
+
+        public IEnumerable<Equipment> getAllEquipment()
+        {
+            return _equipmentRepository.getAll();
+        }
     }
 }

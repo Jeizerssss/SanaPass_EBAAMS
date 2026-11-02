@@ -34,38 +34,39 @@ namespace SanaPass_EBAAMS
             this.btnProfile = new System.Windows.Forms.Button();
             this.btnPaymentHistories = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
-            this.btnEquipment = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnLogout = new System.Windows.Forms.Button();
+            this.btnEquipments = new System.Windows.Forms.Button();
+            this.pictureBoxUMLOGO = new System.Windows.Forms.PictureBox();
+            this.btnLogOut = new System.Windows.Forms.Button();
             this.btnTransactionLogs = new System.Windows.Forms.Button();
             this.btnRequests = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
-            this.lblSystemName = new System.Windows.Forms.Label();
+            this.lblSystem = new System.Windows.Forms.Label();
+            this.panelContainer = new System.Windows.Forms.Panel();
             this.pnlSideBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUMLOGO)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlSideBar
             // 
             this.pnlSideBar.BackColor = System.Drawing.Color.Maroon;
-            this.pnlSideBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnlSideBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pnlSideBar.Controls.Add(this.btnProfile);
             this.pnlSideBar.Controls.Add(this.btnPaymentHistories);
             this.pnlSideBar.Controls.Add(this.btnUsers);
-            this.pnlSideBar.Controls.Add(this.btnEquipment);
-            this.pnlSideBar.Controls.Add(this.pictureBox1);
-            this.pnlSideBar.Controls.Add(this.btnLogout);
+            this.pnlSideBar.Controls.Add(this.btnEquipments);
+            this.pnlSideBar.Controls.Add(this.pictureBoxUMLOGO);
+            this.pnlSideBar.Controls.Add(this.btnLogOut);
             this.pnlSideBar.Controls.Add(this.btnTransactionLogs);
             this.pnlSideBar.Controls.Add(this.btnRequests);
             this.pnlSideBar.Controls.Add(this.btnDashboard);
-            this.pnlSideBar.Controls.Add(this.lblSystemName);
-            this.pnlSideBar.ForeColor = System.Drawing.Color.Transparent;
+            this.pnlSideBar.Controls.Add(this.lblSystem);
+            this.pnlSideBar.ForeColor = System.Drawing.Color.White;
             this.pnlSideBar.Location = new System.Drawing.Point(12, 13);
             this.pnlSideBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlSideBar.Name = "pnlSideBar";
             this.pnlSideBar.Padding = new System.Windows.Forms.Padding(10);
             this.pnlSideBar.Size = new System.Drawing.Size(248, 714);
-            this.pnlSideBar.TabIndex = 1;
+            this.pnlSideBar.TabIndex = 11;
             // 
             // btnProfile
             // 
@@ -84,6 +85,7 @@ namespace SanaPass_EBAAMS
             this.btnProfile.Text = "Profile";
             this.btnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnProfile.UseVisualStyleBackColor = false;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
             // 
             // btnPaymentHistories
             // 
@@ -102,6 +104,7 @@ namespace SanaPass_EBAAMS
             this.btnPaymentHistories.Text = "Payment Histories";
             this.btnPaymentHistories.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPaymentHistories.UseVisualStyleBackColor = false;
+            this.btnPaymentHistories.Click += new System.EventHandler(this.btnPaymentHistories_Click);
             // 
             // btnUsers
             // 
@@ -120,53 +123,55 @@ namespace SanaPass_EBAAMS
             this.btnUsers.Text = "Users";
             this.btnUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnUsers.UseVisualStyleBackColor = false;
+            this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
-            // btnEquipment
+            // btnEquipments
             // 
-            this.btnEquipment.BackColor = System.Drawing.Color.Maroon;
-            this.btnEquipment.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEquipment.FlatAppearance.BorderSize = 0;
-            this.btnEquipment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEquipment.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEquipment.ForeColor = System.Drawing.Color.White;
-            this.btnEquipment.Location = new System.Drawing.Point(13, 280);
-            this.btnEquipment.Margin = new System.Windows.Forms.Padding(10);
-            this.btnEquipment.Name = "btnEquipment";
-            this.btnEquipment.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.btnEquipment.Size = new System.Drawing.Size(220, 45);
-            this.btnEquipment.TabIndex = 7;
-            this.btnEquipment.Text = "Equipments";
-            this.btnEquipment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEquipment.UseVisualStyleBackColor = false;
+            this.btnEquipments.BackColor = System.Drawing.Color.Maroon;
+            this.btnEquipments.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEquipments.FlatAppearance.BorderSize = 0;
+            this.btnEquipments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEquipments.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEquipments.ForeColor = System.Drawing.Color.White;
+            this.btnEquipments.Location = new System.Drawing.Point(13, 280);
+            this.btnEquipments.Margin = new System.Windows.Forms.Padding(10);
+            this.btnEquipments.Name = "btnEquipments";
+            this.btnEquipments.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnEquipments.Size = new System.Drawing.Size(220, 45);
+            this.btnEquipments.TabIndex = 7;
+            this.btnEquipments.Text = "Equipments";
+            this.btnEquipments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEquipments.UseVisualStyleBackColor = false;
+            this.btnEquipments.Click += new System.EventHandler(this.btnEquipments_Click);
             // 
-            // pictureBox1
+            // pictureBoxUMLOGO
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(28, 45);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(55, 55);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxUMLOGO.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxUMLOGO.Image")));
+            this.pictureBoxUMLOGO.Location = new System.Drawing.Point(28, 45);
+            this.pictureBoxUMLOGO.Name = "pictureBoxUMLOGO";
+            this.pictureBoxUMLOGO.Size = new System.Drawing.Size(55, 55);
+            this.pictureBoxUMLOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxUMLOGO.TabIndex = 6;
+            this.pictureBoxUMLOGO.TabStop = false;
             // 
-            // btnLogout
+            // btnLogOut
             // 
-            this.btnLogout.BackColor = System.Drawing.Color.Maroon;
-            this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLogout.FlatAppearance.BorderSize = 0;
-            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogout.ForeColor = System.Drawing.Color.White;
-            this.btnLogout.Location = new System.Drawing.Point(13, 655);
-            this.btnLogout.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.btnLogout.Size = new System.Drawing.Size(220, 45);
-            this.btnLogout.TabIndex = 5;
-            this.btnLogout.Text = "Logout";
-            this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLogout.UseVisualStyleBackColor = false;
-            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            this.btnLogOut.BackColor = System.Drawing.Color.Maroon;
+            this.btnLogOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLogOut.FlatAppearance.BorderSize = 0;
+            this.btnLogOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogOut.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogOut.ForeColor = System.Drawing.Color.White;
+            this.btnLogOut.Location = new System.Drawing.Point(13, 655);
+            this.btnLogOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnLogOut.Name = "btnLogOut";
+            this.btnLogOut.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnLogOut.Size = new System.Drawing.Size(220, 45);
+            this.btnLogOut.TabIndex = 5;
+            this.btnLogOut.Text = "Logout";
+            this.btnLogOut.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogOut.UseVisualStyleBackColor = false;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click_1);
             // 
             // btnTransactionLogs
             // 
@@ -204,7 +209,7 @@ namespace SanaPass_EBAAMS
             this.btnRequests.Text = "Requests";
             this.btnRequests.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRequests.UseVisualStyleBackColor = false;
-            this.btnRequests.Click += new System.EventHandler(this.btnBorrowRequests_Click);
+            this.btnRequests.Click += new System.EventHandler(this.btnRequests_Click);
             // 
             // btnDashboard
             // 
@@ -225,17 +230,24 @@ namespace SanaPass_EBAAMS
             this.btnDashboard.UseVisualStyleBackColor = false;
             this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
-            // lblSystemName
+            // lblSystem
             // 
-            this.lblSystemName.AutoSize = true;
-            this.lblSystemName.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSystemName.ForeColor = System.Drawing.Color.White;
-            this.lblSystemName.Location = new System.Drawing.Point(92, 54);
-            this.lblSystemName.Margin = new System.Windows.Forms.Padding(0);
-            this.lblSystemName.Name = "lblSystemName";
-            this.lblSystemName.Size = new System.Drawing.Size(112, 32);
-            this.lblSystemName.TabIndex = 0;
-            this.lblSystemName.Text = "EBAAMS";
+            this.lblSystem.AutoSize = true;
+            this.lblSystem.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSystem.ForeColor = System.Drawing.Color.White;
+            this.lblSystem.Location = new System.Drawing.Point(92, 54);
+            this.lblSystem.Margin = new System.Windows.Forms.Padding(0);
+            this.lblSystem.Name = "lblSystem";
+            this.lblSystem.Size = new System.Drawing.Size(112, 32);
+            this.lblSystem.TabIndex = 0;
+            this.lblSystem.Text = "EBAAMS";
+            // 
+            // panelContainer
+            // 
+            this.panelContainer.Location = new System.Drawing.Point(258, 13);
+            this.panelContainer.Name = "panelContainer";
+            this.panelContainer.Size = new System.Drawing.Size(1051, 715);
+            this.panelContainer.TabIndex = 12;
             // 
             // ASUI
             // 
@@ -244,34 +256,36 @@ namespace SanaPass_EBAAMS
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Maroon;
             this.ClientSize = new System.Drawing.Size(1321, 740);
+            this.Controls.Add(this.panelContainer);
             this.Controls.Add(this.pnlSideBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.DarkGray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
             this.Name = "ASUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "adminDashboard";
+            this.Text = "adminUI";
             this.Load += new System.EventHandler(this.AdminDashboard_Load);
             this.pnlSideBar.ResumeLayout(false);
             this.pnlSideBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUMLOGO)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
         private System.Windows.Forms.Panel pnlSideBar;
-        private System.Windows.Forms.Label lblSystemName;
-        private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnProfile;
+        private System.Windows.Forms.Button btnPaymentHistories;
+        private System.Windows.Forms.Button btnUsers;
+        private System.Windows.Forms.Button btnEquipments;
+        private System.Windows.Forms.PictureBox pictureBoxUMLOGO;
+        private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.Button btnTransactionLogs;
         private System.Windows.Forms.Button btnRequests;
         private System.Windows.Forms.Button btnDashboard;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnEquipment;
-        private System.Windows.Forms.Button btnUsers;
-        private System.Windows.Forms.Button btnPaymentHistories;
-        private System.Windows.Forms.Button btnProfile;
+        private System.Windows.Forms.Label lblSystem;
+        private System.Windows.Forms.Panel panelContainer;
     }
 }

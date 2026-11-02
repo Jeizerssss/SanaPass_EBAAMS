@@ -35,11 +35,10 @@
             this.txtBoxAFinesSearch = new System.Windows.Forms.TextBox();
             this.pnlAFinesBottom = new System.Windows.Forms.Panel();
             this.btnARequestDetails = new System.Windows.Forms.Button();
-            this.btnAReturnAll = new System.Windows.Forms.Button();
-            this.btnAApproveAll = new System.Windows.Forms.Button();
             this.lblALastChecked = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAFines = new System.Windows.Forms.DataGridView();
+            this.btnSettleFine = new System.Windows.Forms.Button();
             this.pnlAFinesTop.SuspendLayout();
             this.pnlAFinesBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAFines)).BeginInit();
@@ -101,9 +100,8 @@
             // pnlAFinesBottom
             // 
             this.pnlAFinesBottom.BackColor = System.Drawing.Color.Maroon;
+            this.pnlAFinesBottom.Controls.Add(this.btnSettleFine);
             this.pnlAFinesBottom.Controls.Add(this.btnARequestDetails);
-            this.pnlAFinesBottom.Controls.Add(this.btnAReturnAll);
-            this.pnlAFinesBottom.Controls.Add(this.btnAApproveAll);
             this.pnlAFinesBottom.Controls.Add(this.lblALastChecked);
             this.pnlAFinesBottom.Controls.Add(this.label1);
             this.pnlAFinesBottom.Location = new System.Drawing.Point(3, 625);
@@ -120,26 +118,6 @@
             this.btnARequestDetails.TabIndex = 4;
             this.btnARequestDetails.Text = "Details";
             this.btnARequestDetails.UseVisualStyleBackColor = true;
-            // 
-            // btnAReturnAll
-            // 
-            this.btnAReturnAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAReturnAll.Location = new System.Drawing.Point(779, 25);
-            this.btnAReturnAll.Name = "btnAReturnAll";
-            this.btnAReturnAll.Size = new System.Drawing.Size(113, 35);
-            this.btnAReturnAll.TabIndex = 3;
-            this.btnAReturnAll.Text = "Return All";
-            this.btnAReturnAll.UseVisualStyleBackColor = true;
-            // 
-            // btnAApproveAll
-            // 
-            this.btnAApproveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAApproveAll.Location = new System.Drawing.Point(651, 25);
-            this.btnAApproveAll.Name = "btnAApproveAll";
-            this.btnAApproveAll.Size = new System.Drawing.Size(122, 35);
-            this.btnAApproveAll.TabIndex = 2;
-            this.btnAApproveAll.Text = "Approve All";
-            this.btnAApproveAll.UseVisualStyleBackColor = true;
             // 
             // lblALastChecked
             // 
@@ -172,6 +150,16 @@
             this.dgvAFines.Size = new System.Drawing.Size(1045, 510);
             this.dgvAFines.TabIndex = 6;
             // 
+            // btnSettleFine
+            // 
+            this.btnSettleFine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSettleFine.Location = new System.Drawing.Point(769, 25);
+            this.btnSettleFine.Name = "btnSettleFine";
+            this.btnSettleFine.Size = new System.Drawing.Size(113, 35);
+            this.btnSettleFine.TabIndex = 5;
+            this.btnSettleFine.Text = "Settle Fine";
+            this.btnSettleFine.UseVisualStyleBackColor = true;
+            // 
             // Fines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -199,10 +187,9 @@
         private System.Windows.Forms.TextBox txtBoxAFinesSearch;
         private System.Windows.Forms.Panel pnlAFinesBottom;
         private System.Windows.Forms.Button btnARequestDetails;
-        private System.Windows.Forms.Button btnAReturnAll;
-        private System.Windows.Forms.Button btnAApproveAll;
         private System.Windows.Forms.Label lblALastChecked;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvAFines;
+        private System.Windows.Forms.Button btnSettleFine;
     }
 }

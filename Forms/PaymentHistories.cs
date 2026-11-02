@@ -23,25 +23,22 @@ namespace SanaPass_EBAAMS.Forms
             dgvPaymentHistory.AutoGenerateColumns = false;
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "paymentID", DataPropertyName = "paymentID", HeaderText = "ID", Width = 60, ReadOnly = true });
+            { Name = "paymentHistoriesID", DataPropertyName = "paymentHistoriesID", HeaderText = "ID", Width = 60, ReadOnly = true });
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "referenceNo", DataPropertyName = "referenceNo", HeaderText = "Ref No.", Width = 110, ReadOnly = true });
+            { Name = "userID", DataPropertyName = "userID", HeaderText = "User ID", Width = 80, ReadOnly = true });
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "borrowerName", DataPropertyName = "borrowerName", HeaderText = "Borrower", Width = 160, ReadOnly = true });
+            { Name = "pHType", DataPropertyName = "pHType", HeaderText = "Type", Width = 120, ReadOnly = true });
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "paymentType", DataPropertyName = "paymentType", HeaderText = "Type", Width = 120, ReadOnly = true });
+            { Name = "amountReceived", DataPropertyName = "amountReceived", HeaderText = "Amount Received", Width = 110, ReadOnly = true });
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "amount", DataPropertyName = "amount", HeaderText = "Amount", Width = 90, ReadOnly = true });
+            { Name = "remainingBalance", DataPropertyName = "remainingBalance", HeaderText = "Remaining Balance", Width = 130, ReadOnly = true });
 
             dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "paymentDate", DataPropertyName = "paymentDate", HeaderText = "Date Paid", Width = 110, ReadOnly = true });
-
-            dgvPaymentHistory.Columns.Add(new DataGridViewTextBoxColumn()
-            { Name = "status", DataPropertyName = "status", HeaderText = "Status", Width = 100, ReadOnly = true });
+            { Name = "pDate", DataPropertyName = "pDate", HeaderText = "Payment Date", Width = 110, ReadOnly = true });
         }
     }
 }
