@@ -86,7 +86,7 @@ namespace SanaPass_EBAAMS.Forms
             }
         }
 
-        private void btnARefreshEquipment_Click(object sender, EventArgs e)
+        private void ApplyFilters()
         {
             LoadUsers();
         }
