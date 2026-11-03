@@ -104,7 +104,7 @@ namespace SanaPass_EBAAMS
 
                 if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    ASUI dashboard = new ASUI(_equipmentService, _requestService, _reportService, loggedInUser);
+                    ASUI dashboard = new ASUI(_equipmentService, _requestService, _reportService, _userService, loggedInUser);
                     dashboard.FormClosed += delegate
                     {
                         txtUsername.Clear();
@@ -119,6 +119,7 @@ namespace SanaPass_EBAAMS
                     new SSUI(
                         _equipmentService,
                         _requestService,
+                        _userService,
                         loggedInUser);
 
                     staffDashboard.FormClosed += delegate

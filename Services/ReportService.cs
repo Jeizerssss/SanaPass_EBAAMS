@@ -1,4 +1,5 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
+using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,29 +20,59 @@ namespace SanaPass_EBAAMS.Services
             IMaintenanceRepository maintenanceRepository,
             ICategoryRepository categoryRepository)
         {
-            _requestRepository = requestRepository;
-            _equipmentRepository = equipmentRepository;
-            _maintenanceRepository = maintenanceRepository;
-            _categoryRepository = categoryRepository;
+            _requestRepository =
+                requestRepository
+                ?? throw new ArgumentNullException(nameof(requestRepository));
+
+            _equipmentRepository =
+                equipmentRepository
+                ?? throw new ArgumentNullException(nameof(equipmentRepository));
+
+            _maintenanceRepository =
+                maintenanceRepository
+                ?? throw new ArgumentNullException(nameof(maintenanceRepository));
+
+            _categoryRepository =
+                categoryRepository
+                ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
         public Dictionary<string, int> getMonthlyBorrowTrends()
         {
-            var requests = _requestRepository.getAll();
+            IEnumerable<Request> requests =
+                _requestRepository.getAll()
+                ?? Enumerable.Empty<Request>();
+
             return requests
-                .GroupBy(r => r.rDate.ToString("MMM"))
-                .ToDictionary(g => g.Key, g => g.Count());
+                .GroupBy(request => request.rDate.ToString("MMM"))
+                .OrderBy(group => group.Min(request => request.rDate.Month))
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Count());
         }
 
         public Dictionary<string, int> getEquipmentCountByCategory()
         {
-            var categories = _categoryRepository.getAll();
-            var result = new Dictionary<string, int>();
+            IEnumerable<Category> categories =
+                _categoryRepository.getAll()
+                ?? Enumerable.Empty<Category>();
 
-            foreach (var cat in categories)
+            Dictionary<string, int> result =
+                new Dictionary<string, int>();
+
+            foreach (Category category in categories)
             {
-                int count = _equipmentRepository.getByCategory(cat.categoryID).Count();
-                result.Add(cat.cName, count);
+                string categoryName =
+                    string.IsNullOrWhiteSpace(category.cName)
+                        ? "Uncategorized"
+                        : category.cName;
+
+                IEnumerable<Equipment> equipment =
+                    _equipmentRepository.getByCategory(
+                        category.categoryID)
+                    ?? Enumerable.Empty<Equipment>();
+
+                result[categoryName] = equipment.Count();
             }
 
             return result;
@@ -49,52 +80,119 @@ namespace SanaPass_EBAAMS.Services
 
         public int getPendingRequestsCount()
         {
-            return _requestRepository.getAll().Count(request =>
-                request.rStatus == "Pending" ||
-                request.rStatus == "Pending Approval" ||
-                request.rStatus == "Pending Release");
+            IEnumerable<Request> requests =
+                _requestRepository.getAll()
+                ?? Enumerable.Empty<Request>();
+
+            return requests.Count(request =>
+                IsStatus(request.rStatus, "Pending") ||
+                IsStatus(request.rStatus, "Pending Approval") ||
+                IsStatus(request.rStatus, "Pending Release"));
         }
 
         public int getBorrowedItemsCount()
         {
-            return _requestRepository.getAll().Count(request =>
-                request.rStatus == "Issued" || request.rStatus == "Pending Return");
+            IEnumerable<Request> requests =
+                _requestRepository.getAll()
+                ?? Enumerable.Empty<Request>();
+
+            return requests.Count(request =>
+                IsStatus(request.rStatus, "Issued") ||
+                IsStatus(request.rStatus, "Pending Return"));
         }
 
         public int getOverdueReturnCount()
         {
-            DateTime overdueThreshold = DateTime.Now.AddDays(-3);
-            return _requestRepository.getAll().Count(request =>
-                (request.rStatus == "Issued" || request.rStatus == "Pending Return") &&
+            DateTime overdueThreshold =
+                DateTime.Now.AddDays(-3);
+
+            IEnumerable<Request> requests =
+                _requestRepository.getAll()
+                ?? Enumerable.Empty<Request>();
+
+            return requests.Count(request =>
+                (IsStatus(request.rStatus, "Issued") ||
+                 IsStatus(request.rStatus, "Pending Return")) &&
                 request.rDate < overdueThreshold);
         }
 
         public int getMaintenanceItemsCount()
         {
-            return _equipmentRepository.getAll().Count(e => e.eStatus == "Under Maintenance");
+            IEnumerable<Equipment> equipment =
+                _equipmentRepository.getAll()
+                ?? Enumerable.Empty<Equipment>();
+
+            return equipment.Count(item =>
+                IsStatus(item.eStatus, "Under Maintenance"));
         }
+
+        public int getAvailableEquipmentCount()
+        {
+            IEnumerable<Equipment> equipment =
+                _equipmentRepository.getAll()
+                ?? Enumerable.Empty<Equipment>();
+
+            return equipment.Count(item =>
+                IsStatus(item.eStatus, "Available"));
+        }
+
         public string buildBusinessSummary()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("Business Summary Report");
-            sb.AppendLine($"Generated on: {DateTime.Now}");
-            sb.AppendLine();
-            sb.AppendLine($"Total Pending Requests: {getPendingRequestsCount()}");
-            sb.AppendLine($"Total Borrowed Items: {getBorrowedItemsCount()}");
-            sb.AppendLine($"Total Maintenance Items: {getMaintenanceItemsCount()}");
-            sb.AppendLine();
-            sb.AppendLine("Monthly Borrow Trends:");
-            foreach (var trend in getMonthlyBorrowTrends())
+            StringBuilder summary =
+                new StringBuilder();
+
+            summary.AppendLine("Business Summary Report");
+            summary.AppendLine(
+                "Generated on: " + DateTime.Now);
+            summary.AppendLine();
+
+            summary.AppendLine(
+                "Total Pending Requests: " +
+                getPendingRequestsCount());
+
+            summary.AppendLine(
+                "Total Borrowed Items: " +
+                getBorrowedItemsCount());
+
+            summary.AppendLine(
+                "Total Available Equipment: " +
+                getAvailableEquipmentCount());
+
+            summary.AppendLine(
+                "Total Maintenance Items: " +
+                getMaintenanceItemsCount());
+
+            summary.AppendLine();
+            summary.AppendLine("Monthly Borrow Trends:");
+
+            foreach (KeyValuePair<string, int> trend
+                in getMonthlyBorrowTrends())
             {
-                sb.AppendLine($"{trend.Key}: {trend.Value}");
+                summary.AppendLine(
+                    trend.Key + ": " + trend.Value);
             }
-            sb.AppendLine();
-            sb.AppendLine("Equipment Count by Category:");
-            foreach (var category in getEquipmentCountByCategory())
+
+            summary.AppendLine();
+            summary.AppendLine("Equipment Count by Category:");
+
+            foreach (KeyValuePair<string, int> category
+                in getEquipmentCountByCategory())
             {
-                sb.AppendLine($"{category.Key}: {category.Value}");
+                summary.AppendLine(
+                    category.Key + ": " + category.Value);
             }
-            return sb.ToString();
+
+            return summary.ToString();
+        }
+
+        private static bool IsStatus(
+            string actualStatus,
+            string expectedStatus)
+        {
+            return string.Equals(
+                actualStatus,
+                expectedStatus,
+                StringComparison.OrdinalIgnoreCase);
         }
     }
 }

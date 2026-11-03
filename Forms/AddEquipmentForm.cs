@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
@@ -29,7 +22,30 @@ namespace SanaPass_EBAAMS.Forms
                 ?? throw new ArgumentNullException(nameof(equipmentService));
         }
 
-        public bool DataChanged { get; set; } = false;
+        public bool DataChanged { get; set; }
+
+        private void LoadLookupData()
+        {
+            comboBoxCategory.Items.Clear();
+            comboBoxCategory.Items.Add(1);
+            comboBoxCategory.SelectedIndex = 0;
+
+            comboBoxLocation.Items.Clear();
+            comboBoxLocation.Items.Add(1);
+            comboBoxLocation.SelectedIndex = 0;
+
+            comboBoxStatus.Items.Clear();
+            comboBoxStatus.Items.Add("Available");
+            comboBoxStatus.Items.Add("Borrowed");
+            comboBoxStatus.Items.Add("Under Maintenance");
+            comboBoxStatus.SelectedIndex = 0;
+
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("Good");
+            comboBox1.Items.Add("Needs Repair");
+            comboBox1.Items.Add("Damaged");
+            comboBox1.SelectedIndex = 0;
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -59,10 +75,10 @@ namespace SanaPass_EBAAMS.Forms
             {
                 eName = textBoxName.Text.Trim(),
                 eDesc = textBoxEquipmentDescription.Text.Trim(),
-                categoryID = Convert.ToInt32(comboBoxCategory.SelectedValue ?? 1),
-                locationID = Convert.ToInt32(comboBoxLocation.SelectedValue ?? 1),
+                categoryID = Convert.ToInt32(comboBoxCategory.SelectedItem),
+                locationID = Convert.ToInt32(comboBoxLocation.SelectedItem),
                 eStatus = comboBoxStatus.Text.Trim(),
-                eCondition = "Good"
+                eCondition = comboBox1.Text.Trim()
             };
 
             try

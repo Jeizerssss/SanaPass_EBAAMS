@@ -18,6 +18,7 @@ namespace SanaPass_EBAAMS.Forms
     {
         private readonly int _equipmentID;
         private readonly IEquipmentService _equipmentService;
+        private Equipment _equipment;
         public bool DataChanged { get; set; } = false;
 
         public ViewEquipmentForm()
@@ -43,10 +44,20 @@ namespace SanaPass_EBAAMS.Forms
         {
             try
             {
-                Equipment equipment =
-                    _equipmentService.getEquipmentById(id);
+                if (_equipmentService == null)
+                {
+                    MessageBox.Show(
+                        "The equipment service is not available.",
+                        "Application Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
 
-                if (equipment == null)
+                    return;
+                }
+
+                _equipment = _equipmentService.getEquipmentById(id);
+
+                if (_equipment == null)
                 {
                     MessageBox.Show(
                         "The equipment record could not be found.",
@@ -57,13 +68,13 @@ namespace SanaPass_EBAAMS.Forms
                     return;
                 }
 
-                txtEquipmentID.Text = equipment.equipmentID.ToString();
-                textName.Text = equipment.eName;
-                textEquipmentDescription.Text = equipment.eDesc;
-                textCategory.Text = equipment.categoryID.ToString();
-                textLocation.Text = equipment.locationID.ToString();
-                textStatus.Text = equipment.eStatus;
-                textCondition.Text = equipment.eCondition;
+                txtEquipmentID.Text = _equipment.equipmentID.ToString();
+                textName.Text = _equipment.eName;
+                textEquipmentDescription.Text = _equipment.eDesc;
+                textCategory.Text = _equipment.categoryID.ToString();
+                textLocation.Text = _equipment.locationID.ToString();
+                textStatus.Text = _equipment.eStatus;
+                textCondition.Text = _equipment.eCondition;
             }
             catch (Exception ex)
             {

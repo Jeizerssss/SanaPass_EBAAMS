@@ -17,10 +17,12 @@ namespace SanaPass_EBAAMS.Forms
     public partial class Equipments : UserControl
     {
         private readonly IEquipmentService _equipmentService;
+        private readonly IDbConnectionFactory _connectionFactory;
 
         public Equipments()
         {
             InitializeComponent();
+            _connectionFactory = new MySqlConnectionFactory();
         }
 
         public Equipments(IEquipmentService equipmentService)
@@ -146,27 +148,44 @@ namespace SanaPass_EBAAMS.Forms
         {
             try
             {
-                var categories = new CategoryRepository().getAll()
+                var categories = new CategoryRepository(_connectionFactory)
+                    .getAll()
                     .OrderBy(category => category.cName)
-                    .Select(category => $"{category.categoryID}: {category.cName}")
+                    .Select(category =>
+                        $"{category.categoryID}: {category.cName}")
                     .ToList();
-                var locations = new LocationRepository().getAll()
+
+                var locations = new LocationRepository(_connectionFactory)
+                    .getAll()
                     .OrderBy(location => location.lName)
-                    .Select(location => $"{location.locationID}: {location.lName} (Floor {location.lFloorNo})")
+                    .Select(location =>
+                        $"{location.locationID}: {location.lName} " +
+                        $"(Floor {location.lFloorNo})")
                     .ToList();
 
-                string details = "Categories\n" +
-                    (categories.Count == 0 ? "(none)" : string.Join(Environment.NewLine, categories)) +
+                string details =
+                    "Categories\n" +
+                    (categories.Count == 0
+                        ? "(none)"
+                        : string.Join(Environment.NewLine, categories)) +
                     "\n\nLocations\n" +
-                    (locations.Count == 0 ? "(none)" : string.Join(Environment.NewLine, locations));
+                    (locations.Count == 0
+                        ? "(none)"
+                        : string.Join(Environment.NewLine, locations));
 
-                MessageBox.Show(details, "Equipment Categories and Locations",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    details,
+                    "Equipment Categories and Locations",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unable to load categories and locations: {ex.Message}", "Lookup Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Unable to load categories and locations: {ex.Message}",
+                    "Lookup Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

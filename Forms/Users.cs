@@ -15,7 +15,7 @@ namespace SanaPass_EBAAMS.Forms
 {
     public partial class Users : UserControl
     {
-        private readonly UserRepository _userRepository = new UserRepository();
+        private readonly UserRepository _userRepository = new UserRepository(new MySqlConnectionFactory());
         private List<User> _users = new List<User>();
 
         public Users()
@@ -73,9 +73,12 @@ namespace SanaPass_EBAAMS.Forms
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            using (var registerForm = new Register(new AuthService(_userRepository), true))
+            using (var registerForm =
+                new Register(new AuthService(_userRepository)))
             {
-                registerForm.StartPosition = FormStartPosition.CenterParent;
+                registerForm.StartPosition =
+                    FormStartPosition.CenterParent;
+
                 if (registerForm.ShowDialog(this) == DialogResult.OK)
                 {
                     LoadUsers();

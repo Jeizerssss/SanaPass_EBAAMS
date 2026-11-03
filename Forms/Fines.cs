@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System;
-using System.Collections.Generic;
 using SanaPass_EBAAMS.DataRepo;
 using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
@@ -19,6 +12,7 @@ namespace SanaPass_EBAAMS.Forms
     public partial class Fines : UserControl
     {
         private readonly IFineRepository _fineRepository;
+        private readonly IRequestRepository _requestRepository;
         private readonly IFineService _fineService;
         private readonly int _handledBy;
         private readonly int? _borrowerID;
@@ -32,24 +26,61 @@ namespace SanaPass_EBAAMS.Forms
         public Fines(int handledBy, int? borrowerID)
         {
             InitializeComponent();
+
             _handledBy = handledBy;
             _borrowerID = borrowerID;
-            var requestRepository = new RequestRepository();
-            _fineRepository = new FineRepository();
-            _fineService = new FineService(
-                _fineRepository,
-                requestRepository,
-                new PaymentHistoryRepository(),
-                new TransactionLogRepository());
+
+            IDbConnectionFactory connectionFactory =
+                new MySqlConnectionFactory();
+
+            _requestRepository =
+                new RequestRepository(connectionFactory);
+
+            _fineRepository =
+                new FineRepository(connectionFactory);
+
+            IPaymentHistoryRepository paymentHistoryRepository =
+                new PaymentHistoryRepository(connectionFactory);
+
+            ITransactionLogRepository transactionLogRepository =
+                new TransactionLogRepository(connectionFactory);
+
+            _fineService =
+                new FineService(
+                    _fineRepository,
+                    _requestRepository,
+                    paymentHistoryRepository,
+                    transactionLogRepository);
+
             SetupFinesGrid();
-            btnARefreshFines.Click += btnARefreshFines_Click;
-            btnARequestDetails.Click += btnARequestDetails_Click;
-            btnSettleFine.Click += btnSettleFine_Click;
-            txtBoxAFinesSearch.TextChanged += txtBoxAFinesSearch_TextChanged;
-            cmbAFilterStatus.SelectedIndexChanged += txtBoxAFinesSearch_TextChanged;
-            cmbAFilterStatus.Items.AddRange(new object[] { "All", "Unpaid", "Partial", "Paid" });
+
+            btnARefreshFines.Click +=
+                btnARefreshFines_Click;
+
+            btnARequestDetails.Click +=
+                btnARequestDetails_Click;
+
+            btnSettleFine.Click +=
+                btnSettleFine_Click;
+
+            txtBoxAFinesSearch.TextChanged +=
+                txtBoxAFinesSearch_TextChanged;
+
+            cmbAFilterStatus.SelectedIndexChanged +=
+                txtBoxAFinesSearch_TextChanged;
+
+            cmbAFilterStatus.Items.AddRange(
+                new object[]
+                {
+                    "All",
+                    "Unpaid",
+                    "Partial",
+                    "Paid"
+                });
+
             cmbAFilterStatus.SelectedIndex = 0;
             btnSettleFine.Visible = handledBy > 0;
+
             LoadFinesData();
         }
 
@@ -140,7 +171,8 @@ namespace SanaPass_EBAAMS.Forms
                 _fines = _fineRepository.getAll().ToList();
                 if (_borrowerID.HasValue)
                 {
-                    var requestIDs = new HashSet<int>(new RequestRepository()
+                    var requestIDs = new HashSet<int>(
+                        _requestRepository
                         .getByUserId(_borrowerID.Value)
                         .Select(request => request.requestID));
                     _fines = _fines.Where(fine => requestIDs.Contains(fine.requestID)).ToList();

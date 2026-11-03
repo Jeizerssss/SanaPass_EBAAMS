@@ -1,36 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using SanaPass_EBAAMS.DataRepo;
+using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SanaPass_EBAAMS.DataRepo;
-using SanaPass_EBAAMS.Models;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace SanaPass_EBAAMS.Forms
 {
-    public partial class TransactionLogs: UserControl
+    public partial class TransactionLogs : UserControl
     {
-        private readonly TransactionLogRepository _repository = new TransactionLogRepository();
-        private List<TransactionLog> _logs = new List<TransactionLog>();
+        private readonly TransactionLogRepository _repository =
+            new TransactionLogRepository(
+                new MySqlConnectionFactory());
+
+        private List<TransactionLog> _logs =
+            new List<TransactionLog>();
 
         public TransactionLogs()
         {
             InitializeComponent();
             SetupGrid();
-            btnARefreshTransactionLogs.Click += btnARefreshTransactionLogs_Click;
-            btnPaymentDetails.Click += btnPaymentDetails_Click;
-            btnPaymentHistoriesExport.Click += btnPaymentHistoriesExport_Click;
-            txtBoxLogSearch.TextChanged += txtBoxLogSearch_TextChanged;
-            cmbLogsFilter.SelectedIndexChanged += txtBoxLogSearch_TextChanged;
+
+            btnARefreshTransactionLogs.Click +=
+                btnARefreshTransactionLogs_Click;
+
+            btnPaymentDetails.Click +=
+                btnPaymentDetails_Click;
+
+            btnPaymentHistoriesExport.Click +=
+                btnPaymentHistoriesExport_Click;
+
+            txtBoxLogSearch.TextChanged +=
+                txtBoxLogSearch_TextChanged;
+
+            cmbLogsFilter.SelectedIndexChanged +=
+                txtBoxLogSearch_TextChanged;
+
             cmbLogsFilter.Items.Add("All Histories");
             cmbLogsFilter.SelectedIndex = 0;
+
             LoadLogs();
         }
 

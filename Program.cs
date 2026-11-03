@@ -81,16 +81,6 @@ namespace SanaPass_EBAAMS
                     fineService,
                     maintenanceRepository);
 
-            IAuthService authService =
-                new AuthService(userRepository);
-
-            IReportService reportService =
-                new ReportService(
-                    requestRepository,
-                    equipmentRepository,
-                    maintenanceRepository,
-                    categoryRepository);
-
             Application.Run(
                 new LogIn(
                     authService,

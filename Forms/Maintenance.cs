@@ -16,7 +16,7 @@ namespace SanaPass_EBAAMS.Forms
 {
     public partial class Maintenance : UserControl
     {
-        private readonly IMaintenanceRepository _maintenanceRepository = new MaintenanceRepository();
+        private readonly IMaintenanceRepository _maintenanceRepository = new MaintenanceRepository(new MySqlConnectionFactory());
         private readonly IEquipmentService _equipmentService = new EquipmentService(
             new EquipmentRepository(new MySqlConnectionFactory()));
         private List<SanaPass_EBAAMS.Models.Maintenance> _records =

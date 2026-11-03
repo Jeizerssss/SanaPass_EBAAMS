@@ -15,7 +15,7 @@ namespace SanaPass_EBAAMS.Forms
 {
     public partial class PaymentHistories : UserControl
     {
-        private readonly PaymentHistoryRepository _repository = new PaymentHistoryRepository();
+        private readonly PaymentHistoryRepository _repository = new PaymentHistoryRepository(new MySqlConnectionFactory());
         private List<PaymentHistory> _payments = new List<PaymentHistory>();
 
         public PaymentHistories()
