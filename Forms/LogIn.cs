@@ -13,6 +13,9 @@ namespace SanaPass_EBAAMS
         private readonly IAuthService _authService;
         private readonly IEquipmentService _equipmentService;
         private readonly IRequestService _requestService;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IReportService _reportService;
+        private readonly IUserService _userService;
 
         // Default constructor for WinForms designer support
         public LogIn()
@@ -21,12 +24,15 @@ namespace SanaPass_EBAAMS
         }
 
         // Dependency injection constructor
-        public LogIn(IAuthService authService, IEquipmentService equipmentService, IRequestService requestService)
+        public LogIn(IAuthService authService, IEquipmentService equipmentService, IRequestService requestService, IEmployeeRepository employeeRepository, IReportService reportService, IUserService userService)
             : this()
         {
-            _authService = authService;
-            _equipmentService = equipmentService;
-            _requestService = requestService;
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _equipmentService = equipmentService ?? throw new ArgumentNullException(nameof(equipmentService));
+            _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _reportService = reportService ?? throw new ArgumentNullException(nameof(reportService));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         private void LogIn_Load(object sender, EventArgs e)
@@ -91,43 +97,52 @@ namespace SanaPass_EBAAMS
             this.Hide();
             string userRole = loggedInUser.uRole ?? string.Empty;
 
-                string role = loggedInUser.uRole?.Trim() ?? string.Empty;
+            if (userRole.Equals("Employee", StringComparison.OrdinalIgnoreCase))
+            {
+                Employee employee = _employeeRepository.getByUserId(loggedInUser.userID);
+                string employeeRole = employee == null ? string.Empty : employee.ePosition ?? string.Empty;
 
-                if (loggedInUser.uRole.Equals("Employee", StringComparison.OrdinalIgnoreCase))
+                if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    UserRepository userRepo = new UserRepository();
-                    string employeeRole = userRepo.GetEmployeeRole(loggedInUser.userID);
+                    ASUI dashboard = new ASUI(_equipmentService, _requestService, _reportService, loggedInUser);
+                    dashboard.FormClosed += delegate
+                    {
+                        txtUsername.Clear();
+                        txtPassword.Clear();
+                        this.Show();
+                    };
+                    dashboard.Show();
+                }
+                else if (employeeRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
+                {
+                    SSUI staffDashboard =
+                    new SSUI(
+                        _equipmentService,
+                        _requestService,
+                        loggedInUser);
 
-                    if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    staffDashboard.FormClosed += delegate
                     {
-                        ASUI dashboard = new ASUI(_equipmentService, _requestService, loggedInUser);
-                        dashboard.Show();
-                    }
-                    else if (employeeRole.Equals("Staff", StringComparison.OrdinalIgnoreCase))
-                    {
-                        SSUI staffDashboard = new SSUI(); // Pass required parameters if needed
-                        staffDashboard.Show();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Employee record found, but no specific staff or admin role was assigned.",
-                                        "Access Notice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                        txtUsername.Clear();
+                        txtPassword.Clear();
+                        this.Show();
+                    };
+
+                    staffDashboard.Show();
                 }
                 else
                 {
-                    BSUI dashboard = new BSUI(loggedInUser, _equipmentService, _requestService);
-                    dashboard.Show();
+                    MessageBox.Show(
+                        "Employee record found, but no specific staff or admin role was assigned.",
+                        "Access Notice",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+
+                    this.Show();
                 }
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Invalid username or password.",
-                    "Login Failed",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+
+                return;
             }
 
             BSUI userDashboard =
