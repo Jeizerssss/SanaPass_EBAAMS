@@ -75,7 +75,7 @@
             this.btnARefreshUsers.TabIndex = 2;
             this.btnARefreshUsers.Text = "Refresh";
             this.btnARefreshUsers.UseVisualStyleBackColor = true;
-            this.btnARefreshUsers.Click += new System.EventHandler(this.btnARefreshEquipment_Click);
+            this.btnARefreshUsers.Click += new System.EventHandler(this.btnARefreshUsers_Click);
             // 
             // lblUsers
             // 

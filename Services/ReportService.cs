@@ -68,8 +68,7 @@ namespace SanaPass_EBAAMS.Services
                         : category.cName;
 
                 IEnumerable<Equipment> equipment =
-                    _equipmentRepository.getByCategory(
-                        category.categoryID)
+                    _equipmentRepository.getByCategory(category.categoryID)
                     ?? Enumerable.Empty<Equipment>();
 
                 result[categoryName] = equipment.Count();
@@ -116,22 +115,13 @@ namespace SanaPass_EBAAMS.Services
                 request.rDate < overdueThreshold);
         }
 
-        public int getOverdueReturnCount()
-        {
-            DateTime overdueThreshold = DateTime.Now.AddDays(-3);
-            return _requestRepository.getAll().Count(request =>
-                (request.rStatus == "Issued" || request.rStatus == "Pending Return") &&
-                request.rDate < overdueThreshold);
-        }
-
         public int getMaintenanceItemsCount()
         {
-            IEnumerable<Equipment> equipment =
-                _equipmentRepository.getAll()
-                ?? Enumerable.Empty<Equipment>();
+            IEnumerable<Maintenance> maintenanceItems =
+                _maintenanceRepository.getAll()
+                ?? Enumerable.Empty<Maintenance>();
 
-            return equipment.Count(item =>
-                IsStatus(item.eStatus, "Under Maintenance"));
+            return maintenanceItems.Count();
         }
 
         public int getAvailableEquipmentCount()
@@ -161,6 +151,10 @@ namespace SanaPass_EBAAMS.Services
             summary.AppendLine(
                 "Total Borrowed Items: " +
                 getBorrowedItemsCount());
+
+            summary.AppendLine(
+                "Total Overdue Returns: " +
+                getOverdueReturnCount());
 
             summary.AppendLine(
                 "Total Available Equipment: " +
@@ -201,32 +195,6 @@ namespace SanaPass_EBAAMS.Services
                 actualStatus,
                 expectedStatus,
                 StringComparison.OrdinalIgnoreCase);
-        }
-
-        public int getAvailableEquipmentCount()
-        {
-            return _equipmentRepository.getAll().Count(e =>
-                string.Equals(e.eStatus, "Available", StringComparison.OrdinalIgnoreCase));
-        }
-
-        public string buildBusinessSummary()
-        {
-            var requests = _requestRepository.getAll().ToList();
-            var equipment = _equipmentRepository.getAll().ToList();
-            var maintenanceItems = _maintenanceRepository.getAll().ToList();
-
-            var summary = new StringBuilder();
-            summary.AppendLine("SanaPass EBAAMS Business Summary");
-            summary.AppendLine("Generated: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-            summary.AppendLine();
-            summary.AppendLine("Total equipment: " + equipment.Count);
-            summary.AppendLine("Available equipment: " + equipment.Count(item => item.eStatus == "Available"));
-            summary.AppendLine("Pending requests: " + requests.Count(request =>
-                request.rStatus == "Pending" || request.rStatus == "Pending Approval" || request.rStatus == "Pending Release"));
-            summary.AppendLine("Active borrows: " + requests.Count(request => request.rStatus == "Pending Return"));
-            summary.AppendLine("Maintenance records: " + maintenanceItems.Count);
-
-            return summary.ToString();
         }
     }
 }

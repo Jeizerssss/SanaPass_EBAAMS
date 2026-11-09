@@ -114,6 +114,12 @@
     <Compile Include="Forms\ADashboard.Designer.cs">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditEquipmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditEquipmentForm.Designer.cs">
+      <DependentUpon>EditEquipmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\BDashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -138,11 +144,29 @@
     <Compile Include="Forms\AddEquipmentForm.Designer.cs">
       <DependentUpon>AddEquipmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\CatAndLocForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CatAndLocForm.Designer.cs">
+      <DependentUpon>CatAndLocForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ChangePassword.Designer.cs">
       <DependentUpon>ChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditCategory.Designer.cs">
+      <DependentUpon>EditCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditLocation.Designer.cs">
+      <DependentUpon>EditLocation.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditUserProfile.cs">
       <SubType>Form</SubType>
@@ -161,6 +185,12 @@
     </Compile>
     <Compile Include="Forms\MyRequests.Designer.cs">
       <DependentUpon>MyRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReturnMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReturnMessageForm.Designer.cs">
+      <DependentUpon>ReturnMessageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SDashboard.cs">
       <SubType>UserControl</SubType>
@@ -227,6 +257,12 @@
     </Compile>
     <Compile Include="Forms\Users.Designer.cs">
       <DependentUpon>Users.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ViewRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ViewRequestForm.Designer.cs">
+      <DependentUpon>ViewRequestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\NavigationButtonHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
@@ -311,6 +347,9 @@
     <EmbeddedResource Include="Forms\ADashboard.resx">
       <DependentUpon>ADashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditEquipmentForm.resx">
+      <DependentUpon>EditEquipmentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BDashboard.resx">
       <DependentUpon>BDashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -324,11 +363,29 @@
     <EmbeddedResource Include="Forms\AddEquipmentForm.resx">
       <DependentUpon>AddEquipmentForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CatAndLocForm.resx">
+      <DependentUpon>CatAndLocForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ChangePassword.resx">
       <DependentUpon>ChangePassword.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditCategory.resx">
+      <DependentUpon>EditCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditLocation.resx">
+      <DependentUpon>EditLocation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditUserProfile.resx">
       <DependentUpon>EditUserProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FinesAndPenalties.resx">
+      <DependentUpon>FinesAndPenalties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MyRequests.resx">
+      <DependentUpon>MyRequests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReturnMessageForm.resx">
+      <DependentUpon>ReturnMessageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SDashboard.resx">
       <DependentUpon>SDashboard.cs</DependentUpon>
@@ -376,6 +433,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Users.resx">
       <DependentUpon>Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ViewRequestForm.resx">
+      <DependentUpon>ViewRequestForm.cs</DependentUpon>
     </EmbeddedResource>
     <!-- Project resources -->
     <EmbeddedResource Include="Properties\Resources.resx">

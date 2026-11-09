@@ -8,7 +8,6 @@ namespace SanaPass_EBAAMS
     public partial class Register : Form
     {
         private readonly IAuthService _authService;
-        private readonly bool _dialogMode;
 
         public Register()
         {

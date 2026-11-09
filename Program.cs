@@ -88,8 +88,8 @@ namespace SanaPass_EBAAMS
                     requestService,
                     employeeRepository,
                     reportService,
-                    userService)
-                    );
+                    userService,
+                    userRepository));
         }
     }
 }

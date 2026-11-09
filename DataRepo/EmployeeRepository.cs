@@ -85,18 +85,38 @@ namespace SanaPass_EBAAMS.DataRepo
         public IEnumerable<Employee> getAll()
         {
             var list = new List<Employee>();
+
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"SELECT e.*, u.username, u.password, u.uLName, u.uFName, u.uMName, u.uEmail, u.uContactNumber, u.uRole 
-                              FROM Employees e 
-                              INNER JOIN Users u ON e.userID = u.userID";
+
+                const string query = @"
+                    SELECT
+                        e.employeeID,
+                        e.userID,
+                        e.ePosition,
+                        u.username,
+                        u.uPassword AS password,
+                        u.uLName,
+                        u.uFName,
+                        u.uMName,
+                        u.email AS uEmail,
+                        u.contactNo AS uContactNumber,
+                        u.uRole
+                    FROM Employees e
+                    INNER JOIN Users u
+                        ON e.userID = u.userID";
+
                 using (var cmd = new MySqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read()) list.Add(MapToEmployee(reader));
+                    while (reader.Read())
+                    {
+                        list.Add(MapToEmployee(reader));
+                    }
                 }
             }
+
             return list;
         }
 
@@ -105,8 +125,10 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = "INSERT INTO Employees (userID, ePosition) VALUES (@userID, @ePosition)";
-                using (var cmd = new MySqlCommand(query, conn))
+                string insertQuery = @"
+                    INSERT INTO Employees (userID, ePosition)
+                    VALUES (@userID, @ePosition)";
+                using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@userID", employee.userID);
                     cmd.Parameters.AddWithValue(

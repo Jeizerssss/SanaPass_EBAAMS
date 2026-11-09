@@ -159,7 +159,8 @@ namespace SanaPass_EBAAMS.DataRepo
 
             if (!string.IsNullOrEmpty(user.password))
             {
-                user.password = PasswordHelper.HashPassword(user.password);
+                user.password =
+                    PasswordHelper.HashPassword(user.password);
             }
 
             using (var conn = _connectionFactory.CreateConnection())
@@ -167,15 +168,40 @@ namespace SanaPass_EBAAMS.DataRepo
                 conn.Open();
 
                 const string query = @"
-                    INSERT INTO Users (username, uPassword, uLName, uFName)
-                    VALUES (@username, @uPassword, @uLName, @uFName)";
+                    INSERT INTO Users
+                        (
+                            username,
+                            uPassword,
+                            uLName,
+                            uFName,
+                            uMName,
+                            email,
+                            contactNo,
+                            uStatus,
+                            uRole
+                        )
+                    VALUES
+                        (
+                            @username,
+                            @uPassword,
+                            @uLName,
+                            @uFName,
+                            @uMName,
+                            @email,
+                            @contactNo,
+                            @uStatus,
+                            @uRole
+                        )";
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@username", user.username ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@uPassword", user.password ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@uLName", user.uLName ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@uFName", user.uFName ?? (object)DBNull.Value);
+                    BindParameters(cmd, user);
+
+                    cmd.Parameters.AddWithValue(
+                        "@uStatus",
+                        string.IsNullOrWhiteSpace(user.uStatus)
+                            ? "Pending"
+                            : user.uStatus);
 
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -209,32 +235,66 @@ namespace SanaPass_EBAAMS.DataRepo
                 uStatus = reader["uStatus"].ToString()
             };
         }
-        public bool LinkOrCreateEmployeeForUser(int userID, string position, string department, DateTime hireDate)
+        public bool LinkOrCreateEmployeeForUser(
+            int userID,
+            string position)
         {
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
 
-                
-                string checkQuery = "SELECT COUNT(*) FROM Employees WHERE userID = @userID";
-                using (var checkCmd = new MySqlCommand(checkQuery, conn))
+                using (var transaction = conn.BeginTransaction())
                 {
-                    checkCmd.Parameters.AddWithValue("@userID", userID);
-                    long count = (long)checkCmd.ExecuteScalar();
-                    if (count > 0)
+                    const string checkQuery = @"
+                SELECT COUNT(*)
+                FROM Employees
+                WHERE userID = @userID";
+
+                    using (var checkCmd = new MySqlCommand(
+                        checkQuery,
+                        conn,
+                        transaction))
                     {
-                        return true; 
+                        checkCmd.Parameters.AddWithValue("@userID", userID);
+
+                        var employeeCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (employeeCount > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
                     }
-                }
-                string insertQuery = @"INSERT INTO Employees (userID, position) 
-                              VALUES (@userID, @position)";
 
-                using (var insertCmd = new MySqlCommand(insertQuery, conn))
-                {
-                    insertCmd.Parameters.AddWithValue("@userID", userID);
-                    insertCmd.Parameters.AddWithValue("@position", position ?? (object)DBNull.Value);
+                    const string insertQuery = @"
+                INSERT INTO Employees
+                    (userID, ePosition)
+                VALUES
+                    (@userID, @ePosition)";
 
-                    return insertCmd.ExecuteNonQuery() > 0;
+                    using (var insertCmd = new MySqlCommand(
+                        insertQuery,
+                        conn,
+                        transaction))
+                    {
+                        insertCmd.Parameters.AddWithValue("@userID", userID);
+                        insertCmd.Parameters.AddWithValue(
+                            "@ePosition",
+                            position ?? (object)DBNull.Value);
+
+                        var inserted = insertCmd.ExecuteNonQuery() > 0;
+
+                        if (inserted)
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                        }
+
+                        return inserted;
+                    }
                 }
             }
         }

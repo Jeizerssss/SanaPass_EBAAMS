@@ -1,6 +1,5 @@
 ﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
-using SanaPass_EBAAMS.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -190,17 +189,6 @@ namespace SanaPass_EBAAMS.Forms
 
             dgvCatalog.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "ePrice",
-                DataPropertyName = "ePrice",
-                HeaderText = "Price",
-                DefaultCellStyle =
-                {
-                    Format = "C2"
-                }
-            });
-
-            dgvCatalog.Columns.Add(new DataGridViewTextBoxColumn
-            {
                 Name = "eCondition",
                 DataPropertyName = "eCondition",
                 HeaderText = "Condition"
@@ -342,6 +330,11 @@ namespace SanaPass_EBAAMS.Forms
         }
 
         private void txtBoxEquipmentSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvEquipmentList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

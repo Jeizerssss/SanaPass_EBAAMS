@@ -160,7 +160,7 @@ namespace SanaPass_EBAAMS.Forms
                     .OrderBy(location => location.lName)
                     .Select(location =>
                         $"{location.locationID}: {location.lName} " +
-                        $"(Floor {location.lFloorNo})")
+                        $"{location.lDesc}")
                     .ToList();
 
                 string details =

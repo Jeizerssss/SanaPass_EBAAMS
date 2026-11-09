@@ -1,9 +1,5 @@
 ﻿using SanaPass_EBAAMS.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SanaPass_EBAAMS.Interfaces
 {
@@ -14,5 +10,6 @@ namespace SanaPass_EBAAMS.Interfaces
         bool createRequest(Request request);
         bool approveRequest(int requestId);
         bool returnEquipment(int requestId);
+        bool cancelRequest(int requestId, int userId);
     }
 }

@@ -121,8 +121,13 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"INSERT INTO Equipments (eName, eDesc, categoryID, locationID, eStatus, ePrice, eCondition) 
-                              VALUES (@eName, @eDesc, @categoryID, @locationID, @eStatus, @ePrice, @eCondition)";
+
+                const string query = @"
+                    INSERT INTO Equipments
+                        (eName, eDesc, categoryID, locationID, eStatus, eCondition)
+                    VALUES
+                        (@eName, @eDesc, @categoryID, @locationID, @eStatus, @eCondition)";
+
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     BindParameters(cmd, entity);
@@ -136,18 +141,23 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                var query = @"UPDATE Equipments
-                                SET eName = @eName,
-                                    eDesc = @eDesc,
-                                    categoryID = @categoryID,
-                                    locationID = @locationID,
-                                    eStatus = @eStatus,
-                                    ePrice = @ePrice,
-                                    eCondition = @eCondition
-                              WHERE equipmentID = @equipmentID";
+
+                const string query = @"
+                    UPDATE Equipments
+                    SET eName = @eName,
+                        eDesc = @eDesc,
+                        categoryID = @categoryID,
+                        locationID = @locationID,
+                        eStatus = @eStatus,
+                        eCondition = @eCondition
+                    WHERE equipmentID = @equipmentID";
+
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@equipmentID", entity.equipmentID);
+                    cmd.Parameters.AddWithValue(
+                        "@equipmentID",
+                        entity.equipmentID);
+
                     BindParameters(cmd, entity);
                     return cmd.ExecuteNonQuery() > 0;
                 }

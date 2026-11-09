@@ -14,6 +14,7 @@ namespace SanaPass_EBAAMS
         private readonly IRequestService _requestService;
         private readonly IReportService _reportService;
         private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
         private readonly User _currentUser;
 
         public ASUI()
@@ -25,14 +26,32 @@ namespace SanaPass_EBAAMS
             IRequestService requestService,
             IReportService reportService,
             IUserService userService,
+            IUserRepository userRepository,
             User currentUser) : this()
         {
-            _equipmentService = equipmentService;
-            _requestService = requestService;
-            _reportService = reportService;
-            _userService = userService;
-            _currentUser = currentUser
-                ?? new User { uRole = "admin" };
+            _equipmentService =
+                equipmentService
+                ?? throw new ArgumentNullException(nameof(equipmentService));
+
+            _requestService =
+                requestService
+                ?? throw new ArgumentNullException(nameof(requestService));
+
+            _reportService =
+                reportService
+                ?? throw new ArgumentNullException(nameof(reportService));
+
+            _userService =
+                userService
+                ?? throw new ArgumentNullException(nameof(userService));
+
+            _userRepository =
+                userRepository
+                ?? throw new ArgumentNullException(nameof(userRepository));
+
+            _currentUser =
+                currentUser
+                ?? throw new ArgumentNullException(nameof(currentUser));
         }
 
         private void AdminDashboard_Load(object sender, EventArgs e)
@@ -61,9 +80,12 @@ namespace SanaPass_EBAAMS
             }
         }
 
-        private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
+        private void SwitchUserControl(UserControl userControl)
         {
-            if (panelContainer == null) return;
+            if (panelContainer == null || userControl == null)
+            {
+                return;
+            }
 
             panelContainer.Controls.Clear();
             userControl.Dock = DockStyle.Fill;
@@ -75,18 +97,29 @@ namespace SanaPass_EBAAMS
         {
             Color normalColor = Color.Transparent;
             Color highlightColor = Color.FromArgb(180, 0, 0);
+            Font normalFont = new Font(activeButton.Font, FontStyle.Regular);
+            Font highlightFont = new Font(activeButton.Font, FontStyle.Bold);
 
             btnDashboard.BackColor = normalColor;
+            btnDashboard.Font = normalFont;
             btnRequests.BackColor = normalColor;
+            btnRequests.Font = normalFont;
             btnEquipments.BackColor = normalColor;
+            btnEquipments.Font = normalFont;
             btnUsers.BackColor = normalColor;
+            btnUsers.Font = normalFont;
             btnPaymentHistories.BackColor = normalColor;
+            btnPaymentHistories.Font = normalFont;
             btnTransactionLogs.BackColor = normalColor;
+            btnTransactionLogs.Font = normalFont;
             btnProfile.BackColor = normalColor;
+            btnProfile.Font = normalFont;
 
             if (activeButton != null)
             {
                 activeButton.BackColor = highlightColor;
+                activeButton.Font = highlightFont;
+
             }
         }
 
@@ -138,7 +171,10 @@ namespace SanaPass_EBAAMS
         private void btnUsers_Click(object sender, EventArgs e)
         {
             HighlightButton(btnUsers);
-            Users usersControl = new Users();
+
+            Users usersControl =
+                new Users(_userRepository);
+
             SwitchUserControl(usersControl);
         }
 

@@ -26,25 +26,7 @@ namespace SanaPass_EBAAMS.Forms
 
         private void LoadLookupData()
         {
-            comboBoxCategory.Items.Clear();
-            comboBoxCategory.Items.Add(1);
-            comboBoxCategory.SelectedIndex = 0;
 
-            comboBoxLocation.Items.Clear();
-            comboBoxLocation.Items.Add(1);
-            comboBoxLocation.SelectedIndex = 0;
-
-            comboBoxStatus.Items.Clear();
-            comboBoxStatus.Items.Add("Available");
-            comboBoxStatus.Items.Add("Borrowed");
-            comboBoxStatus.Items.Add("Under Maintenance");
-            comboBoxStatus.SelectedIndex = 0;
-
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("Good");
-            comboBox1.Items.Add("Needs Repair");
-            comboBox1.Items.Add("Damaged");
-            comboBox1.SelectedIndex = 0;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -63,7 +45,7 @@ namespace SanaPass_EBAAMS.Forms
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 MessageBox.Show(
-                    "Equipment name cannot be empty.",
+                    "Text feilds cannot be empty.",
                     "Validation Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -76,9 +58,7 @@ namespace SanaPass_EBAAMS.Forms
                 eName = textBoxName.Text.Trim(),
                 eDesc = textBoxEquipmentDescription.Text.Trim(),
                 categoryID = Convert.ToInt32(comboBoxCategory.SelectedItem),
-                locationID = Convert.ToInt32(comboBoxLocation.SelectedItem),
-                eStatus = comboBoxStatus.Text.Trim(),
-                eCondition = comboBox1.Text.Trim()
+                locationID = Convert.ToInt32(comboBoxLocation.SelectedItem)
             };
 
             try

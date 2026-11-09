@@ -46,17 +46,13 @@ namespace SanaPass_EBAAMS.Forms
             textBoxUserFName.Text = _currentUser.uFName;
             textBoxUserLName.Text = _currentUser.uLName;
             textBoxUserMiddleName.Text = _currentUser.uMName;
-            textBoxUserID.Text = _currentUser.userID.ToString();
             textBox1.Text = _currentUser.username;
             textBoxUserEmail.Text = _currentUser.uEmail;
             textBoxContactNo.Text = _currentUser.uContactNumber;
-            textBoxUserStatus.Text = "Active";
-            textBoxUserRole.Text = _currentUser.uRole;
+            cmbBoxStatus.Text = _currentUser.uStatus;
+            cmbBoxRole.Text = _currentUser.uRole;
 
-            textBoxUserID.ReadOnly = true;
             textBox1.ReadOnly = true;
-            textBoxUserStatus.ReadOnly = true;
-            textBoxUserRole.ReadOnly = true;
         }
 
         private void btnSave_Click(

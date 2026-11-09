@@ -16,6 +16,7 @@ namespace SanaPass_EBAAMS
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IReportService _reportService;
         private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
         // Default constructor for WinForms designer support
         public LogIn()
@@ -24,15 +25,43 @@ namespace SanaPass_EBAAMS
         }
 
         // Dependency injection constructor
-        public LogIn(IAuthService authService, IEquipmentService equipmentService, IRequestService requestService, IEmployeeRepository employeeRepository, IReportService reportService, IUserService userService)
+        public LogIn(
+            IAuthService authService,
+            IEquipmentService equipmentService,
+            IRequestService requestService,
+            IEmployeeRepository employeeRepository,
+            IReportService reportService,
+            IUserService userService,
+            IUserRepository userRepository)
             : this()
         {
-            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
-            _equipmentService = equipmentService ?? throw new ArgumentNullException(nameof(equipmentService));
-            _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
-            _reportService = reportService ?? throw new ArgumentNullException(nameof(reportService));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _authService =
+                authService
+                ?? throw new ArgumentNullException(nameof(authService));
+
+            _equipmentService =
+                equipmentService
+                ?? throw new ArgumentNullException(nameof(equipmentService));
+
+            _requestService =
+                requestService
+                ?? throw new ArgumentNullException(nameof(requestService));
+
+            _employeeRepository =
+                employeeRepository
+                ?? throw new ArgumentNullException(nameof(employeeRepository));
+
+            _reportService =
+                reportService
+                ?? throw new ArgumentNullException(nameof(reportService));
+
+            _userService =
+                userService
+                ?? throw new ArgumentNullException(nameof(userService));
+
+            _userRepository =
+                userRepository
+                ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         private void LogIn_Load(object sender, EventArgs e)
@@ -104,7 +133,14 @@ namespace SanaPass_EBAAMS
 
                 if (employeeRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    ASUI dashboard = new ASUI(_equipmentService, _requestService, _reportService, _userService, loggedInUser);
+                    ASUI dashboard =
+                        new ASUI(
+                            _equipmentService,
+                            _requestService,
+                            _reportService,
+                            _userService,
+                            _userRepository,
+                            loggedInUser);
                     dashboard.FormClosed += delegate
                     {
                         txtUsername.Clear();

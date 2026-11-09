@@ -223,5 +223,15 @@ namespace SanaPass_EBAAMS.Forms
                     MessageBoxIcon.Error);
             }
         }
+
+        private void btnDelete_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

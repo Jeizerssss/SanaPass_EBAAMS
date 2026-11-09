@@ -22,7 +22,7 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new MySqlCommand("SELECT locationID, lName, lFloorNo FROM Locations WHERE locationID = @locationID", conn))
+                using (var cmd = new MySqlCommand("SELECT locationID, lName, lDesc FROM Locations WHERE locationID = @locationID", conn))
                 {
                     cmd.Parameters.AddWithValue("@locationID", locationID);
                     using (var reader = cmd.ExecuteReader())
@@ -32,7 +32,7 @@ namespace SanaPass_EBAAMS.DataRepo
                             {
                                 locationID = Convert.ToInt32(reader["locationID"]),
                                 lName = reader["lName"].ToString(),
-                                lFloorNo = Convert.ToInt32(reader["lFloorNo"])
+                                lDesc = reader["lDesc"].ToString(),
                             };
                     }
                 }
@@ -55,7 +55,7 @@ namespace SanaPass_EBAAMS.DataRepo
                             {
                                 locationID = Convert.ToInt32(reader["locationID"]),
                                 lName = reader["lName"].ToString(),
-                                lFloorNo = Convert.ToInt32(reader["lFloorNo"])
+                                lDesc = reader["lDesc"].ToString(),
                             };
                     }
                 }
@@ -77,7 +77,7 @@ namespace SanaPass_EBAAMS.DataRepo
                         {
                             locationID = Convert.ToInt32(reader["locationID"]),
                             lName = reader["lName"].ToString(),
-                            lFloorNo = Convert.ToInt32(reader["lFloorNo"])
+                            lDesc = reader["lDesc"].ToString(),
                         });
                 }
             }
@@ -89,10 +89,9 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new MySqlCommand("INSERT INTO Locations (lName, lFloorNo) VALUES (@lName, @lFloorNo)", conn))
+                using (var cmd = new MySqlCommand("INSERT INTO Locations (lName, lDesc) VALUES (@lName, @lDesc)", conn))
                 {
                     cmd.Parameters.AddWithValue("@lName", location.lName ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@lFloorNo", location.lFloorNo);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -103,11 +102,28 @@ namespace SanaPass_EBAAMS.DataRepo
             using (var conn = _connectionFactory.CreateConnection())
             {
                 conn.Open();
-                using (var cmd = new MySqlCommand("UPDATE Locations SET lName = @lName, lDesc = @lDesc, lFloorNo = @lFloorNo WHERE locationID = @locationID", conn))
+
+                const string query = @"
+                    UPDATE Locations
+                    SET lName = @lName,
+                        lDesc = @lDesc,
+                        lFloorNo = @lFloorNo
+                    WHERE locationID = @locationID";
+
+                using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@locationID", location.locationID);
-                    cmd.Parameters.AddWithValue("@lName", location.lName ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@lFloorNo", location.lFloorNo);
+                    cmd.Parameters.AddWithValue(
+                        "@locationID",
+                        location.locationID);
+
+                    cmd.Parameters.AddWithValue(
+                        "@lName",
+                        location.lName ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue(
+                        "@lDesc",
+                        location.lDesc ?? (object)DBNull.Value);
+
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }

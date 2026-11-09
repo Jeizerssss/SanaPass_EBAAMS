@@ -2,9 +2,6 @@
 using SanaPass_EBAAMS.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SanaPass_EBAAMS.Services
 {
@@ -17,8 +14,10 @@ namespace SanaPass_EBAAMS.Services
             IRequestRepository requestRepository,
             IEquipmentRepository equipmentRepository = null)
         {
-            _requestRepository = requestRepository
+            _requestRepository =
+                requestRepository
                 ?? throw new ArgumentNullException(nameof(requestRepository));
+
             _equipmentRepository = equipmentRepository;
         }
 
@@ -29,20 +28,31 @@ namespace SanaPass_EBAAMS.Services
 
         public IEnumerable<Request> getRequestsByUserId(int userId)
         {
+            if (userId <= 0)
+            {
+                return new List<Request>();
+            }
+
             return _requestRepository.getByUserId(userId);
         }
 
         public bool createRequest(Request request)
         {
-            if (request == null || request.userID <= 0 || request.equipmentID <= 0 ||
+            if (request == null ||
+                request.userID <= 0 ||
+                request.equipmentID <= 0 ||
                 string.IsNullOrWhiteSpace(request.rLocation))
+            {
                 return false;
+            }
 
             if (_equipmentRepository != null)
             {
-                var equipment = _equipmentRepository.getById(request.equipmentID);
+                Equipment equipment =
+                    _equipmentRepository.getById(request.equipmentID);
+
                 if (equipment == null ||
-                    !string.Equals(equipment.eStatus, "Available", StringComparison.OrdinalIgnoreCase))
+                    !IsStatus(equipment.eStatus, "Available"))
                 {
                     return false;
                 }
@@ -56,70 +66,143 @@ namespace SanaPass_EBAAMS.Services
 
         public bool approveRequest(int requestId)
         {
+            if (requestId <= 0)
+            {
+                return false;
+            }
+
+            Request request =
+                _requestRepository.getById(requestId);
+
+            if (request == null ||
+                (!IsStatus(request.rStatus, "Pending") &&
+                 !IsStatus(request.rStatus, "Pending Approval")))
+            {
+                return false;
+            }
+
             if (_equipmentRepository == null)
             {
-                return _requestRepository.updateStatus(requestId, "Approved");
+                return _requestRepository.updateStatus(
+                    requestId,
+                    "Approved");
             }
 
-            var request = _requestRepository.getById(requestId);
-            if (request == null ||
-                (request.rStatus != "Pending" && request.rStatus != "Pending Approval"))
-            {
-                return false;
-            }
+            Equipment equipment =
+                _equipmentRepository.getById(request.equipmentID);
 
-            var equipment = _equipmentRepository.getById(request.equipmentID);
             if (equipment == null ||
-                !string.Equals(equipment.eStatus, "Available", StringComparison.OrdinalIgnoreCase) ||
-                !_equipmentRepository.updateStatus(equipment.equipmentID, "Issued"))
+                !IsStatus(equipment.eStatus, "Available") ||
+                !_equipmentRepository.updateStatus(
+                    equipment.equipmentID,
+                    "Issued"))
             {
                 return false;
             }
 
-            if (_requestRepository.updateStatus(requestId, "Pending Return"))
+            if (_requestRepository.updateStatus(
+                requestId,
+                "Pending Return"))
             {
                 return true;
             }
 
-            _equipmentRepository.updateStatus(equipment.equipmentID, "Available");
-            return false;
-        }
+            _equipmentRepository.updateStatus(
+                equipment.equipmentID,
+                "Available");
 
-        public bool rejectRequest(int requestId)
-        {
-            return _requestRepository.updateStatus(requestId, "Rejected");
+            return false;
         }
 
         public bool returnEquipment(int requestId)
         {
-            var request = _requestRepository.getById(requestId);
-            if (request == null ||
-                (request.rStatus != "Pending Return" && request.rStatus != "Issued"))
+            if (requestId <= 0)
             {
                 return false;
             }
 
-            var equipment = _equipmentRepository?.getById(request.equipmentID);
+            Request request =
+                _requestRepository.getById(requestId);
+
+            if (request == null ||
+                (!IsStatus(request.rStatus, "Pending Return") &&
+                 !IsStatus(request.rStatus, "Issued")))
+            {
+                return false;
+            }
+
+            Equipment equipment = null;
+
             if (_equipmentRepository != null)
             {
+                equipment =
+                    _equipmentRepository.getById(request.equipmentID);
+
                 if (equipment == null ||
-                    !_equipmentRepository.updateStatus(equipment.equipmentID, "Available"))
+                    !_equipmentRepository.updateStatus(
+                        equipment.equipmentID,
+                        "Available"))
                 {
                     return false;
                 }
             }
 
-            if (_requestRepository.updateStatus(requestId, "Returned"))
+            if (_requestRepository.updateStatus(
+                requestId,
+                "Returned"))
             {
                 return true;
             }
 
             if (equipment != null)
             {
-                _equipmentRepository.updateStatus(equipment.equipmentID, "Issued");
+                _equipmentRepository.updateStatus(
+                    equipment.equipmentID,
+                    "Issued");
             }
 
             return false;
+        }
+
+        public bool cancelRequest(int requestId, int userId)
+        {
+            if (requestId <= 0 || userId <= 0)
+            {
+                return false;
+            }
+
+            Request request =
+                _requestRepository.getById(requestId);
+
+            if (request == null ||
+                request.userID != userId)
+            {
+                return false;
+            }
+
+            bool canCancel =
+                IsStatus(request.rStatus, "Pending") ||
+                IsStatus(request.rStatus, "Pending Approval") ||
+                IsStatus(request.rStatus, "Pending Release");
+
+            if (!canCancel)
+            {
+                return false;
+            }
+
+            return _requestRepository.updateStatus(
+                requestId,
+                "Cancelled");
+        }
+
+        private static bool IsStatus(
+            string actualStatus,
+            string expectedStatus)
+        {
+            return string.Equals(
+                actualStatus,
+                expectedStatus,
+                StringComparison.OrdinalIgnoreCase);
         }
     }
 }

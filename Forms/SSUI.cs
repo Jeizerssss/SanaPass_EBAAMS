@@ -20,11 +20,11 @@ namespace SanaPass_EBAAMS.Forms
         private readonly IUserService _userService;
         private readonly User _currentUser;
         private readonly Button[] _navigationButtons;
-        private SDashboard dashboardControl = new SDashboard();
+        private SDashboard dashboardControl;
         private BorrowRequests requestControl = new BorrowRequests();
         private Equipments equipmentsControl;
-        private Fines finesControl = new Fines();
-        private PaymentHistories paymentHistoriesControl = new PaymentHistories();
+        private Fines finesControl;
+        private PaymentHistories paymentHistoriesControl;
         private Maintenance maintenanceControl = new Maintenance();
 
         public SSUI()
@@ -48,16 +48,26 @@ namespace SanaPass_EBAAMS.Forms
             IUserService userService,
             User currentUser) : this()
         {
-            _equipmentService = equipmentService
+            _equipmentService =
+                equipmentService
                 ?? throw new ArgumentNullException(nameof(equipmentService));
 
-            _requestService = requestService
+            _requestService =
+                requestService
                 ?? throw new ArgumentNullException(nameof(requestService));
 
-            _currentUser = currentUser
-                ?? new User { uRole = "admin" };
+            _userService =
+                userService
+                ?? throw new ArgumentNullException(nameof(userService));
 
+            _currentUser =
+                currentUser
+                ?? throw new ArgumentNullException(nameof(currentUser));
+
+            dashboardControl = new SDashboard();
             equipmentsControl = new Equipments(_equipmentService);
+            finesControl = new Fines();
+            paymentHistoriesControl = new PaymentHistories();
         }
         private void SSUI_Load(object sender, EventArgs e)
         {
@@ -88,10 +98,12 @@ namespace SanaPass_EBAAMS.Forms
             }
         }
 
-        private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
+        private void SwitchUserControl(UserControl userControl)
         {
-            
-            if (panelContainer == null) return;
+            if (panelContainer == null || userControl == null)
+            {
+                return;
+            }
 
             panelContainer.Controls.Clear();
             userControl.Dock = DockStyle.Fill;
@@ -147,6 +159,15 @@ namespace SanaPass_EBAAMS.Forms
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            NavigationButtonHelper.HighlightButton(
+                _navigationButtons,
+                btnDashboard);
+
+            SwitchUserControl(dashboardControl);
         }
     }
 }

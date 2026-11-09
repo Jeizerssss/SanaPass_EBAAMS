@@ -10,15 +10,15 @@ namespace SanaPass_EBAAMS.Models
     {
         public int locationID { get; set; }
         public string lName { get; set; }
-        public int lFloorNo { get; set; }
+        public string lDesc { get; set; }
 
         public Location() { }
 
-        public Location(int locationID, string lName, int lFloorNo)
+        public Location(int locationID, string lName, string lDesc)
         {
             this.locationID = locationID;
             this.lName = lName;
-            this.lFloorNo = lFloorNo;
+            this.lDesc = lDesc;
         }
     }
 }

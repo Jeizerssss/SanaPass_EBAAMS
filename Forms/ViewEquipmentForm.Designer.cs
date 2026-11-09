@@ -45,6 +45,7 @@
             this.textEquipmentDescription = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.Label();
             this.txtEquipmentID = new System.Windows.Forms.Label();
+            this.btnBack = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblEquipmentDetails
@@ -138,17 +139,18 @@
             // btnDelete
             // 
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(288, 480);
+            this.btnDelete.Location = new System.Drawing.Point(167, 484);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(105, 50);
             this.btnDelete.TabIndex = 21;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click_1);
             // 
             // btnEdit
             // 
             this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.Location = new System.Drawing.Point(48, 480);
+            this.btnEdit.Location = new System.Drawing.Point(56, 484);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(105, 50);
             this.btnEdit.TabIndex = 22;
@@ -226,12 +228,24 @@
             this.txtEquipmentID.TabIndex = 26;
             this.txtEquipmentID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnBack
+            // 
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBack.Location = new System.Drawing.Point(278, 484);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(105, 50);
+            this.btnBack.TabIndex = 33;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // ViewEquipmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Maroon;
             this.ClientSize = new System.Drawing.Size(434, 571);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.textCondition);
             this.Controls.Add(this.textStatus);
             this.Controls.Add(this.textLocation);
@@ -274,5 +288,6 @@
         private System.Windows.Forms.Label textEquipmentDescription;
         private System.Windows.Forms.Label textName;
         private System.Windows.Forms.Label txtEquipmentID;
+        private System.Windows.Forms.Button btnBack;
     }
 }

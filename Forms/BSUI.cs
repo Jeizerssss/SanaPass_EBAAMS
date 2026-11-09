@@ -1,4 +1,4 @@
-﻿using SanaPass_EBAAMS.Interfaces;  
+﻿using SanaPass_EBAAMS.Interfaces;
 using SanaPass_EBAAMS.Models;
 using SanaPass_EBAAMS.Helpers;
 using SanaPass_EBAAMS.Forms;
@@ -21,10 +21,10 @@ namespace SanaPass_EBAAMS.Forms
         private readonly IRequestService _requestService;
         private readonly IUserService _userService;
         private readonly Button[] _navigationButtons;
-        private BDashboard dashboardControl = new BDashboard();
-        private BrowseCatalog browseControl = new BrowseCatalog();
-        private FinesAndPenalties finesControl = new FinesAndPenalties();
-        private MyRequests requestControl = new MyRequests();
+        private BDashboard dashboardControl;
+        private BrowseCatalog browseControl;
+        private FinesAndPenalties finesControl;
+        private MyRequests requestControl;
         
 
         public BSUI()
@@ -48,17 +48,34 @@ namespace SanaPass_EBAAMS.Forms
             IUserService userService)
             : this()
         {
-            _currentUser = user
+            _currentUser =
+                user
                 ?? throw new ArgumentNullException(nameof(user));
 
-            _equipmentService = equipmentService
+            _equipmentService =
+                equipmentService
                 ?? throw new ArgumentNullException(nameof(equipmentService));
 
-            _requestService = requestService
+            _requestService =
+                requestService
                 ?? throw new ArgumentNullException(nameof(requestService));
 
-            _userService = userService
+            _userService =
+                userService
                 ?? throw new ArgumentNullException(nameof(userService));
+
+            dashboardControl = new BDashboard();
+
+            browseControl = new BrowseCatalog(
+                _equipmentService,
+                _requestService,
+                _currentUser);
+
+            requestControl = new MyRequests(
+                _requestService,
+                _currentUser.userID);
+
+            finesControl = new FinesAndPenalties();
         }
 
         private void SwitchUserControl(UserControl userControl)
@@ -79,15 +96,6 @@ namespace SanaPass_EBAAMS.Forms
                     ? highlightColor
                     : normalColor;
             }
-        }
-        private void SwitchUserControl(System.Windows.Forms.UserControl userControl)
-        {
-            if (panelContainer == null) return;
-
-            panelContainer.Controls.Clear();
-            userControl.Dock = DockStyle.Fill;
-            panelContainer.Controls.Add(userControl);
-            userControl.BringToFront();
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
